@@ -12,7 +12,7 @@ const useGetClassysData = (params = {}): any => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        debugger
+        
         const { data: response } = await axios.get('/academics/class?' + query);
         setData(response);
       } catch (error) {
@@ -39,7 +39,7 @@ const useGetClassyData = (params: any = {}): any => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        debugger
+        
         const { data: response } = await axios.get(`/students/${params.id}?` + query);
         setData(response);
       } catch (error) {
@@ -65,8 +65,8 @@ const useRegisterClassyData = (): any => {
     console.log(params);
 
     try {
-      debugger
-      const { data: response } = await axios.post("students", params);
+      
+      const { data: response } = await axios.post("academics/class", params);
       setData(response);
       setError({})
     } catch (error:any) {
@@ -86,4 +86,35 @@ const useRegisterClassyData = (): any => {
   };
 };
 
-export { useGetClassysData, useGetClassyData, useRegisterClassyData }
+const useUpdateClassyData = (): any => {
+  const [data, setData] = useState({});
+  const [error, setError] = useState({});
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(true);
+    
+  const put = async (params: any) => {
+    console.log(params);
+    try {
+      const { data: response } = await axios.put("academics/class/"+params?.id, params);
+      setData(response);
+      setError({})
+      setSuccess(true)
+    } catch (error:any) {
+      console.error(error)
+      setError(error.response)
+      setSuccess(false)
+    }
+    setLoading(false);
+  };
+  //return fetchData;
+
+  return {
+    data,
+    loading,
+    error,
+    put,
+    success
+  };
+};
+
+export { useGetClassysData, useGetClassyData, useRegisterClassyData, useUpdateClassyData }

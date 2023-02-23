@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { saveData, savePerson } from '../rootSlice'
 import { Col, FloatingLabel, Form, Row } from 'react-bootstrap'
-import { Controls } from './Components/Controls'
+import { Controls } from '../../../../Components/Controls'
 //import { chooseBase } from './rootSlice'
 
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ErrorMessage } from './Components/ErrorMessage'
+import { ErrorMessage } from '../../../../Components/ErrorMessage'
 const FormSchema = z.object({
     firstName: z.string().min(3).max(20),
     lastName: z.string().min(3).max(20),

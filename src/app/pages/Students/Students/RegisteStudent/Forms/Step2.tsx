@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { saveContacts } from "../rootSlice";
-import { Controls } from "./Components/Controls";
+import { Controls } from "../../../../Components/Controls";
 import { Button, Col, FloatingLabel, Form, Row } from "react-bootstrap";
 
-import { ErrorMessage } from "./Components/ErrorMessage";
+import { ErrorMessage } from "../../../../Components/ErrorMessage";
 
 export const Step2 = () => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export const Step2 = () => {
   const total = 5
 
   const onSubmit = ( {contacts} : any) => {
-    debugger
+    
     dispatch(saveContacts(contacts))
     navigate("../step3");
   };

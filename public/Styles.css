@@ -2509,10 +2509,15 @@ textarea.form-control.is-invalid {
     }
 }
 
+.hidden {
+    display: none
+}
+
 button {
     border: 0;
 }
 
+textarea,
 input,
 select {
     border-radius: 0 !important;

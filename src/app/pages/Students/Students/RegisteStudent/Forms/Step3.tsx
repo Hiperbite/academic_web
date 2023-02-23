@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { saveDocuments } from "../rootSlice";
-import { Controls } from "./Components/Controls";
+import { Controls } from "../../../../Components/Controls";
 import { Button, Col, FloatingLabel, Form, Row } from "react-bootstrap";
 
 export const Step3 = () => {
@@ -17,7 +17,7 @@ export const Step3 = () => {
   const total = 5
 
   const onSubmit = (documents: any) => {
-    debugger
+    
     dispatch(saveDocuments(documents))
     navigate("../step4");
   };
@@ -77,7 +77,7 @@ export const Step3 = () => {
             </Col>
             <Col xs lg="1">
               <br />
-              <Button variant="danger" type="button" onClick={() => { debugger; setDocuments(documents.filter((c: any, j: number) => j !== i)) }}>
+              <Button variant="danger" type="button" onClick={() => { ; setDocuments(documents.filter((c: any, j: number) => j !== i)) }}>
                 -
               </Button>
             </Col>

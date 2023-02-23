@@ -70,22 +70,15 @@ export const ListStudents = () => {
           </tbody>
         </table>
       </div>
-      <nav aria-label="Page navigation">
-        <div className="row">
-          <div className="col-md-6">
-            {data.page}/{data.pages} - {data.total} registos
-          </div>
-          <div className="col-md-6">
-            <Paginate pages={data.pages} updateParams={updateParams} params={params} />
-          </div>
-        </div>
-      </nav>
+      <Paginate pages={data.pages} updateParams={updateParams} params={params} />
+
       <hr className="mg-y-30" />
 
 
     </div>
   )
 }
+
 const Paginate = ({ pages, updateParams, params }: any) => {
 
   let rows = [];
@@ -94,13 +87,25 @@ const Paginate = ({ pages, updateParams, params }: any) => {
 
 
   return (
-    <ul className="pagination justify-content-end">
-      <li className="page-item disabled">
-        <button className="page-link" >Previous</button>
-      </li>
-      {rows}
-      <li className="page-item">
-        <a className="page-link" href="#">Next</a>
-      </li>
-    </ul>)
+    <nav aria-label="Page navigation">
+      <div className="row">
+        <div className="col-md-6">
+          {params.page}/{pages} - {params.total} registos
+        </div>
+        <div className="col-md-6">
+
+          <ul className="pagination justify-content-end">
+            <li className="page-item disabled">
+              <button className="page-link" >Previous</button>
+            </li>
+            {rows}
+            <li className="page-item">
+              <a className="page-link" href="#">Next</a>
+            </li>
+          </ul>
+
+
+        </div>
+      </div>
+    </nav>)
 }

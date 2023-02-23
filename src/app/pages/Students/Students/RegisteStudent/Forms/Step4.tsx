@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {  saveData } from "../rootSlice";
-import { Controls } from "./Components/Controls";
+import { Controls } from "../../../../Components/Controls";
 
 export const Step4 = () => {
   const dispatch = useDispatch();

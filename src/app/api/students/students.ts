@@ -12,7 +12,7 @@ const useGetStudentsData = (params = {}): any => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        debugger
+        
         const { data: response } = await axios.get('/students?' + query);
         setData(response);
       } catch (error) {
@@ -39,7 +39,7 @@ const useGetStudentData = (params: any = {}): any => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        debugger
+        
         const { data: response } = await axios.get(`/students/${params.id}?` + query);
         setData(response);
       } catch (error) {
@@ -65,7 +65,7 @@ const useRegisterStudentData = (): any => {
     console.log(params);
 
     try {
-      debugger
+      
       const { data: response } = await axios.post("students", params);
       setData(response);
       setError({})

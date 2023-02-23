@@ -1,22 +1,24 @@
-import Moment from 'react-moment';
 import { useState } from "react";
-import { Button } from 'react-bootstrap';
-import { Link, useNavigate } from "react-router-dom";
-import { useGetClassysData } from '../../api/pedagogical/classy';
+import { Button, ProgressBar } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
+import useAxiosFetch from "../../api/Api";
+import { services } from "../../api/Api";
+import Paginate from "../Components/Paginate";
 
 
-export const ListClassy= () => {
-
+export const ListClassy = () => {
+  //const [data, setData] = useState({})
   const navigate = useNavigate();
-  const [params, setParams] = useState({ pageSize: 4, page: 1 });
-  const {
-    data,
-    loading,
-  } = useGetClassysData(params);
+  const [params, setParams] = useState({ pageSize: 6, page: 1 });
+
+
+  const { data, loading, isError } = useAxiosFetch(services.academic.class, params)
+
   const updateParams = (opts: any) => {
     setParams({ ...params, ...opts });
   }
-
+  const persent = (classy: any) => ((classy?.enrollmentConfirmations?.length ?? 1) / (classy?.classyRoom?.size ?? 1)) * 100;
+  
   return (
     <div className="az-content-body pd-lg-l-40 d-flex flex-column">
       <div className="az-content-breadcrumb">
@@ -24,8 +26,8 @@ export const ListClassy= () => {
         <span>Turmas</span>
         <span>Listagem</span>
       </div>
+      
       <h2 className="az-content-title">Turmas</h2>
-{JSON.stringify(data)}
       <div className='row'>
         <div className='col-md-6'>
 
@@ -38,7 +40,7 @@ export const ListClassy= () => {
           <Button
             variant="primary"
             disabled={loading}
-            onClick={() => !loading ? navigate("/students/new/step1") : null}
+            onClick={() => !loading ? navigate("/pedagogical/classy/new") : null}
           >
             {loading ? 'Loading…' : 'Registar'}
           </Button>
@@ -53,18 +55,21 @@ export const ListClassy= () => {
             <tr>
               <th>No</th>
               <th>Descricao</th>
-              <th>Data</th>
+              <th>Sala</th>
             </tr>
           </thead>
           <tbody>
-            {data?.data?.map((classy: any) => <tr onClick={() => navigate("/students/show/" + classy?.id)}>
+            {data?.data?.map((classy: any) => <tr onClick={() => navigate("/pedagogical/classy/" + classy?.id)}>
               <th scope="row">{classy.code}</th>
               <td>{classy?.descriptions}</td>
-              <td>{classy?.person?.gender}</td>
+              <td>{classy?.classyRoom?.code ?? '-'}</td>
               <td>
-                <Moment format="DD/MM/YYYY">
-                  {classy.createdAt}
-                </Moment></td>
+                {classy?.enrollmentConfirmations?.length ?? '-'}/
+                {classy?.classyRoom?.size ?? '-'}</td>
+              <td>
+
+                <ProgressBar now={persent(classy)} label={`${persent(classy)}%`} />
+              </td>
             </tr>)}
           </tbody>
         </table>
@@ -72,34 +77,13 @@ export const ListClassy= () => {
       <nav aria-label="Page navigation">
         <div className="row">
           <div className="col-md-6">
-            {data.page}/{data.pages} - {data.total} registos
+            {data?.page}/{data?.pages} - {data?.total} registos
           </div>
           <div className="col-md-6">
-            <Paginate pages={data.pages} updateParams={updateParams} params={params} />
+            <Paginate pages={data?.pages} updateParams={updateParams} params={params} />
           </div>
         </div>
       </nav>
-      <hr className="mg-y-30" />
-
-
     </div>
   )
-}
-const Paginate = ({ pages, updateParams, params }: any) => {
-
-  let rows = [];
-  for (let i = 0; i < pages; i++)
-    rows.push(<li className={"page-item " + (params.page - 1 == i ? 'active' : '')}><button className="page-link" onClick={() => updateParams({ page: i + 1 })}>{i + 1}</button></li>)
-
-
-  return (
-    <ul className="pagination justify-content-end">
-      <li className="page-item disabled">
-        <button className="page-link" >Previous</button>
-      </li>
-      {rows}
-      <li className="page-item">
-        <a className="page-link" href="#">Next</a>
-      </li>
-    </ul>)
 }

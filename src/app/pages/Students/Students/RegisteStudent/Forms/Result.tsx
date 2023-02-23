@@ -3,7 +3,7 @@ import { Card, Spinner } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { useRegisterStudentData } from '../../../../../api/students/students'
-import { Controls } from './Components/Controls'
+import { Controls } from '../../../../Components/Controls'
 
 export const Result = () => {
   const formData = useSelector((state: any) => state)
@@ -15,7 +15,7 @@ export const Result = () => {
   const total = 5
   //useRegisterStudentData
   const onSubmit = () => {
-    debugger
+    
     post(student);
     // eslint-disable-next-line react-hooks/rules-of-hooks
 
