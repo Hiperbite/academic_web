@@ -83,7 +83,7 @@ export default function useAxiosFetch(url: string, params?: any, method?: string
             return;
         }
         const fetch = async () => {
-debugger
+//debugger
             dispatch({ type: "INIT" })
             try {
                 const query = new URLSearchParams(params).toString();
@@ -100,7 +100,7 @@ debugger
         }
 
         fetch()
-    }, [url, params])
+    }, [ params])
 
     return state
 }
