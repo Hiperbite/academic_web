@@ -39,8 +39,8 @@ const PedagogicalMenu = () => {
             <label>...</label>
             <nav className="nav flex-column">
                 <Link to="/pedagogical/classy" className="nav-link">Turmas</Link>
-                <Link to="/students/list" className="nav-link">Salas</Link>
-                <Link to="/students/list" className="nav-link">Periodo</Link>
+                <Link to="/pedagogical/class-rooms/list" className="nav-link">Salas</Link>
+                <Link to="/pedagogical/periods/list" className="nav-link">Periodo</Link>
                 <Link to="/students/list" className="nav-link">Periodo Academico</Link>
             </nav>
             <label>Charts</label>
@@ -56,12 +56,12 @@ const PedagogicalMenu = () => {
     )
 }
 
-const menus:any = {
+const menus: any = {
     students: StudentsMenu,
     pedagogical: PedagogicalMenu
 }
 export const Page = ({ type }: any) => {
-    const Menu:any = menus[type];
+    const Menu: any = menus[type];
     return (
         <div className="az-content pd-y-20 pd-lg-y-30 pd-xl-y-40">
             <div className="container">
@@ -74,5 +74,12 @@ export const Page = ({ type }: any) => {
                 </div>
             </div>
         </div>
+    )
+}
+export const Blank = () => {
+
+    return (
+        <Outlet />
+
     )
 }

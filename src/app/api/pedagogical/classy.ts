@@ -86,6 +86,36 @@ const useRegisterClassyData = (): any => {
   };
 };
 
+const useRegisterClassRoomData = (): any => {
+  const [data, setData] = useState({});
+  const [error, setError] = useState({});
+  const [loading, setLoading] = useState(true);
+    //useEffect(() => {
+  const post = async (params: any) => {
+    console.log(params);
+
+    try {
+      
+      const { data: response } = await axios.post("academics/class-rooms", params);
+      setData(response);
+      setError({})
+    } catch (error:any) {
+      console.error(error)
+      setError(error.response)
+    }
+    setLoading(false);
+  };
+  //return fetchData;
+  //}, [params]);
+
+  return {
+    data,
+    loading,
+    error,
+    post
+  };
+};
+
 const useUpdateClassyData = (): any => {
   const [data, setData] = useState({});
   const [error, setError] = useState({});
@@ -117,4 +147,4 @@ const useUpdateClassyData = (): any => {
   };
 };
 
-export { useGetClassysData, useGetClassyData, useRegisterClassyData, useUpdateClassyData }
+export { useGetClassysData, useGetClassyData, useRegisterClassyData, useUpdateClassyData, useRegisterClassRoomData }

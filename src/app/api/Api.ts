@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useReducer } from "react";
+import { toast } from "react-toastify";
 export const services = {
     academic: {
         classRoom: "academics/class-rooms",
@@ -10,7 +11,7 @@ export const services = {
     student: {
         enrollmentConfirmations: 'students/enrollment-confirmations',
         enrollment: 'students/enrollments',
-        students:'students'
+        students: 'students'
     }
 }
 
@@ -18,13 +19,16 @@ const post = async ({ service, data }: any) => {
     try {
         const response = await axios.post(service, data);
         console.log('👉 Returned data:', response);
+        toast.success('Registo feito com sucesso');
+        return response.data
     } catch (e) {
         console.log(`😱 Axios request failed: ${e}`);
+        toast.error('Erro: ' + JSON.stringify(e));
+        return;
     }
 }
 
 const get = async ({ service, id, params }: any) => {
-    debugger
     let url = service
     if (id) {
         url = `${url}/${id}`
@@ -43,19 +47,26 @@ const get = async ({ service, id, params }: any) => {
 const put = async ({ service, data }: any) => {
 
     let url = `${service}/${data?.id}`
-
+    
     try {
         const response = await axios.put(url, data);
         console.log('👉 Returned data:', response);
+        toast.error('Registo feito com sucesso');
+        return response.data
     } catch (e) {
         console.log(`😱 Axios request failed: ${e}`);
+        toast.error('Erro: ' + JSON.stringify(e));
+        return;
     }
+
+
 }
 
 const Api = {
     post, get, put
 }
 
+export { Api }
 
 
 export default function useAxiosFetch(url: string, params?: any, method?: string) {
@@ -83,7 +94,7 @@ export default function useAxiosFetch(url: string, params?: any, method?: string
             return;
         }
         const fetch = async () => {
-//debugger
+            //debugger
             dispatch({ type: "INIT" })
             try {
                 const query = new URLSearchParams(params).toString();
@@ -100,7 +111,7 @@ export default function useAxiosFetch(url: string, params?: any, method?: string
         }
 
         fetch()
-    }, [ params])
+    }, [params])
 
     return state
 }

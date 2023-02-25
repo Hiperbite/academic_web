@@ -2509,6 +2509,12 @@ textarea.form-control.is-invalid {
     }
 }
 
+.vertical-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .hidden {
     display: none
 }
