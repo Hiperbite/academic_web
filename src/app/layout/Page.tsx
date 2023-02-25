@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, Outlet } from "react-router-dom"
 import { Pedagogical } from "../pages/pedagogical/Pedagogical"
 
@@ -27,7 +28,21 @@ const StudentsMenu = () => {
     )
 }
 
+const menuItems = [
+    { to: '/classy', text: 'Turmas' },
+    { to: '/class-rooms', text: 'Salas' },
+    { to: '/periods', text: 'Periodo' },
+    { to: '/students', text: 'Periodo Academico' },
+
+];
 const PedagogicalMenu = () => {
+
+    const [activeMenu, setActiveMenu] = useState(
+    menuItems.filter((x:any)=>window.location.href.indexOf(x.to)>-1)[0] ?? 
+        menuItems[0]
+        )
+    
+    const classNames = ["nav-link active", "nav-link"];
     return (
         <div className="component-item">
             <label>Estudantes</label>
@@ -38,10 +53,14 @@ const PedagogicalMenu = () => {
             </nav>
             <label>...</label>
             <nav className="nav flex-column">
-                <Link to="/pedagogical/classy" className="nav-link">Turmas</Link>
-                <Link to="/pedagogical/class-rooms/list" className="nav-link">Salas</Link>
-                <Link to="/pedagogical/periods/list" className="nav-link">Periodo</Link>
-                <Link to="/students/list" className="nav-link">Periodo Academico</Link>
+                {menuItems.map((menuItem: any) =>
+                    <Link 
+                    to={`/pedagogical${menuItem.to}`}
+                    className={classNames[activeMenu.to === menuItem.to ? 0 : 1]}
+                    onClick={() => setActiveMenu(menuItem)}
+                    >{menuItem.text}</Link>
+                    
+                )}
             </nav>
             <label>Charts</label>
             <nav className="nav flex-column">

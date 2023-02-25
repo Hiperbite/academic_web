@@ -1,12 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+const menuItems = [
+    { to: '/home', text: 'Dashboard' },
+    { to: '/students', text: 'Estudantes' },
+    { to: '/persons', text: 'Pessoal' },
+    { to: '/pedagogical', text: 'Pedagógico' },
+    { to: '/virtual-library', text: 'Biblioteca' },
+    { to: '/digital-Archive', text: 'Acervo Digital' },
+    { to: '/Settings', text: 'Definições' },
+
+];
 export const Header = () => {
 
+    const [activeMenu, setActiveMenu] = useState(
+        menuItems.filter((x: any) => window.location.href.indexOf(x.to) > -1)[0] ??
+        menuItems[0]
+    )
+    const _handleClick = (menuItem: any) => {
+        setActiveMenu(menuItem);
+    }
+
+    const classNames = ["nav-item active", "nav-item"];
     return <div className="az-header">
         <div className="container">
             <div className="az-header-left">
-                <Link to="/" className="az-logo"><span></span> azia</Link>
-                <Link to="/"className="az-header-menu-icon d-lg-none"><span></span></Link>
+                <Link to="/" className="az-logo"><span></span> azia 
+                </Link>
+                <Link to="/" className="az-header-menu-icon d-lg-none"><span></span></Link>
             </div>{/* az-header-left */}
             <div className="az-header-menu">
                 <div className="az-header-menu-header">
@@ -14,27 +35,18 @@ export const Header = () => {
                     <Link to="/" className="close">&times;</Link>
                 </div>{/* az-header-menu-header */}
                 <ul className="nav">
-                    <li className="nav-item active">
-                        <Link to="/" className="nav-link"><i className="typcn typcn-chart-area-outline"></i> Dashboard</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/students" className="nav-link"><i className="typcn typcn-document"></i> Estudantes</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/persons" className="nav-link"><i className="typcn typcn-document"></i> Pessoal</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/pedagogical" className="nav-link"><i className="typcn typcn-document"></i> Pedagógico</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/virtual-library" className="nav-link"><i className="typcn typcn-document"></i> Biblioteca Virtual</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/digital-Archive" className="nav-link"><i className="typcn typcn-document"></i> Acervo Digital</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/Settings" className="nav-link"><i className="typcn typcn-document"></i> Definições</Link>
-                    </li>
+                    {menuItems.map((menuItem: any) =>
+
+                        <li className={classNames[activeMenu.to === menuItem.to ? 0 : 1]} >
+                            <Link
+                                onClick={() => setActiveMenu(menuItem)}
+                                to={menuItem.to}
+                                className="nav-link"
+                            >
+                                <i className="typcn typcn-chart-area-outline"></i> {menuItem.text}
+                            </Link>
+                        </li>
+                    )}
                 </ul>
             </div>{/* az-header-menu */}
             <div className="az-header-right">
@@ -107,5 +119,5 @@ export const Header = () => {
                 </div>
             </div>{/* az-header-right */}
         </div>{/* container */}
-    </div>
+    </div >
 }
