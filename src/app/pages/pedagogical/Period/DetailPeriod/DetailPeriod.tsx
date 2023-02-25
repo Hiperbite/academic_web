@@ -1,11 +1,10 @@
 import Moment from 'react-moment';
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useAxiosFetch, { services } from '../../../../api/Api';
-import { ProgressBar } from 'react-bootstrap';
-import { TabScheduleClass } from './tabs/TabScheduleClass';
 import { Disabled } from './tabs/Disabled';
 import { TabClassyList } from './tabs/TabClassyList';
+import { TabHistory } from './tabs/TabHistory';
 
 export const DetailsPeriod = () => {
   const { id } = useParams()
@@ -15,7 +14,7 @@ export const DetailsPeriod = () => {
   const { data: period, loading } = useAxiosFetch(services.academic.period + "/" + id)
 
   const tabsTitles = ['Turmas', 'Histórico']
-  const Tabs = [TabClassyList,TabClassyList][tab]
+  const Tabs = [TabClassyList,History][tab]
 
   return (
     <div className="az-content-body">
@@ -92,4 +91,7 @@ export const DetailsPeriod = () => {
   )
 }
 
+const History=({period}:any)=>{
 
+  return <TabHistory modelName={'AcademicPeriod'} objectId={period.id} />
+}

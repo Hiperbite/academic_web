@@ -7,6 +7,7 @@ import { TabStudentClassyList } from './tabs/TabStudentClassyList';
 import { TabScheduleClass } from './tabs/TabScheduleClass';
 import { TabAssessmentClassy } from './tabs/TabAssessmentClassy';
 import { Disabled } from './tabs/Disabled';
+import { TabHistory } from '../../Period/DetailPeriod/tabs/TabHistory';
 
 export const DetailsClassy = () => {
   const { id } = useParams()
@@ -16,10 +17,10 @@ export const DetailsClassy = () => {
   const { data: classy, loading } = useAxiosFetch(services.academic.class + "/" + id)
 
   const tabsTitles = ['Estudantes', 'Horario', 'Pautas', 'Histórico']
-  const Tabs = [TabStudentClassyList, TabScheduleClass, TabAssessmentClassy, TabAssessmentClassy][tab]
+  const Tabs = [TabStudentClassyList, TabScheduleClass, TabAssessmentClassy, History][tab]
 
 
-  const persent = (classy: any) => ((classy?.enrollmentConfirmations?.length ?? 1) / (classy?.classyRoom?.size ?? 1)) * 100;
+  const persent = (classy: any) => Number((((classy?.enrollmentConfirmations?.length ?? 1) / (classy?.classyRoom?.size ?? 1)) * 100).toFixed(2));
 
 
   return (
@@ -105,10 +106,14 @@ export const DetailsClassy = () => {
       </div>
 
       <div className="row row-sm mg-b-20">
-        {loading ? null : classy?.isActive  ? <Tabs classy={classy}/>:<Disabled text={"Turma desactivada"}/>}
+        {loading ? null : classy?.isActive ? <Tabs classy={classy} /> : <Disabled text={"Turma desactivada"} />}
       </div>
     </div>
   )
 }
 
 
+const History = ({ classy }: any) => {
+
+  return <TabHistory modelName={'Classy'} objectId={classy?.id} />
+}

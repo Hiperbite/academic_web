@@ -6,6 +6,7 @@ import { ProgressBar } from 'react-bootstrap';
 import { TabScheduleClass } from './tabs/TabScheduleClass';
 import { Disabled } from './tabs/Disabled';
 import { TabClassyList } from './tabs/TabClassyList';
+import { TabHistory } from '../../Period/DetailPeriod/tabs/TabHistory';
 
 export const DetailsClassRoom = () => {
   const { id } = useParams()
@@ -15,7 +16,7 @@ export const DetailsClassRoom = () => {
   const { data: classRoom, loading } = useAxiosFetch(services.academic.classRoom + "/" + id)
 
   const tabsTitles = ['Turmas', 'Histórico']
-  const Tabs = [TabClassyList,TabClassyList][tab]
+  const Tabs = [TabClassyList,History][tab]
 
 
   const persent = (classRoom: any) => ((classRoom?.enrollmentConfirmations?.length ?? 1) / (classRoom?.classRoomRoom?.size ?? 1)) * 100;
@@ -97,3 +98,9 @@ export const DetailsClassRoom = () => {
 }
 
 
+
+
+const History = ({ classRoom }: any) => {
+
+  return <TabHistory modelName={'ClassyRoom'} objectId={classRoom?.id} />
+}

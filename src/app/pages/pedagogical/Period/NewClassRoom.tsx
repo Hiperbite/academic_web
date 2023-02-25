@@ -80,7 +80,6 @@ export const ClassRoomForm = () => {
     {data?.id == null ?
       <form onSubmit={handleSubmit(onSubmit)} >
         <Row>
-          {JSON.stringify(data)}
           <Col>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <FloatingLabel

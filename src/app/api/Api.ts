@@ -2,6 +2,9 @@ import axios from "axios";
 import { useEffect, useReducer } from "react";
 import { toast } from "react-toastify";
 export const services = {
+    common:{
+        track:"tracks"
+    },
     academic: {
         classRoom: "academics/class-rooms",
         shift: "academics/shifts",

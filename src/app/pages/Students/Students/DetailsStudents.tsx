@@ -7,6 +7,7 @@ import { DataStudents } from "./DataStudents";
 import { DocumentStudents } from "./DocumentStudents";
 import { AssessmentStudents } from "./AssessmentStudents";
 import { HistoryStudents } from "./HystoryStudents";
+import { TabHistory } from "../../pedagogical/Period/DetailPeriod/tabs/TabHistory";
 
 export const DetailsStudents = () => {
   const { id } = useParams()
@@ -21,7 +22,7 @@ export const DetailsStudents = () => {
     setParams({ ...params, ...opts });
   }
   const tabsTitles = ['Detalhes', 'Documentos', 'Exames', 'Histórico']
-  const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, HistoryStudents][tab]
+  const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, History][tab]
   return (
     <div className="az-content-body">
       <div className="az-dashboard-one-title">
@@ -78,7 +79,7 @@ export const DetailsStudents = () => {
         </nav>
 
         <nav className="nav">
-          <a className="nav-link" href="#"><i className="far fa-save"></i> Save Report</a>
+          <a className="nav-link" href="#"><i className="far fa-save"></i> Editar</a>
           <a className="nav-link" href="#"><i className="far fa-file-pdf"></i> Exportar em PDF</a>
           <a className="nav-link" href="#"><i className="far fa-envelope"></i>Partilhar por Email</a>
           <a className="nav-link" href="#"><i className="fas fa-ellipsis-h"></i></a>
@@ -92,4 +93,8 @@ export const DetailsStudents = () => {
   )
 }
 
+const History = ({ student }: any) => {
+
+  return <TabHistory modelName={'Student'} objectId={student?.id} />
+}
 
