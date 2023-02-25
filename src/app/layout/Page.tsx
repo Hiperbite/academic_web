@@ -45,13 +45,7 @@ const PedagogicalMenu = () => {
     const classNames = ["nav-link active", "nav-link"];
     return (
         <div className="component-item">
-            <label>Estudantes</label>
-            <nav className="nav flex-column">
-                <Link to="/students" className="nav-link">Matriculados</Link>
-                <Link to="/students" className="nav-link">Dropdown</Link>
-                <Link to="" className="nav-link">Icons</Link>
-            </nav>
-            <label>...</label>
+            <label>Menu Pedagogico</label>
             <nav className="nav flex-column">
                 {menuItems.map((menuItem: any) =>
                     <Link 

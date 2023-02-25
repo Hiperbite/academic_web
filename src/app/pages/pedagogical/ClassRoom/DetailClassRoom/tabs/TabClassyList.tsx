@@ -19,10 +19,10 @@ export const TabClassyList = ({ classRoom }: any) => {
     const { data, loading, isError } = useAxiosFetch(services.academic.class, params)
 
     const updateParams = (opts: any) => {
-      setParams({ ...params, ...opts });
+        setParams({ ...params, ...opts });
     }
     const persent = (classy: any) => ((classy?.enrollmentConfirmations?.length ?? 1) / (classy?.classyRoom?.size ?? 1)) * 100;
-    
+
 
     return (<>
         <div className="az-content-body pd-lg-l-40 d-flex flex-column">
@@ -54,14 +54,15 @@ export const TabClassyList = ({ classRoom }: any) => {
                         <tr>
                             <th>No</th>
                             <th>Descricao</th>
-                            <th>Sala</th>
+                            <th>Periodo</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {data?.data?.map((classy: any) => <tr onClick={() => navigate("/pedagogical/classy/" + classy?.id)}>
                             <th scope="row">{classy.code}</th>
                             <td>{classy?.descriptions}</td>
-                            <td>{classy?.classyRoom?.code ?? '-'}</td>
+                            <td>{classy?.academicPeriod?.code ?? '-'}</td>
                             <td>
                                 {classy?.enrollmentConfirmations?.length ?? '-'}/
                                 {classy?.classyRoom?.size ?? '-'}</td>
@@ -73,17 +74,7 @@ export const TabClassyList = ({ classRoom }: any) => {
                     </tbody>
                 </table>
             </div>
-            <nav aria-label="Page navigation">
-                <div className="row">
-                    <div className="col-md-6">
-                        {data?.page}/{data?.pages} - {data?.total} registos
-                    </div>
-                    <div className="col-md-6">
-                        <Paginate pages={data?.pages} updateParams={updateParams} params={params} />
-                    </div>
-                </div>
-            </nav>
-
+            <Paginate pages={data?.pages} updateParams={updateParams} params={params} />
         </div>
     </>)
 }

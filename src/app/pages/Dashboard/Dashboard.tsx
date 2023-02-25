@@ -41,7 +41,7 @@ export const Dashboard = () => {
                     </nav>
 
                     <nav className="nav">
-                        <a className="nav-link" href="#"><i className="far fa-save"></i> Save Report</a>
+                        <a className="nav-link" href="#"><i className="far fa-edit"></i> Save Report</a>
                         <a className="nav-link" href="#"><i className="far fa-file-pdf"></i> Export to PDF</a>
                         <a className="nav-link" href="#"><i className="far fa-envelope"></i>Send to Email</a>
                         <a className="nav-link" href="#"><i className="fas fa-ellipsis-h"></i></a>

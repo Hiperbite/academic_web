@@ -83,7 +83,7 @@ export const DetailsClassRoom = () => {
         </nav>
 
         <nav className="nav">
-          <Link className="nav-link" to={`/pedagogical/class-rooms/update/${classRoom?.id}`}><i className="far fa-save"></i> Editar</Link>
+          <Link className="nav-link" to={`/pedagogical/class-rooms/update/${classRoom?.id}`}><i className="far fa-edit"></i> Editar</Link>
           <a className="nav-link" href="#"><i className="far fa-file-pdf"></i> Exportar em PDF</a>
           <a className="nav-link" href="#"><i className="far fa-envelope"></i>Partilhar por Email</a>
           <a className="nav-link" href="#"><i className="fas fa-ellipsis-h"></i></a>

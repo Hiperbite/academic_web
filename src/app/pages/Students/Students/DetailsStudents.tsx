@@ -79,7 +79,7 @@ export const DetailsStudents = () => {
         </nav>
 
         <nav className="nav">
-          <a className="nav-link" href="#"><i className="far fa-save"></i> Editar</a>
+          <a className="nav-link" href="#"><i className="far fa-edit"></i> Editar</a>
           <a className="nav-link" href="#"><i className="far fa-file-pdf"></i> Exportar em PDF</a>
           <a className="nav-link" href="#"><i className="far fa-envelope"></i>Partilhar por Email</a>
           <a className="nav-link" href="#"><i className="fas fa-ellipsis-h"></i></a>

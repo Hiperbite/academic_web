@@ -48,8 +48,7 @@ const HistoryItem = ({ item }: any) => {
     return (
         <>
             <ListGroup.Item
-                as="li"
-                className=""
+                as="li" onClick={() => setOpen(!open)}
             >
                 <Row style={{ width: "100%" }}>
                     <Col xs={1} md={1} lg={1}></Col>
@@ -68,16 +67,6 @@ const HistoryItem = ({ item }: any) => {
                     <Col>
                     
                     User Name
-                    </Col>
-                    <Col className="text-right">
-                        <Button
-                            onClick={() => setOpen(!open)}
-                            aria-controls="example-collapse-text"
-                            aria-expanded={open}
-                            size="sm"
-                        >
-                            click
-                        </Button>
                     </Col>
                 </Row>
                 <Row style={{ width: "100%" }}>
