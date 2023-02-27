@@ -1,4 +1,4 @@
-import { useGetStudentData } from "../../../api/students/students";
+import { useGetStudentData } from "../../../app/api/students/students";
 
 import Moment from 'react-moment';
 import { useState } from "react";

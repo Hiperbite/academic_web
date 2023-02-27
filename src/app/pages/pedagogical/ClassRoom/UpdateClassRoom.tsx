@@ -14,9 +14,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '../../Components/ErrorMessage';
 
-import useAxiosFetch, { services } from '../../../api/Api';
+import useAxiosFetch, { services } from '../../../app/api/Api';
 import { BasicControls } from '../../Components/Controls';
-import { useUpdateClassRoomData } from '../../../api/pedagogical/classyRoom';
+import { useUpdateClassRoomData } from '../../../app/api/pedagogical/classyRoom';
 
 export const UpdateClassRoom = () => {
 

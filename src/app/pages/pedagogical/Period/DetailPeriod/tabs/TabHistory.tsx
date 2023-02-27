@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Card, ListGroup, Badge, Row, Col, Collapse, Table } from "react-bootstrap"
 import Moment from "react-moment";
 import { useNavigate } from "react-router-dom";
-import useAxiosFetch, { services } from "../../../../../api/Api";
+import useAxiosFetch, { services } from "../../../../../app/api/Api";
 import Paginate from "../../../../Components/Paginate"
 
 export const TabHistory = ({ modelName, objectId }: any) => {

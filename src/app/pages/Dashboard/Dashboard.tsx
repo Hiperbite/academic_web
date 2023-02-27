@@ -1,34 +1,23 @@
 
 import React from "react";
+import Moment from "react-moment";
+import { Greatings } from "./components/Greatings";
 export const Dashboard = () => {
     return (<div className="az-content az-content-dashboard">
         <div className="container">
             <div className="az-content-body">
                 <div className="az-dashboard-one-title">
-                    <div>
-                        <h2 className="az-dashboard-title">Hi, welcome back!</h2>
-                        <p className="az-dashboard-text">Your web analytics dashboard template.</p>
-                    </div>
+                    <Greatings />
                     <div className="az-content-header-right">
                         <div className="media">
                             <div className="media-body">
-                                <label>Start Date</label>
-                                <h6>Oct 10, 2018</h6>
-                            </div>{/* media-body */}
-                        </div>{/* media */}
-                        <div className="media">
-                            <div className="media-body">
                                 <label>End Date</label>
-                                <h6>Oct 23, 2018</h6>
+                                <h6><Moment format="DD/MM/YYYY">
+                                    {new Date()}
+                                    </Moment>
+                                    </h6>
                             </div>{/* media-body */}
                         </div>{/* media */}
-                        <div className="media">
-                            <div className="media-body">
-                                <label>Event Category</label>
-                                <h6>All Categories</h6>
-                            </div>{/* media-body */}
-                        </div>{/* media */}
-                        <a href="" className="btn btn-purple">Export</a>
                     </div>
                 </div>{/* az-dashboard-one-title */}
 

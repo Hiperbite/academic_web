@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, ProgressBar } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
-import useAxiosFetch from "../../../api/Api";
-import { services } from "../../../api/Api";
+import useAxiosFetch from "../../../app/api/Api";
+import { services } from "../../../app/api/Api";
 import Paginate from "../../Components/Paginate";
 
 

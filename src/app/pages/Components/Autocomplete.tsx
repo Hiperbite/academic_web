@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import { services } from '../../api/Api';
+import { services } from '../../app/api/Api';
 
 export const Autocomplete = ({ onChange, options: opts }: any) => {
 

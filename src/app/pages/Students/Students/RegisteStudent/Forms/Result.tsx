@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Card, Spinner } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { useRegisterStudentData } from '../../../../../api/students/students'
+import { useRegisterStudentData } from '../../../../../app/api/students/students'
 import { Controls } from '../../../../Components/Controls'
 
 export const Result = () => {

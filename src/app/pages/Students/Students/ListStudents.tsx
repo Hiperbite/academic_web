@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 
-import { useGetStudentsData } from '../../../api/students/students';
+import { useGetStudentsData } from '../../../app/api/students/students';
 
 export const ListStudents = () => {
 

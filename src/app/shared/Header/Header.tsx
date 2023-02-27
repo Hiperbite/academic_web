@@ -1,17 +1,26 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { selectCurrentUser } from "../../app/api/auth/authSlice";
+import { ProfileMenu } from "./ProfileMenu";
 
 const menuItems = [
-    { to: '/home', text: 'Dashboard' },
-    { to: '/students', text: 'Estudantes' },
-    { to: '/persons', text: 'Pessoal' },
-    { to: '/pedagogical', text: 'Pedagógico' },
-    { to: '/virtual-library', text: 'Biblioteca' },
-    { to: '/digital-Archive', text: 'Acervo Digital' },
-    { to: '/Settings', text: 'Definições' },
+    { to: '/home', text: 'Dashboard', active: false },
+    { to: '/students', text: 'Estudantes', active: false },
+    { to: '/persons', text: 'Pessoal', active: false },
+    { to: '/pedagogical', text: 'Pedagógico', active: false },
+    { to: '/virtual-library', text: 'Biblioteca', active: false },
+    { to: '/digital-Archive', text: 'Acervo Digital', active: false },
+    { to: '/Settings', text: 'Definições', active: false },
 
 ];
 export const Header = () => {
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        navigate("/");
+    };
 
     const [activeMenu, setActiveMenu] = useState(
         menuItems.filter((x: any) => window.location.href.indexOf(x.to) > -1)[0] ??
@@ -21,11 +30,12 @@ export const Header = () => {
         setActiveMenu(menuItem);
     }
 
+    const user = useSelector(selectCurrentUser);
     const classNames = ["nav-item active", "nav-item"];
     return <div className="az-header">
         <div className="container">
             <div className="az-header-left">
-                <Link to="/" className="az-logo"><span></span> azia 
+                <Link to="/" className="az-logo"><span></span> azia
                 </Link>
                 <Link to="/" className="az-header-menu-icon d-lg-none"><span></span></Link>
             </div>{/* az-header-left */}
@@ -43,7 +53,8 @@ export const Header = () => {
                                 to={menuItem.to}
                                 className="nav-link"
                             >
-                                <i className="typcn typcn-chart-area-outline"></i> {menuItem.text}
+
+                                <i className="far fa-exclamation"></i> {menuItem.text}
                             </Link>
                         </li>
                     )}
@@ -96,27 +107,7 @@ export const Header = () => {
                         <div className="dropdown-footer"><Link to="">View All Notifications</Link></div>
                     </div>{/* dropdown-menu */}
                 </div>{/* az-header-notification */}
-                <div className="dropdown az-profile-menu">
-                    <Link to="" className="az-img-user"><img src="../img/faces/face1.jpg" alt="" /></Link>
-                    <div className="dropdown-menu">
-                        <div className="az-dropdown-header d-sm-none">
-                            <Link to="" className="az-header-arrow"><i className="icon ion-md-arrow-back"></i></Link>
-                        </div>
-                        <div className="az-header-profile">
-                            <div className="az-img-user">
-                                <img src="../img/faces/face1.jpg" alt="" />
-                            </div>{/* az-img-user */}
-                            <h6>Aziana Pechon</h6>
-                            <span>Premium Member</span>
-                        </div>{/* az-header-profile */}
-
-                        <Link to="" className="dropdown-item"><i className="typcn typcn-user-outline"></i> My Profile</Link>
-                        <Link to="" className="dropdown-item"><i className="typcn typcn-edit"></i> Edit Profile</Link>
-                        <Link to="" className="dropdown-item"><i className="typcn typcn-time"></i> Activity Logs</Link>
-                        <Link to="" className="dropdown-item"><i className="typcn typcn-cog-outline"></i> Account Settings</Link>
-                        <Link to="page-signin.html" className="dropdown-item"><i className="typcn typcn-power-outline"></i> Sign Out</Link>
-                    </div>{/* dropdown-menu */}
-                </div>
+                <ProfileMenu/>
             </div>{/* az-header-right */}
         </div>{/* container */}
     </div >

@@ -13,8 +13,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '../../Components/ErrorMessage';
-import { useRegisterClassRoomData } from '../../../api/pedagogical/classy';
-import useAxiosFetch, { services } from '../../../api/Api';
+import { useRegisterClassRoomData } from '../../../app/api/pedagogical/classy';
+import useAxiosFetch, { services } from '../../../app/api/Api';
 import { BasicControls } from '../../Components/Controls';
 
 export const NewClassRoom = () => {

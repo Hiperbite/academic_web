@@ -1,7 +1,7 @@
 import Moment from 'react-moment';
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import useAxiosFetch, { services } from '../../../../api/Api';
+import useAxiosFetch, { services } from '../../../../app/api/Api';
 import { Disabled } from './tabs/Disabled';
 import { TabClassyList } from './tabs/TabClassyList';
 import { TabHistory } from './tabs/TabHistory';

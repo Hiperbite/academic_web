@@ -1,7 +1,7 @@
 import Moment from 'react-moment';
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import useAxiosFetch, { services } from '../../../../api/Api';
+import useAxiosFetch, { services } from '../../../../app/api/Api';
 import { ProgressBar } from 'react-bootstrap';
 import { TabScheduleClass } from './tabs/TabScheduleClass';
 import { Disabled } from './tabs/Disabled';
