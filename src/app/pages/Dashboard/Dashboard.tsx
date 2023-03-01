@@ -2,7 +2,10 @@
 import React from "react";
 import Moment from "react-moment";
 import { Greatings } from "./components/Greatings";
+import { useDate } from "./components/useDate";
 export const Dashboard = () => {
+    
+    const { date, time, wish } = useDate()
     return (<div className="az-content az-content-dashboard">
         <div className="container">
             <div className="az-content-body">
@@ -10,12 +13,13 @@ export const Dashboard = () => {
                     <Greatings />
                     <div className="az-content-header-right">
                         <div className="media">
-                            <div className="media-body">
+                            <div className="media-body text-right">
                                 <label>End Date</label>
                                 <h6><Moment format="DD/MM/YYYY">
                                     {new Date()}
                                     </Moment>
                                     </h6>
+                                    <h3>{time}</h3>
                             </div>{/* media-body */}
                         </div>{/* media */}
                     </div>

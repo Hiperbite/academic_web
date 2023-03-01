@@ -15,13 +15,18 @@ const menuItems: any = {
     students: [
         {
             text: "Estudantes", to: "/students", childs: [
-                { to: '', text: 'Matriculados' },
-                { to: 'list', text: 'Inicio' },
+                { to: '', text: 'Inicio' },
+                { to: 'list', text: 'Lista' },
             ]
         }, {
             text: "Candidatos", to: "/students", childs: [
-                { to: '', text: 'Matriculados' },
-                { to: 'list', text: 'Inicio' },
+                { to: '', text: 'Inicio' },
+                { to: 'candidates', text: 'Lista' },
+            ],
+        },
+        {
+            text: "..", to: "/students", childs: [
+                { to: 'all', text: 'Todos registos' },
             ],
         }
     ]
@@ -31,7 +36,7 @@ const Menu = ({ menu }: any) => {
     const [activeMenu, setActiveMenu] = useState<any>()
     //const [currentMenuItem, setCurrentMenuItem] = useState<any>()
 
-    const currentMenuItem=menuItems[`${menu}`] ??[]
+    const currentMenuItem = menuItems[`${menu}`] ?? []
     useEffect(() => {
         setActiveMenu(
             currentMenuItem.filter((x: any) => window.location.href.indexOf(x.to) > -1)[0] ??
@@ -44,7 +49,7 @@ const Menu = ({ menu }: any) => {
             {currentMenuItem?.map(({ text, childs, to }: any) => <>
                 <label>{text}</label>
                 <nav className="nav flex-column">
-                    {childs.map((menuItem: any) =>
+                    {childs === undefined ? null : childs.map((menuItem: any) =>
                         <Link
                             to={`${to}/${menuItem?.to}`}
                             className={classNames[activeMenu?.to === menuItem?.to ? 0 : 1]}

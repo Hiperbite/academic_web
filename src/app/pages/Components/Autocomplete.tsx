@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import { services } from '../../app/api/Api';
+import { Api, services } from '../../app/api/Api';
 
 export const Autocomplete = ({ onChange, options: opts }: any) => {
 
@@ -14,17 +14,16 @@ export const Autocomplete = ({ onChange, options: opts }: any) => {
             onChange={onChange}
             isLoading={isLoading}
             labelKey={({ code, person }: any) => `${code} - ${person?.firstName} ${person?.otherName ?? ''} ${person?.lastName}`}
-            
+
             onSearch={async (query) => {
-                if(query.length < 3)
-                return;
+                if (query.length < 3)
+                    return;
                 setIsLoading(true);
 
                 try {
-                    axios.get(`${services.student.students}?q=${query}`)
-                        .then((json: any) => {
-
-                            setOptions(json?.data)
+                    Api.get({ service: `${services.student.students}?q=${query}` })
+                        .then(({ response }: any) => {
+                            setOptions(response?.data)
                             setIsLoading(false)
                         });
                 } catch (error: any) {

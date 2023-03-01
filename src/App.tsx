@@ -27,6 +27,8 @@ import { ListPeriod } from './app/pages/pedagogical/Period/ListPeriod';
 import { DetailsPeriod } from './app/pages/pedagogical/Period/DetailPeriod/DetailPeriod';
 import { UpdatePeriod } from './app/pages/pedagogical/Period/UpdatePeriod';
 import { RequireAuth } from './app/app/api/auth/RequireAuth';
+import { ListCandidates } from './app/pages/Students/Candidates/ListCandidates';
+import { AllStudents } from './app/pages/Students/Random/AllStudents';
 
 
 
@@ -45,6 +47,9 @@ function App() {
                 <Route path="list" element={<ListStudents />} />
                 <Route path="new/*" element={<NewStudent />} />
                 <Route path="show/:id" element={<DetailsStudents />} />
+
+                <Route path="candidates" element={<ListCandidates />} />
+                <Route path="all" element={<AllStudents />} />
               </Route>
 
               <Route path="/pedagogical" element={<Page type={"pedagogical"} />}>

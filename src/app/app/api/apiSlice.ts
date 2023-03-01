@@ -6,7 +6,6 @@ const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:7100/',
     credentials: "same-origin", 
     prepareHeaders: (headers: any, { getState }: any) => {
-        debugger
         const token = getState().auth.token
         headers.set("Authorization", `Bearer ${token}`)
         if (token) {

@@ -1,3 +1,4 @@
+import { Api, getHeaders, services } from './../Api';
 // use-fetch-data.js
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -93,18 +94,27 @@ const useAuthenticationHandlerData = (): any => {
   const [loading, setLoading] = useState(true);
 
   const post = async (params: any, opts?: any) => {
-    
+
     try {
-      const data = await axios.post("auth", params);
-      const { data: response, status } = data;
-      storage.set('token', JSON.stringify(response?.data?.accessToken));
-      storage.set('refreshToken', JSON.stringify(response?.data?.refreshToken));
-      setData({response, status});
+      debugger
+      const data = await Api.post({
+        service: services.common.auth.singIn
+        , data: params
+      })
+      const { data: response, status } = data?.response;
+      if (status !== 200) {
+        throw new Error(response);
+      }
+      storage.set('token', response?.accessToken);
+      storage.set('refreshToken', response?.refreshToken);
+      storage.set('user', response?.user);
+      setData({ response, status });
       setError('')
     } catch (error: any) {
+      debugger
       console.error(error)
       setData({});
-      setError(error?.response?.data ?? error)
+      setError(error.message)
     }
     setLoading(false);
   };
@@ -118,5 +128,5 @@ const useAuthenticationHandlerData = (): any => {
     post
   };
 };
-const logoutHandlerData=()=>storage.remove('token')
+const logoutHandlerData = () => storage.remove('token')
 export { useAuthenticationHandlerData, logoutHandlerData }

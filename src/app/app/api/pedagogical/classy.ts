@@ -1,6 +1,8 @@
+import { services } from './../Api';
 // use-fetch-data.js
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Api } from '../Api';
 
 const useGetClassysData = (params = {}): any => {
   const [data, setData] = useState([]);
@@ -64,9 +66,9 @@ const useRegisterClassyData = (): any => {
   const post = async (params: any) => {
     console.log(params);
 
+    debugger
     try {
-      
-      const { data: response } = await axios.post("academics/class", params);
+      const { response:{data: response }} = await Api.post({service:services.academic.class, data: params});
       setData(response);
       setError({})
     } catch (error:any) {
@@ -94,9 +96,9 @@ const useRegisterClassRoomData = (): any => {
   const post = async (params: any) => {
     console.log(params);
 
+    debugger
     try {
-      
-      const { data: response } = await axios.post("academics/class-rooms", params);
+      const { data: response } = await Api.post({service:services.academic.class, data: params});
       setData(response);
       setError({})
     } catch (error:any) {
@@ -123,9 +125,9 @@ const useUpdateClassyData = (): any => {
   const [loading, setLoading] = useState(true);
     
   const put = async (params: any) => {
-    console.log(params);
+    debugger
     try {
-      const { data: response } = await axios.put("academics/class/"+params?.id, params);
+      const { data: response } = await Api.put({service:"academics/class", data: params});
       setData(response);
       setError({})
       setSuccess(true)

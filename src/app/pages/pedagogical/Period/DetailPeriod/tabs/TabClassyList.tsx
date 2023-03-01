@@ -28,24 +28,6 @@ export const TabClassyList = ({ period }: any) => {
         <div className="az-content-body pd-lg-l-40 d-flex flex-column">
             <h2 className="az-content-title">Turmas</h2>
 
-            <div className='row'>
-                <div className='col-md-6'>
-
-                    <div className="az-content-label mg-b-5 hidden">Simple Table</div>
-                    <p className="mg-b-20 hidden">Using the most basic table markup.</p>
-
-                </div>
-                <div className='col-md-6 text-right'>
-
-                    <Button
-                        variant="primary"
-                        disabled={loading}
-                        onClick={handleShow}
-                    >
-                        {loading ? 'Loading…' : 'Registar'}
-                    </Button>
-                </div>
-            </div>
 
             <hr className="mg-y-30" />
             <div className="table-responsive">

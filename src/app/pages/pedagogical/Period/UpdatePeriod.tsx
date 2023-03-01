@@ -95,7 +95,6 @@ export const PeriodForm = ({ period }: any) => {
           <Col></Col>
         </Row>
         <Row>
-          <Row>
             <Col>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <FloatingLabel
@@ -106,12 +105,11 @@ export const PeriodForm = ({ period }: any) => {
                 {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
               </Form.Group>
             </Col>
-          </Row>
-          <Col />
+          
         </Row>
         <Row>
           <Col>
-            <hr />
+          
 
             <Form.Check
               type="switch"

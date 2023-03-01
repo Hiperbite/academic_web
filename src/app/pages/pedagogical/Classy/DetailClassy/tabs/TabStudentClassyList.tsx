@@ -14,7 +14,7 @@ export const TabStudentClassyList = ({ classy }: any) => {
     const handleShow = () => setShow(true);
 
     const navigate = useNavigate();
-    const [params, setParams] = useState({ pageSize: 2, page: 1, 'where[classyId]': classy?.id });
+    const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[classyId]': classy?.id });
     const { data, loading, isError } = useAxiosFetch(services.student.enrollmentConfirmations, params)
 
     const updateParams = (opts: any) => {

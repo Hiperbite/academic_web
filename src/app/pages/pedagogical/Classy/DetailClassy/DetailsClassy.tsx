@@ -29,12 +29,16 @@ export const DetailsClassy = () => {
         <div>
           <h2 className="az-dashboard-title">Turma #{classy?.code}</h2>
           <p className="az-dashboard-text">{classy?.descriptions}</p>
-          <p className="az-dashboard-text">{classy?.classyRoom?.size}/{classy?.enrollmentConfirmations?.length}</p>
 
           <ProgressBar now={persent(classy)} label={`${persent(classy)}%`} />
         </div>
         <div className="az-content-header-right">
           <div className="media">
+            <div className="media-body text-right">
+              <label>Sala</label>
+              <h6>{classy?.classyRoom?.size}/{classy?.enrollmentConfirmations?.length}</h6>
+            </div>
+          </div><div className="media">
             <div className="media-body text-right">
               <label>Sala</label>
               <h6>{classy?.classyRoom?.code ?? "-"}</h6>
@@ -60,26 +64,13 @@ export const DetailsClassy = () => {
                   {classy?.createdAt ?? '.'}
                 </Moment></h6>
               <span>
-                <Moment format="dddd [as] h:m">
+                <Moment format="dddd [as] hh:mm">
                   {classy?.createdAt}
                 </Moment>
               </span>
             </div>
           </div>
-          <div className="media">
-            <div className="media-body text-right">
-              <label>Ultimaactualziação</label>
-              <h6>
-                <Moment format="DD [de] MMMM  [de] YYYY">
-                  {classy?.updateddAt}
-                </Moment></h6>
-              <span>
-                <Moment format="dddd [as] h:m">
-                  {classy?.updateddAt}
-                </Moment>
-              </span>
-            </div>
-          </div>
+          
           <div className="media">
             <div className="media-body text-right">
               <label>Estado</label><br />

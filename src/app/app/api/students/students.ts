@@ -1,3 +1,4 @@
+import { Api, getHeaders, services } from './../Api';
 // use-fetch-data.js
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -12,8 +13,7 @@ const useGetStudentsData = (params = {}): any => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
-        const { data: response } = await axios.get('/students?' + query);
+        const { response:{data :response} } = await Api.get({service:services.student.students+'?' + query});
         setData(response);
       } catch (error) {
         console.error(error)
@@ -22,7 +22,7 @@ const useGetStudentsData = (params = {}): any => {
     };
 
     fetchData();
-  }, [params]);
+  }, [params, query]);
 
   return {
     data,
@@ -39,8 +39,8 @@ const useGetStudentData = (params: any = {}): any => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
-        const { data: response } = await axios.get(`/students/${params.id}?` + query);
+
+        const { response:{data :response} } = await Api.get({service:`/students/${params.id}?` + query});
         setData(response);
       } catch (error) {
         console.error(error)
@@ -60,16 +60,16 @@ const useRegisterStudentData = (): any => {
   const [data, setData] = useState({});
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(true);
-    //useEffect(() => {
+  //useEffect(() => {
   const post = async (params: any) => {
     console.log(params);
 
     try {
-      
+
       const { data: response } = await axios.post("students", params);
       setData(response);
       setError({})
-    } catch (error:any) {
+    } catch (error: any) {
       console.error(error)
       setError(error.response)
     }

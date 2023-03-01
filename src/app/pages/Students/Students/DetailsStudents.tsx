@@ -8,32 +8,43 @@ import { DocumentStudents } from "./DocumentStudents";
 import { AssessmentStudents } from "./AssessmentStudents";
 import { HistoryStudents } from "./HystoryStudents";
 import { TabHistory } from "../../pedagogical/Period/DetailPeriod/tabs/TabHistory";
+import { Badge } from "react-bootstrap";
 
 export const DetailsStudents = () => {
   const { id } = useParams()
-  const navigate = useNavigate();
   const [params, setParams] = useState({ id });
   const [tab, setTab] = useState(0);
   const {
     data: student,
     loading,
   } = useGetStudentData(params);
-  const updateParams = (opts: any) => {
-    setParams({ ...params, ...opts });
-  }
   const tabsTitles = ['Detalhes', 'Documentos', 'Exames', 'Histórico']
   const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, History][tab]
   return (
     <div className="az-content-body">
       <div className="az-dashboard-one-title">
         <div>
-          <h2 className="az-dashboard-title">#{student?.code}</h2>
+          <h2 className="az-dashboard-title"># {student?.enrollment ? student?.enrollment?.code :  student?.code}</h2>
           <h1>{student?.person?.firstName} {student?.person?.otherName} {student?.person?.lastName}</h1>
-          <p className="az-dashboard-text">Your web analytics dashboard template.</p>
+          <p className="az-dashboard-text">
+            {student?.enrollment 
+            ? <Badge bg="primary"> Estudante matriculado </Badge> 
+            : <Badge bg="warning" text="dark">Candidato</Badge>}</p>
 
         </div>
         <div className="az-content-header-right">
-          <div className="media">
+        <div className="media">
+            <div className="media-body text-right">
+              <label>Turma</label>
+              <h6>
+                  {student?.enrollment?.current?.classy?.code}
+                </h6>
+              <span>
+                
+              </span>
+            </div>
+          </div>
+        <div className="media">
             <div className="media-body text-right">
               <label>Data de registo</label>
               <h6>
@@ -47,20 +58,7 @@ export const DetailsStudents = () => {
               </span>
             </div>
           </div>
-          <div className="media">
-            <div className="media-body text-right">
-              <label>Ultimaactualziação</label>
-              <h6>
-                <Moment format="DD [de] MMMM  [de] YYYY">
-                  {student.updateddAt}
-                </Moment></h6>
-              <span>
-                <Moment format="dddd [as] h:m">
-                  {student.updateddAt}
-                </Moment>
-              </span>
-            </div>
-          </div>
+          
           <div className="media">
             <div className="media-body text-right">
               <label>Estado</label><br />

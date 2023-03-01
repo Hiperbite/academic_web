@@ -1,6 +1,8 @@
+import { services } from './../Api';
 // use-fetch-data.js
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Api } from '../Api';
 
 const useGetPeriodsData = (params = {}): any => {
   const [data, setData] = useState([]);
@@ -94,9 +96,9 @@ const useUpdateperiodData = (): any => {
   const [loading, setLoading] = useState(true);
     
   const put = async (params: any) => {
-    console.log(params);
+    debugger
     try {
-      const { data: response } = await axios.put("academics/periods/"+params?.id, params);
+      const { data: response } = await Api.put({service:services.academic.period, data: params});
       setData(response);
       setError({})
       setSuccess(true)

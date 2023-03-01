@@ -67,6 +67,8 @@ const HistoryItem = ({ item }: any) => {
                     <Col>
                     
                     User Name
+                        <div className="fw-bold">{item?.user?.email}</div>
+                    
                     </Col>
                 </Row>
                 <Row style={{ width: "100%" }}>

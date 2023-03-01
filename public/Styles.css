@@ -2523,6 +2523,14 @@ button {
     border: 0;
 }
 
+table.table-hover tr {
+    cursor: pointer;
+}
+
+.progress-bar {
+    height: var(--bs-progress-height) !important;
+}
+
 textarea,
 input,
 select {
@@ -53494,5 +53502,8 @@ body {
 }
 
 width: 100vw;
+
+}
+idth: 100vw;
 
 }

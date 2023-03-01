@@ -16,7 +16,7 @@ export const ProfileMenu = () => {
                 <img src="../img/faces/face1.jpg" alt="" />
             </a>
 
-            <Fade in={open}>
+            {open ?
                 <div className="dropdown-menu" style={{ 'display': 'block' }}>
                     <div className="az-dropdown-header d-sm-none">
                         <Link to="" className="az-header-arrow"><i className="icon ion-md-arrow-back"></i></Link>
@@ -39,8 +39,8 @@ export const ProfileMenu = () => {
                         <i className="typcn typcn-cog-outline"></i> Account Settings</Link>
                     <Link to="" className="dropdown-item" onClick={handleLogOut}>
                         <i className="typcn typcn-power-outline"></i> Sign Out</Link>
-                </div>{/* dropdown-menu */}
-            </Fade>
+                </div>
+ : null}
         </div>
     )
 }

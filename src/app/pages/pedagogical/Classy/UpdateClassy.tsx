@@ -13,7 +13,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '../../Components/ErrorMessage';
-import { useRegisterClassyData, useUpdateClassyData } from '../../../app/api/pedagogical/classy';
+import { useUpdateClassyData } from '../../../app/api/pedagogical/classy';
 import useAxiosFetch, { services } from '../../../app/api/Api';
 import { BasicControls } from '../../Components/Controls';
 
@@ -30,9 +30,6 @@ export const UpdateClassy = () => {
         <span>#{data?.code}</span>
       </div>
       <h2 className="az-content-title">Actualizar Turma</h2>
-
-      <div className="az-content-label mg-b-5">Simple Table</div>
-      <p className="mg-b-20">Using the most basic table markup.</p>
 
       <hr className="mg-y-30" />
 
@@ -52,7 +49,7 @@ const FormSchema = z.object({
   code: z.string().min(3).max(20),
   classyRoomId: z.string().min(3),
   descriptions: z.string(),
-  isActive:z.boolean(),
+  isActive: z.boolean(),
   academicShiftId: z.string().min(3),
   academicPeriodId: z.string().min(3)
 
@@ -81,7 +78,6 @@ export const ClassForm = ({ classy }: any) => {
     }
   }, [data, success])
   return (<>
-    {JSON.stringify(error, null, 2)}
     {success ? <MessageScreen message={"Turma registada com successo"} data={classy} status={'success'} /> : null}
     {!success ?
       <form onSubmit={handleSubmit(onSubmit)} >
@@ -101,18 +97,6 @@ export const ClassForm = ({ classy }: any) => {
           <Col></Col>
         </Row>
         <Row>
-          <Row>
-            <Col>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <FloatingLabel
-                  controlId="floatingInput"
-                  label="Descricao">
-                  <Form.Control as="textarea" rows={3} {...register("descriptions")} />
-                </FloatingLabel>
-                {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
-              </Form.Group>
-            </Col>
-          </Row>
           <Col >
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <FloatingLabel
@@ -143,6 +127,19 @@ export const ClassForm = ({ classy }: any) => {
               {errors.academicShiftId && <ErrorMessage message={errors.academicShiftId?.message} />}
             </Form.Group>
 
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Descricao">
+                <Form.Control as="textarea" rows={6} {...register("descriptions")} style={{height: '120px'}} />
+              </FloatingLabel>
+              {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
+            </Form.Group>
           </Col>
         </Row>
         <Row>

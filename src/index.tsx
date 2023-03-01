@@ -4,12 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-
 import axios from "axios";
 import { AuthProvider } from './app/app/provider/AuthProvider';
-import { createStore } from '@reduxjs/toolkit';
+
 import { Provider } from 'react-redux';
 import { store } from './app/app/store';
+
+axios.defaults.baseURL = "http://localhost:7100/api/v1/";  /*'https://4000-omkurir-server-ul2zrczd9mb.ws-eu54.gitpod.io/api/v2'*///process.env.REACT_APP_BASE_URL_API;
 
 //let locale = navigator.language;
 

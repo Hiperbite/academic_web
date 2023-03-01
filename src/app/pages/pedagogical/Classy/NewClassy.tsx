@@ -26,10 +26,7 @@ export const NewClassy = () => {
         <span>Candidatos</span>
         <span>Listagem</span>
       </div>
-      <h2 className="az-content-title">Candidatos Inscritos</h2>
-
-      <div className="az-content-label mg-b-5">Simple Table</div>
-      <p className="mg-b-20">Using the most basic table markup.</p>
+      <h2 className="az-content-title">Registar nova Turma</h2>
 
       <hr className="mg-y-30" />
 
@@ -73,21 +70,10 @@ export const ClassForm = () => {
   }
   useEffect(() => {
     if (data?.id) {
-      toast("Turma registada com sucesso!",
-        {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        })
+      toast("Turma registada com sucesso!")
     }
   }, [data])
   return (<>
-  {JSON.stringify(error, null,4)}
     {data?.id ? <MessageScreen message={"Turma registada com successo"} data={data} status={'success'} /> : null}
     {data?.id == null ?
       <form onSubmit={handleSubmit(onSubmit)} >
@@ -107,18 +93,6 @@ export const ClassForm = () => {
           <Col></Col>
         </Row>
         <Row>
-          <Row>
-            <Col>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <FloatingLabel
-                  controlId="floatingInput"
-                  label="Descricao">
-                  <Form.Control as="textarea" rows={3} {...register("descriptions")} />
-                </FloatingLabel>
-                {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
-              </Form.Group>
-            </Col>
-          </Row>
           <Col >
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <FloatingLabel
@@ -169,9 +143,22 @@ export const ClassForm = () => {
           </Col>
           <Col></Col>
         </Row>
+
         <Row>
           <Col>
-          <BasicControls />
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Descricao">
+                <Form.Control as="textarea" style={{height: '160px'}} rows={3} {...register("descriptions")} />
+              </FloatingLabel>
+              {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <BasicControls />
           </Col>
         </Row>
       </form> : <></>}

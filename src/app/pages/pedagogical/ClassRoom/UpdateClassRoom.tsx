@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Card, Col, FloatingLabel, ProgressBar, Row } from "react-bootstrap";
+import { Alert, Card, Col, FloatingLabel, ProgressBar, Row } from "react-bootstrap";
 
 import { toast } from 'react-toastify';
 
@@ -47,12 +47,21 @@ export const UpdateClassRoom = () => {
   )
 }
 
-
+const numericString = (schema: z.ZodTypeAny) =>
+  z.preprocess((a) => {
+    if (typeof a === 'string') {
+      return parseInt(a, 10);
+    } else if (typeof a === 'number') {
+      return a;
+    } else {
+      return undefined;
+    }
+  }, schema)
 
 const FormSchema = z.object({
   code: z.string().min(3).max(20),
-  descriptions: z.string().optional(),
-  size: z.string(),
+  descriptions: z.string().optional().nullable(),
+  size:  numericString(z.number().positive().max(1000)),
   isActive: z.boolean()
 
 });
@@ -70,11 +79,6 @@ export const ClassForm = ({ classRoom }: any) => {
     reset(classRoom);
   }, [classRoom, reset]);
 
-  useEffect(() => {
-    if (success) {
-      toast.success("Turma actualizada com sucesso!")
-    }
-  }, [data, success])
   return (<>
 
     {success ? <MessageScreen message={"Turma registada com successo"} data={classRoom} status={'success'} /> : null}
@@ -104,25 +108,22 @@ export const ClassForm = ({ classRoom }: any) => {
             }
           </Form.Group></Col>
         </Row>
+
         <Row>
-          <Row>
             <Col>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <FloatingLabel
                   controlId="floatingInput"
                   label="Descricao">
-                  <Form.Control as="textarea" rows={6} {...register("descriptions")} />
+                  <Form.Control as="textarea" style={{height:'120px'}} rows={6} {...register("descriptions")} />
                 </FloatingLabel>
                 {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
               </Form.Group>
             </Col>
-          </Row>
-          <Col />
+          
         </Row>
         <Row>
           <Col>
-            <hr />
-
             <Form.Check
               type="switch"
               id="custom-switch"
@@ -131,7 +132,17 @@ export const ClassForm = ({ classRoom }: any) => {
             />
           </Col>
         </Row>
-
+        {error.length > 0 ?
+          <Row>
+            <Col>
+              {error.map((err: any) =>
+                <Alert key={'danger'} variant={'danger'}>
+                  {err.message}
+                </Alert>
+              )}
+            </Col>
+          </Row>
+          : null}
         <Row>
           <Col>
             <BasicControls />

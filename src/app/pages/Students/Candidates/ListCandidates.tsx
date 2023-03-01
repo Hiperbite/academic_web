@@ -1,15 +1,15 @@
-import Moment from 'react-moment';
+
 import { useState } from "react";
-import { Button, Col, Row, Table } from 'react-bootstrap';
-import { Link, useNavigate } from "react-router-dom";
+import { Button, Col, Row } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 
 import { useGetStudentsData } from '../../../app/api/students/students';
 import { ListTableStudents } from '../components/ListTableStudents';
 
-export const ListStudents = () => {
+export const ListCandidates = () => {
 
   const navigate = useNavigate();
-  const [params, setParams] = useState({ pageSize: 6, page: 1, filter: 'withEnrollment' });
+  const [params, setParams] = useState({ pageSize: 4, page: 1, filter: 'withNotEnrollment' });
   const {
     data,
     loading,
@@ -20,10 +20,10 @@ export const ListStudents = () => {
     <div className="az-content-body pd-lg-l-40 d-flex flex-column">
       <div className="az-content-breadcrumb">
         <span>Estudantes</span>
-        <span>Inscritos</span>
+        <span>Candidatos</span>
         <span>Listagem</span>
       </div>
-      <h2 className="az-content-title">Estudantes</h2>
+      <h2 className="az-content-title">Candidatos Inscritos</h2>
       <Row>
         <Col></Col>
         <Col className='text-right'>

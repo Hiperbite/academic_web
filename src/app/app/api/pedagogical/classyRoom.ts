@@ -1,6 +1,9 @@
+import { services } from './../Api';
 // use-fetch-data.js
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Api } from '../Api';
+import { toast } from 'react-toastify';
 
 const useGetClassyRoomsData = (params = {}): any => {
   const [data, setData] = useState([]);
@@ -9,20 +12,20 @@ const useGetClassyRoomsData = (params = {}): any => {
 
 
   const query = new URLSearchParams(params).toString();
-    const fetchData = async () => {
-  //useEffect(() => {
-      try {
-        
-        const { data: response } = await axios.get('/academics/class-rooms?' + query);
-        setData(response);
-      } catch (error) {
-        console.error(error)
-      }
-      setLoading(false);
+  const fetchData = async () => {
+    //useEffect(() => {
+    try {
 
-    
-  //}, [fetchData,params]);
-    };
+      const { data: response } = await axios.get('/academics/class-rooms?' + query);
+      setData(response);
+    } catch (error) {
+      console.error(error)
+    }
+    setLoading(false);
+
+
+    //}, [fetchData,params]);
+  };
 
   return {
     fetchData,
@@ -40,7 +43,7 @@ const useGetClassyRoomData = (params: any = {}): any => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
+
         const { data: response } = await axios.get(`/academics/class-rooms/${params.id}?` + query);
         setData(response);
       } catch (error) {
@@ -61,16 +64,16 @@ const useRegisterClassyRoomData = (): any => {
   const [data, setData] = useState({});
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(true);
-    //useEffect(() => {
+  //useEffect(() => {
   const post = async (params: any) => {
     console.log(params);
 
     try {
-      
+
       const { data: response } = await axios.post("/academics/class-rooms", params);
       setData(response);
       setError({})
-    } catch (error:any) {
+    } catch (error: any) {
       console.error(error)
       setError(error.response)
     }
@@ -92,15 +95,21 @@ const useUpdateClassRoomData = (): any => {
   const [error, setError] = useState({});
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
-    
+
   const put = async (params: any) => {
     console.log(params);
     try {
-      const { data: response } = await axios.put("academics/class-rooms/"+params?.id, params);
-      setData(response);
-      setError({})
-      setSuccess(true)
-    } catch (error:any) {
+      const { response: { data: response, status } } = await Api.put({ service: services.academic.classRoom, data: params });
+      if (status !== 200) {
+        setError(response)
+        setSuccess(false)
+      } else {
+        toast.success("Turma actualizada com sucesso!")
+        setData(response);
+        setError({})
+        setSuccess(true)
+      }
+    } catch (error: any) {
       console.error(error)
       setError(error.response)
       setSuccess(false)
