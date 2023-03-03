@@ -13,7 +13,7 @@ const useGetStudentsData = (params = {}): any => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { response:{data :response} } = await Api.get({service:services.student.students+'?' + query});
+        const { response: { data: response } } = await Api.get({ service: services.student.students + '?' + query });
         setData(response);
       } catch (error) {
         console.error(error)
@@ -40,7 +40,7 @@ const useGetStudentData = (params: any = {}): any => {
     const fetchData = async () => {
       try {
 
-        const { response:{data :response} } = await Api.get({service:`/students/${params.id}?` + query});
+        const { response: { data: response } } = await Api.get({ service: `/students/${params.id}?` + query });
         setData(response);
       } catch (error) {
         console.error(error)
@@ -60,13 +60,12 @@ const useRegisterStudentData = (): any => {
   const [data, setData] = useState({});
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(true);
-  //useEffect(() => {
+
   const post = async (params: any) => {
     console.log(params);
-
+    debugger
     try {
-
-      const { data: response } = await axios.post("students", params);
+      const { response: { data: response } } = await Api.post({ service: "students", data: params });
       setData(response);
       setError({})
     } catch (error: any) {
@@ -75,8 +74,6 @@ const useRegisterStudentData = (): any => {
     }
     setLoading(false);
   };
-  //return fetchData;
-  //}, [params]);
 
   return {
     data,

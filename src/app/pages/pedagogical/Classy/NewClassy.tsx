@@ -16,6 +16,7 @@ import { ErrorMessage } from '../../Components/ErrorMessage';
 import { useRegisterClassyData } from '../../../app/api/pedagogical/classy';
 import useAxiosFetch, { services } from '../../../app/api/Api';
 import { BasicControls } from '../../Components/Controls';
+import { numericString } from '../../../helpers';
 
 export const NewClassy = () => {
 
@@ -46,6 +47,7 @@ const FormSchema = z.object({
   code: z.string().min(3).max(20),
   classyRoomId: z.string().min(3),
   academicShiftId: z.string().min(3),
+  grade: numericString(z.number().positive().max(1000)),
   academicPeriodId: z.string().min(3)
 
 });

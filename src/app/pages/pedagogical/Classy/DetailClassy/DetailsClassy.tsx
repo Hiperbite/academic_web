@@ -36,7 +36,7 @@ export const DetailsClassy = () => {
           <div className="media">
             <div className="media-body text-right">
               <label>Sala</label>
-              <h6>{classy?.classyRoom?.size}/{classy?.enrollmentConfirmations?.length}</h6>
+              <h6>{classy?.enrollmentConfirmations?.length}/{classy?.classyRoom?.size}</h6>
             </div>
           </div><div className="media">
             <div className="media-body text-right">
@@ -46,8 +46,8 @@ export const DetailsClassy = () => {
           </div>
           <div className="media">
             <div className="media-body text-right">
-              <label>Semestre</label>
-              <h6>{classy?.academicShift?.code ?? "-"}</h6>
+              <label>Ano</label>
+              <h6>{classy?.grade ? `${classy?.grade} º ` : "-"} </h6>
             </div>
           </div>
           <div className="media">

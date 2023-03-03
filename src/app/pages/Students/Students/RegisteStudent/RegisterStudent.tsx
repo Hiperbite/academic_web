@@ -7,10 +7,9 @@ import { Step3 } from "./Forms/Step3"
 import { Step4 } from "./Forms/Step4"
 import { store } from "./store"
 
-export const RegisteStudent = () => {
+export const RegisterStudent = () => {
     return (
         <>
-            <h1>Inscrever novo estudante</h1>
 
             <Provider store={store}>
                 <Routes>

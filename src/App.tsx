@@ -13,7 +13,7 @@ import { Page } from './app/layout/Page';
 import { Students } from './app/pages/Students/Students';
 import { ListStudents } from './app/pages/Students/Students/ListStudents';
 import { DetailsStudents } from './app/pages/Students/Students/DetailsStudents';
-import { NewStudent } from './app/pages/Students/Students/NewStudent';
+import { RegisterNewStudent } from './app/pages/Students/Students/RegisteStudent/RegisteNewStudent';
 import { ListClassy } from './app/pages/pedagogical/Classy/ListClassy';
 import { NewClassy } from './app/pages/pedagogical/Classy/NewClassy';
 import { ToastContainer } from 'react-toastify';
@@ -29,6 +29,7 @@ import { UpdatePeriod } from './app/pages/pedagogical/Period/UpdatePeriod';
 import { RequireAuth } from './app/app/api/auth/RequireAuth';
 import { ListCandidates } from './app/pages/Students/Candidates/ListCandidates';
 import { AllStudents } from './app/pages/Students/Random/AllStudents';
+import { UpdateExistedStudent } from './app/pages/Students/Students/UpdateStudent/UpdateExistedStudent';
 
 
 
@@ -45,8 +46,9 @@ function App() {
               <Route path="/students" element={<Page type={"students"} />}>
                 <Route index element={<Students />} />
                 <Route path="list" element={<ListStudents />} />
-                <Route path="new/*" element={<NewStudent />} />
+                <Route path="new/*" element={<RegisterNewStudent />} />
                 <Route path="show/:id" element={<DetailsStudents />} />
+                <Route path="update/:id/*" element={<UpdateExistedStudent />} />
 
                 <Route path="candidates" element={<ListCandidates />} />
                 <Route path="all" element={<AllStudents />} />

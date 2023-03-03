@@ -16,6 +16,7 @@ import { ErrorMessage } from '../../Components/ErrorMessage';
 import { useUpdateClassyData } from '../../../app/api/pedagogical/classy';
 import useAxiosFetch, { services } from '../../../app/api/Api';
 import { BasicControls } from '../../Components/Controls';
+import { numericString } from '../../../helpers';
 
 export const UpdateClassy = () => {
 
@@ -51,6 +52,7 @@ const FormSchema = z.object({
   descriptions: z.string(),
   isActive: z.boolean(),
   academicShiftId: z.string().min(3),
+  grade: numericString(z.number().positive().max(10)),
   academicPeriodId: z.string().min(3)
 
 });
@@ -136,7 +138,7 @@ export const ClassForm = ({ classy }: any) => {
               <FloatingLabel
                 controlId="floatingInput"
                 label="Descricao">
-                <Form.Control as="textarea" rows={6} {...register("descriptions")} style={{height: '120px'}} />
+                <Form.Control as="textarea" rows={6} {...register("descriptions")} style={{ height: '120px' }} />
               </FloatingLabel>
               {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
             </Form.Group>
@@ -158,7 +160,17 @@ export const ClassForm = ({ classy }: any) => {
               {errors.classyRoomId && <ErrorMessage message={errors.classyRoomId?.message} />}
             </Form.Group>
           </Col>
-          <Col></Col>
+          <Col>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Ano academico">
+                <Form.Control type="text" {...register("grade")} />
+              </FloatingLabel>
+              {errors.grade &&
+                <ErrorMessage message={errors.grade?.message} />
+              }
+            </Form.Group></Col>
         </Row>
         <Row>
           <Col>

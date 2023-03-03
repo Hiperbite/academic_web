@@ -29,7 +29,10 @@ export const services = {
         auth: {
             singIn: 'auth'
         },
-        track: "tracks"
+        track: "tracks",
+        contacts: "/commons/contacts",
+        documents: "/commons/documents",
+        persons: "/commons/persons"
     },
     academic: {
         classRoom: "academics/class-rooms",
@@ -46,7 +49,7 @@ export const services = {
 
 const post = async ({ service, data }: any) => {
     try {
-        debugger
+        
         const response = await axios.post(service, data, { headers: getHeaders() });
         console.log('👉 Returned data:', response);
         toast.success('Registo feito com sucesso');
@@ -59,7 +62,7 @@ const post = async ({ service, data }: any) => {
 }
 
 const get = async ({ service, id, params }: any) => {
-    debugger
+    
     let url = service
     if (id) {
         url = `${url}/${id}`
@@ -89,7 +92,7 @@ const put = async ({ service, data }: any) => {
         return { response }
     } catch (e: any) {
         console.log(`😱 Axios request failed: ${e}`);
-        e?.response?.data.forEach((err: any, i:number) => toast.error(`😱 Erro ${i+1}:  ${err.message}`));
+        e?.response?.data.forEach((err: any, i: number) => toast.error(`😱 Erro ${i + 1}:  ${err.message}`));
         return e;
     }
 
@@ -128,7 +131,7 @@ export default function useAxiosFetch(url: string, params?: any, method?: string
             return;
         }
         const fetch = async () => {
-            debugger
+            
             dispatch({ type: "INIT" })
             try {
                 const query = new URLSearchParams(params).toString();

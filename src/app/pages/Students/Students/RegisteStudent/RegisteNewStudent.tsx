@@ -3,9 +3,9 @@ import Form from 'react-bootstrap/Form';
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Col, FloatingLabel, ProgressBar, Row } from "react-bootstrap";
-import { RegisteStudent } from './RegisteStudent/RegisteStudent';
+import { RegisterStudent } from './RegisterStudent';
 
-export const NewStudent = () => {
+export const RegisterNewStudent = () => {
   const { id } = useParams()
   const navigate = useNavigate();
   /*
@@ -24,16 +24,14 @@ export const NewStudent = () => {
         <span>Candidatos</span>
         <span>Listagem</span>
       </div>
-      <h2 className="az-content-title">Candidatos Inscritos</h2>
+      <h2 className="az-content-title">Estudantes</h2>
 
-      <div className="az-content-label mg-b-5">Simple Table</div>
-      <p className="mg-b-20">Using the most basic table markup.</p>
-
+      <h1>Inscrever novo estudante</h1>
       <hr className="mg-y-30" />
 
       <div className="card-body">
 
-        <RegisteStudent />
+        <RegisterStudent/>
       </div>
 
 

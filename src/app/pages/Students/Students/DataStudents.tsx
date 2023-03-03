@@ -1,11 +1,22 @@
+import { Col, Row } from "react-bootstrap"
 import Moment from "react-moment"
+import { Link } from "react-router-dom"
 
 export const DataStudents = ({ student }: any) => {
     return (
         <div className="col-lg-8">
             <div className="card card-dashboard-pageviews">
                 <div className="card-header">
-                    <h6 className="card-title">Dados Pessoais do Estudante</h6>
+                    <Row>
+                        <Col>
+                            <h6 className="card-title">Dados Pessoais do Estudante</h6>
+                        </Col>
+                        <Col className="text-right">
+                            <Link className="nav-link" to={`/students/update/${student.id}/personal`}><i className="far fa-edit"></i></Link>
+                        </Col>
+                    </Row>
+
+
                 </div>
                 <div className="card-body">
                     <ul className="list-group list-group-flush">
@@ -21,7 +32,7 @@ export const DataStudents = ({ student }: any) => {
                                 </div>
                                 <div className="col-md-4">
                                     <span>Outros Nomes</span>
-                                    <h5>{student?.person?.outherName ?? '-'}</h5>
+                                    <h5>{student?.person?.otherNames ?? '-'}</h5>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +61,7 @@ export const DataStudents = ({ student }: any) => {
                                 <div className="col-md-4">
                                     <span>Morada</span>
                                     <h5>
-                                        {student?.person?.livingAddres?.address}
+                                        {student?.person?.livingAddres?.address ?? '-'}
                                         {student?.person?.livingAddres?.city}
                                     </h5>
                                 </div>
@@ -59,6 +70,7 @@ export const DataStudents = ({ student }: any) => {
                                     <h5>{student?.person?.livingAddres?.province}</h5>
                                 </div>
                                 <div className="col-md-4">
+                                    <Link className="nav-link" style={{ float: "right" }} to={"/students/update/" + student.id+"/address"}><i className="far fa-edit"></i></Link>
                                 </div>
                             </div>
                         </div>
@@ -76,35 +88,24 @@ export const DataStudents = ({ student }: any) => {
                                     <h5>{student?.person?.birthPlaceAddres?.province}</h5>
                                 </div>
                                 <div className="col-md-4">
+                                    <Link className="nav-link" style={{ float: "right" }} to={`/students/update/${student.id}/contacts`}><i className="far fa-edit"></i></Link>
                                 </div>
                             </div>
                         </div>
                         <div className="list-group-item">
                             <div className="row">
+                                <Col>
+                                <Link className="nav-link" style={{ float: "right" }} to={`/students/update/${student.id}/contacts`}><i className="far fa-edit"></i></Link>
+                                </Col>
+                            </div>
+                            <div className="row">
+
                                 {student?.person?.contacts?.map((contact: any) =>
                                     <div className="col-md-4">
                                         <span>{contact?.type}</span>
-                                        <h5>
+                                        <h6>
                                             {contact?.descriptions}
-                                        </h5>
-                                    </div>)}
-                            </div>
-                        </div>
-                        <div className="list-group-item">
-                            <div className="row">
-                                {student?.person?.documents?.map((document: any) =>
-                                    <div className="col-md-4">
-                                        <span>{document?.type}</span>
-                                        <h5>
-                                            {document?.number}
-                                        </h5>
-                                        {document?.validationDate ?
-                                            <span>
-                                                <Moment format="DD/MM/YYYY">{document?.validationDate}
-                                                </Moment>
-
-                                            </span>
-                                            : ''}
+                                        </h6>
                                     </div>)}
                             </div>
                         </div>

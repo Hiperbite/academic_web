@@ -7,7 +7,7 @@ export const BasicControls = () => {
     const navigate = useNavigate()
     return (
         <>
-        <hr className="mg-y-30" />
+            <hr className="mg-y-30" />
             <div className='row'>
                 <div className='col-md-4 text-left'>
                     <Button variant="secondary" type="button" onClick={() => navigate(-1)}>
@@ -38,7 +38,7 @@ export const Controls = ({ current, total, onSubmit = null }: any) => {
         <hr />
         <div className='row'>
             <div className='col-md-4 text-left'>
-                <Button variant="primary" type="button" onClick={() => navigate('/students/list')}>Cancelar</Button>
+                <Button variant="secondary" type="button" onClick={() => navigate('/students/list')}>Cancelar</Button>
             </div>
             <div className='col-md-4'>
 

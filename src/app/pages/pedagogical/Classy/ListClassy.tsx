@@ -55,6 +55,7 @@ export const ListClassy = () => {
             <tr>
               <th>No</th>
               <th>Descricao</th>
+              <th>Ano</th>
               <th>Sala</th>
             </tr>
           </thead>
@@ -62,6 +63,8 @@ export const ListClassy = () => {
             {data?.data?.map((classy: any) => <tr onClick={() => navigate("/pedagogical/classy/" + classy?.id)}>
               <th scope="row">{classy.code}</th>
               <td>{classy?.descriptions}</td>
+              <td>{classy?.academicPeriod?.code ?? '-'}</td>
+              <td>{classy?.grade ? `${classy?.grade} º` : '-'}</td>
               <td>{classy?.classyRoom?.code ?? '-'}</td>
               <td>
                 {classy?.enrollmentConfirmations?.length ?? '-'}/

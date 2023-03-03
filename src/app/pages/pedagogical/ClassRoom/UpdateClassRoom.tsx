@@ -17,6 +17,7 @@ import { ErrorMessage } from '../../Components/ErrorMessage';
 import useAxiosFetch, { services } from '../../../app/api/Api';
 import { BasicControls } from '../../Components/Controls';
 import { useUpdateClassRoomData } from '../../../app/api/pedagogical/classyRoom';
+import { numericString } from '../../../helpers';
 
 export const UpdateClassRoom = () => {
 
@@ -47,16 +48,6 @@ export const UpdateClassRoom = () => {
   )
 }
 
-const numericString = (schema: z.ZodTypeAny) =>
-  z.preprocess((a) => {
-    if (typeof a === 'string') {
-      return parseInt(a, 10);
-    } else if (typeof a === 'number') {
-      return a;
-    } else {
-      return undefined;
-    }
-  }, schema)
 
 const FormSchema = z.object({
   code: z.string().min(3).max(20),
@@ -97,7 +88,8 @@ export const ClassForm = ({ classRoom }: any) => {
               }
             </Form.Group>
           </Col>
-          <Col><Form.Group className="mb-3" controlId="formBasicEmail">
+          <Col>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
             <FloatingLabel
               controlId="floatingInput"
               label="Lugares">

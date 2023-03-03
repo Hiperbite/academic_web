@@ -1,46 +1,43 @@
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { saveData, savePerson } from '../rootSlice'
 import { Col, FloatingLabel, Form, Row } from 'react-bootstrap'
-import { Controls } from '../../../../Components/Controls'
+import { BasicControls, Controls } from '../../../../Components/Controls'
 //import { chooseBase } from './rootSlice'
 
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorMessage } from '../../../../Components/ErrorMessage'
+import { Api, services } from '../../../../../app/api/Api'
 const FormSchema = z.object({
     firstName: z.string().min(3).max(20),
     lastName: z.string().min(3).max(20),
-    otherName: z.string().min(3).max(20).optional().nullable(),
-    gender:z.string(),
-    nationality:z.string(),
-    maritalStatus:z.string(),
-    birthDate:z.string()
-    //.min(new Date(`${(new Date()).getFullYear()-16}-01-01`))
-    //.max(new Date(`${(new Date()).getFullYear()-40}-01-01`)),
+    otherNames: z.string().max(20).optional().nullable(),
+    gender: z.string(),
+    nationality: z.string(),
+    maritalStatus: z.string(),
+    birthDate: z.string()
 
 });
-export const Step1 = () => {
+export const PersonalDataForm = ({ student }: any) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const data = useSelector((state: any) => state.person)
-    const { register, handleSubmit,
+    const { register, reset, handleSubmit,
         formState: { errors }, } = useForm({
-            defaultValues: data,
+            defaultValues: { ...student.person, ...data },
             resolver: zodResolver(FormSchema)
         })
 
-    const current = 1
-    const total = 5
+    const memoizedValue = useMemo(() => reset(student.person), student.person)
 
-    const onSubmit = (form: any) => {
-        dispatch(savePerson(form))
-        navigate("../step2")
+    const onSubmit = async (form: any) => {
+        const response = await Api.put({ service: services.common.persons, data: { ...form, id: student?.person?.id } })
+
     }
-
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
             <Row>
@@ -50,9 +47,7 @@ export const Step1 = () => {
                             controlId="floatingInput"
                             label="Primeiro Nome">
                             <Form.Control type="text" value={data?.firstName} {...register("firstName")} />
-                            
                         </FloatingLabel>
-
                         {errors.firstName &&
                             <ErrorMessage message={errors.firstName?.message} />
                         }
@@ -78,9 +73,9 @@ export const Step1 = () => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Outros Nome">
-                            <Form.Control type="text" value={data?.otherName}   {...register("otherName")} />
+                            <Form.Control type="text" value={data?.otherNames}   {...register("otherNames")} />
                         </FloatingLabel>
-                        {errors.otherName && <ErrorMessage message={errors.otherName?.message} />}
+                        {errors.otherNames && <ErrorMessage message={errors.otherNames?.message} />}
                     </Form.Group>
                 </Col>
                 <Col></Col>
@@ -118,7 +113,7 @@ export const Step1 = () => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Data de Nascimento">
-                            <Form.Control type="date" {...register("birthDate")}/>
+                            <Form.Control type="date" {...register("birthDate")} />
                         </FloatingLabel>
                         {errors.birthDate && <ErrorMessage message={errors.birthDate?.message} />}
                     </Form.Group>
@@ -162,7 +157,7 @@ export const Step1 = () => {
 
                 </Col>
             </Row>
-            <Controls current={current} total={total} />
+            <BasicControls />
         </form>
     )
 }

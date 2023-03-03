@@ -2,7 +2,7 @@ import { useGetStudentData } from "../../../app/api/students/students";
 
 import Moment from 'react-moment';
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { DataStudents } from "./DataStudents";
 import { DocumentStudents } from "./DocumentStudents";
 import { AssessmentStudents } from "./AssessmentStudents";
@@ -24,27 +24,40 @@ export const DetailsStudents = () => {
     <div className="az-content-body">
       <div className="az-dashboard-one-title">
         <div>
-          <h2 className="az-dashboard-title"># {student?.enrollment ? student?.enrollment?.code :  student?.code}</h2>
+          <h2 className="az-dashboard-title"># {student?.enrollment ? student?.enrollment?.code : student?.code}</h2>
           <h1>{student?.person?.firstName} {student?.person?.otherName} {student?.person?.lastName}</h1>
           <p className="az-dashboard-text">
-            {student?.enrollment 
-            ? <Badge bg="primary"> Estudante matriculado </Badge> 
-            : <Badge bg="warning" text="dark">Candidato</Badge>}</p>
+            {student?.enrollment
+              ? <Badge bg="primary"> Estudante matriculado </Badge>
+              : <Badge bg="warning" text="dark">Candidato</Badge>}</p>
 
         </div>
         <div className="az-content-header-right">
-        <div className="media">
-            <div className="media-body text-right">
-              <label>Turma</label>
-              <h6>
+          {student?.enrollment ? <>
+            <div className="media">
+              <div className="media-body text-right">
+                <label>Ano</label>
+                <h6>
+                  {student?.enrollment?.current?.classy?.grade} º
+                </h6>
+                <span>
+
+                </span>
+              </div>
+            </div>
+            <div className="media">
+              <Link to={"/pedagogical/classy/" + student?.enrollment?.current?.classy?.id} className="media-body text-right">
+                <label>Turma</label>
+                <h6>
                   {student?.enrollment?.current?.classy?.code}
                 </h6>
-              <span>
-                
-              </span>
+                <span>
+
+                </span>
+              </Link>
             </div>
-          </div>
-        <div className="media">
+          </>:null}
+          <div className="media">
             <div className="media-body text-right">
               <label>Data de registo</label>
               <h6>
@@ -58,7 +71,7 @@ export const DetailsStudents = () => {
               </span>
             </div>
           </div>
-          
+
           <div className="media">
             <div className="media-body text-right">
               <label>Estado</label><br />
@@ -77,7 +90,7 @@ export const DetailsStudents = () => {
         </nav>
 
         <nav className="nav">
-          <a className="nav-link" href="#"><i className="far fa-edit"></i> Editar</a>
+          <Link className="nav-link" to={"/students/update/"+student.id}><i className="far fa-edit"></i> Editar</Link>
           <a className="nav-link" href="#"><i className="far fa-file-pdf"></i> Exportar em PDF</a>
           <a className="nav-link" href="#"><i className="far fa-envelope"></i>Partilhar por Email</a>
           <a className="nav-link" href="#"><i className="fas fa-ellipsis-h"></i></a>
