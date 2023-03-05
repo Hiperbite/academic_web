@@ -14,7 +14,7 @@ import { ErrorMessage } from '../../../../Components/ErrorMessage'
 const FormSchema = z.object({
     firstName: z.string().min(3).max(20),
     lastName: z.string().min(3).max(20),
-    otherName: z.string().min(3).max(20).optional().nullable(),
+    otherName: z.string().max(20).optional().nullable(),
     gender:z.string(),
     nationality:z.string(),
     maritalStatus:z.string(),

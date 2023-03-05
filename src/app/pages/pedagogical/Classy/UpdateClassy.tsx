@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '../../Components/ErrorMessage';
 import { useUpdateClassyData } from '../../../app/api/pedagogical/classy';
-import useAxiosFetch, { services } from '../../../app/api/Api';
+import useAxiosFetch, { Api, services } from '../../../app/api/Api';
 import { BasicControls } from '../../Components/Controls';
 import { numericString } from '../../../helpers';
 
@@ -53,7 +53,8 @@ const FormSchema = z.object({
   isActive: z.boolean(),
   academicShiftId: z.string().min(3),
   grade: numericString(z.number().positive().max(10)),
-  academicPeriodId: z.string().min(3)
+  academicPeriodId: z.string().min(3),
+  courseId: z.string().min(3),
 
 });
 export const ClassForm = ({ classy }: any) => {
@@ -61,7 +62,14 @@ export const ClassForm = ({ classy }: any) => {
   const { data: academicPeriods } = useAxiosFetch(services.academic.period)
   const { data: academicShifts } = useAxiosFetch(services.academic.shift)
   const { data: classyRooms } = useAxiosFetch(services.academic.classRoom)
+  const [courses, setCourses] = useState([])
 
+  useMemo(async () => {
+    //setLoading(true)
+    const { response: { data: response } } = await Api.get({ service: services.academic.course , params:{pageSize:100}})
+    setCourses(response?.data)
+    //setLoading(false)
+  }, [])
   const { put, data, loading, success, error } = useUpdateClassyData();
 
   const { register, reset, handleSubmit,
@@ -108,7 +116,7 @@ export const ClassForm = ({ classy }: any) => {
                   {...register("academicPeriodId")}
                 >
                   <option value={undefined}>-</option>
-                  {academicPeriods?.map(({ id, code }: any) => <option value={id}>{code}</option>)}
+                  {courses?.map(({ id, code }: any) => <option value={id}>{code}</option>)}
                 </Form.Select>
               </FloatingLabel>
               {errors.academicPeriodId && <ErrorMessage message={errors.academicPeriodId?.message} />}
@@ -161,16 +169,20 @@ export const ClassForm = ({ classy }: any) => {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" controlId="formBasicPassword">
               <FloatingLabel
                 controlId="floatingInput"
-                label="Ano academico">
-                <Form.Control type="text" {...register("grade")} />
+                label="Curso">
+                <Form.Select aria-label="Default select example"
+                  {...register("courseId")}
+                >
+                  <option value={undefined}>-</option>
+                  {courses?.map(({ id, code, name }: any) => <option value={id}>{code} - {name}</option>)}
+                </Form.Select>
               </FloatingLabel>
-              {errors.grade &&
-                <ErrorMessage message={errors.grade?.message} />
-              }
-            </Form.Group></Col>
+              {errors.courseId && <ErrorMessage message={errors.courseId?.message} />}
+            </Form.Group>
+          </Col>
         </Row>
         <Row>
           <Col>

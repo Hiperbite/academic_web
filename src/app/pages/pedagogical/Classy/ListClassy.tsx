@@ -17,7 +17,7 @@ export const ListClassy = () => {
   const updateParams = (opts: any) => {
     setParams({ ...params, ...opts });
   }
-  const persent = (classy: any) => ((classy?.enrollmentConfirmations?.length ?? 1) / (classy?.classyRoom?.size ?? 1)) * 100;
+  const persent = (classy: any) => Number((((classy?.activesEnrollments?.length ?? 1) / (classy?.classyRoom?.size ?? 1)) * 100).toFixed(2));;
   
   return (
     <div className="az-content-body pd-lg-l-40 d-flex flex-column">
@@ -55,6 +55,7 @@ export const ListClassy = () => {
             <tr>
               <th>No</th>
               <th>Descricao</th>
+              <th>Turno</th>
               <th>Ano</th>
               <th>Sala</th>
             </tr>
@@ -67,7 +68,7 @@ export const ListClassy = () => {
               <td>{classy?.grade ? `${classy?.grade} º` : '-'}</td>
               <td>{classy?.classyRoom?.code ?? '-'}</td>
               <td>
-                {classy?.enrollmentConfirmations?.length ?? '-'}/
+                {classy?.activesEnrollments?.length ?? '-'}/
                 {classy?.classyRoom?.size ?? '-'}</td>
               <td>
 

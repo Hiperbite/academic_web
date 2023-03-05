@@ -28,6 +28,34 @@ export const BasicControls = () => {
         </>
     )
 }
+
+
+export const ModalControls = ({handleClose, Addon=<></>}:any) => {
+    const navigate = useNavigate()
+    return (
+        <>
+            <hr className="mg-y-30" />
+            <div className='row'>
+                <div className='col-md-4 text-left'>
+                    <Button variant="secondary" type="button" onClick={() => handleClose()}>
+                        Cancelar
+                    </Button>
+                    <Addon/>
+                </div>
+                <div className='col-md-4'>
+
+
+
+                </div>
+                <div className='col-md-4 text-right'>
+                    <Button variant="primary" type="submit">
+                        Registar
+                    </Button>
+                </div>
+            </div>
+        </>
+    )
+}
 export const Controls = ({ current, total, onSubmit = null }: any) => {
 
     const prevStep = () => {

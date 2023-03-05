@@ -1,6 +1,6 @@
 import { Api, getHeaders, services } from './../Api';
 // use-fetch-data.js
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 
 const useGetStudentsData = (params = {}): any => {
@@ -29,14 +29,14 @@ const useGetStudentsData = (params = {}): any => {
     loading,
   };
 };
-const useGetStudentData = (params: any = {}): any => {
+const useGetStudentData = (params: any = {}, opts:any={}): any => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   console.log(params);
 
 
   const query = new URLSearchParams(params).toString();
-  useEffect(() => {
+  useMemo(() => {
     const fetchData = async () => {
       try {
 

@@ -48,7 +48,8 @@ const FormSchema = z.object({
   classyRoomId: z.string().min(3),
   academicShiftId: z.string().min(3),
   grade: numericString(z.number().positive().max(1000)),
-  academicPeriodId: z.string().min(3)
+  academicPeriodId: z.string().min(3),
+  courseId: z.string().min(3)
 
 });
 export const ClassForm = () => {

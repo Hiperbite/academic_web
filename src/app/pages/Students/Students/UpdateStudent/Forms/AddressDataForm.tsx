@@ -12,44 +12,58 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorMessage } from '../../../../Components/ErrorMessage'
 import { Api, services } from '../../../../../app/api/Api'
+import { toast } from 'react-toastify'
 const FormSchema = z.object({
-    birthPlaceAddres: z.object({
+    birthPlaceAddress: z.object({
         address: z.string().min(3),
-        descriptions: z.string().min(3),
+        //    descriptions: z.string().min(3),
         city: z.string().min(3),
-        province: z.string().min(3)
+        province: z.string().min(2)
     }),
-    livingAddres: z.object({
+    livingAddress: z.object({
         address: z.string().min(3),
-        descriptions: z.string().min(3),
+        //    descriptions: z.string().min(3),
         city: z.string().min(3),
-        province: z.string().min(3)
+        province: z.string().min(2)
     })
 });
 export const AddressDataForm = ({ student }: any) => {
     const navigate = useNavigate()
 
-    const { livingAddres, birthPlaceAddres } = student.person
+    const { livingAddress, birthPlaceAddress } = student?.person
 
-    const { register, reset, handleSubmit, formState: { errors } }: any = useForm({
-        defaultValues: { livingAddres, birthPlaceAddres },
+    const { register, handleSubmit, formState: { errors } }: any = useForm({
+        defaultValues: { livingAddress, birthPlaceAddress },
         resolver: zodResolver(FormSchema)
     })
 
     const onSubmit = async (form: any) => {
-        debugger
-        const { response: { data: response ,status} } = await Api.put({ service: services.student.students, data: {...form.data ,id:student.id } })
-        alert(JSON.stringify(response))
-        if(status === 200) {
+        const { livingAddress:updatedlivingAddress, birthPlaceAddress:updatedbirthPlaceAddress } = form
 
+        const { response: { data: response, status } } =
+            await Api.put(
+                {
+                    service: services.common.address,
+                    data: { 
+                        livingAddress:{...livingAddress,...updatedlivingAddress}, 
+                        birthPlaceAddress:{...birthPlaceAddress,...updatedbirthPlaceAddress},
+                        personId: student?.person.id }
+                })
+
+        if (status === 200) {
+            toast.success('Endereços actualizados com sucesso.');
+            navigate('/students/show/' + student?.id);
         }
+        else {
+            toast.error('Não foi possive salvar os endereços, por favor tente mais tarde');
+        }
+
 
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
             <Row>
-                <Col>
-                    <h4>Endereço actual</h4></Col>
+                <Col><h4>Endereço actual</h4></Col>
             </Row>
             <Row>
                 <Col>
@@ -57,10 +71,10 @@ export const AddressDataForm = ({ student }: any) => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Endereço">
-                            <Form.Control type="text" {...register("livingAddres.address")} />
+                            <Form.Control type="text" {...register("livingAddress.address")} />
                         </FloatingLabel>
-                        {errors?.livingAddres?.address &&
-                            <ErrorMessage message={errors?.livingAddres?.address?.message} />
+                        {errors?.livingAddress?.address &&
+                            <ErrorMessage message={errors?.livingAddress?.address?.message} />
                         }
                     </Form.Group>
 
@@ -73,10 +87,10 @@ export const AddressDataForm = ({ student }: any) => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Cidade">
-                            <Form.Control type="text"{...register("livingAddres.city")} />
+                            <Form.Control type="text"{...register("livingAddress.city")} />
                         </FloatingLabel>
-                        {errors?.livingAddres?.city &&
-                            <ErrorMessage message={errors?.livingAddres?.city?.message} />
+                        {errors?.livingAddress?.city &&
+                            <ErrorMessage message={errors?.livingAddress?.city?.message} />
                         }
                     </Form.Group>
                 </Col>
@@ -85,9 +99,9 @@ export const AddressDataForm = ({ student }: any) => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Província">
-                            <Form.Control type="text"  {...register("livingAddres.province")} />
+                            <Form.Control type="text"  {...register("livingAddress.province")} />
                         </FloatingLabel>
-                        {errors?.livingAddres?.province && <ErrorMessage message={errors?.livingAddres?.province?.message} />}
+                        {errors?.livingAddress?.province && <ErrorMessage message={errors?.livingAddress?.province?.message} />}
                     </Form.Group>
                 </Col>
             </Row>
@@ -101,10 +115,10 @@ export const AddressDataForm = ({ student }: any) => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Endereço">
-                            <Form.Control type="text" {...register("birthPlaceAddres.address")} />
+                            <Form.Control type="text" {...register("birthPlaceAddress.address")} />
                         </FloatingLabel>
-                        {errors?.birthPlaceAddres?.address &&
-                            <ErrorMessage message={errors?.birthPlaceAddres?.address?.message} />
+                        {errors?.birthPlaceAddress?.address &&
+                            <ErrorMessage message={errors?.birthPlaceAddress?.address?.message} />
                         }
                     </Form.Group>
 
@@ -117,10 +131,10 @@ export const AddressDataForm = ({ student }: any) => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Cidade">
-                            <Form.Control type="text"{...register("birthPlaceAddres.city")} />
+                            <Form.Control type="text"{...register("birthPlaceAddress.city")} />
                         </FloatingLabel>
-                        {errors?.birthPlaceAddres?.city &&
-                            <ErrorMessage message={errors?.birthPlaceAddres?.city?.message} />
+                        {errors?.birthPlaceAddress?.city &&
+                            <ErrorMessage message={errors?.birthPlaceAddress?.city?.message} />
                         }
                     </Form.Group>
                 </Col>
@@ -129,9 +143,9 @@ export const AddressDataForm = ({ student }: any) => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Província">
-                            <Form.Control type="text"  {...register("birthPlaceAddres.province")} />
+                            <Form.Control type="text"  {...register("birthPlaceAddress.province")} />
                         </FloatingLabel>
-                        {errors?.birthPlaceAddres?.province && <ErrorMessage message={errors?.birthPlaceAddres?.province?.message} />}
+                        {errors?.birthPlaceAddress?.province && <ErrorMessage message={errors?.birthPlaceAddress?.province?.message} />}
                     </Form.Group>
                 </Col>
             </Row>

@@ -6,7 +6,7 @@ import useAxiosFetch, { Api, services } from "../../../../../app/api/Api";
 import { Autocomplete } from "../../../../Components/Autocomplete";
 import Paginate from "../../../../Components/Paginate";
 
-export const TabStudentClassyList = ({ classy }: any) => {
+export const TabStudentCourseList = ({ classy }: any) => {
 
     const [show, setShow] = useState(false);
 

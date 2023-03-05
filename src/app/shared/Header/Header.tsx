@@ -7,11 +7,11 @@ import { ProfileMenu } from "./ProfileMenu";
 const menuItems = [
     { to: '/home', text: 'Dashboard', active: false },
     { to: '/students', text: 'Estudantes', active: false },
-    { to: '/persons', text: 'Pessoal', active: false },
+    { to: '#', text: 'Pessoal', active: false },
     { to: '/pedagogical', text: 'Pedagógico', active: false },
-    { to: '/virtual-library', text: 'Biblioteca', active: false },
-    { to: '/digital-Archive', text: 'Acervo Digital', active: false },
-    { to: '/Settings', text: 'Definições', active: false },
+    { to: '#', text: 'Biblioteca', active: false },
+    { to: '#', text: 'Acervo Digital', active: false },
+    { to: '#', text: 'Definições', active: false },
 
 ];
 export const Header = () => {

@@ -32,13 +32,20 @@ export const services = {
         track: "tracks",
         contacts: "/commons/contacts",
         documents: "/commons/documents",
-        persons: "/commons/persons"
+        persons: "/commons/persons",
+        address: "/commons/address"
     },
     academic: {
         classRoom: "academics/class-rooms",
         shift: "academics/shifts",
         period: "academics/periods",
         class: "academics/class",
+
+        discipline: "commons/disciplines",
+        course: "commons/courses",
+        curricularPlan: "commons/curricular-plans",
+        curricularPlanItem: "commons/plan-items",
+
     },
     student: {
         enrollmentConfirmations: 'students/enrollment-confirmations',
@@ -49,7 +56,7 @@ export const services = {
 
 const post = async ({ service, data }: any) => {
     try {
-        
+
         const response = await axios.post(service, data, { headers: getHeaders() });
         console.log('👉 Returned data:', response);
         toast.success('Registo feito com sucesso');
@@ -62,14 +69,17 @@ const post = async ({ service, data }: any) => {
 }
 
 const get = async ({ service, id, params }: any) => {
-    
+
     let url = service
     if (id) {
         url = `${url}/${id}`
     }
 
     if (params) {
-        url = `${url}/${params}`;
+        const query = new URLSearchParams(params).toString();
+        url = `${url}/?${query}`;
+
+
     }
 
     try {
@@ -82,6 +92,25 @@ const get = async ({ service, id, params }: any) => {
         return e;
     }
 }
+
+const drop = async ({ service, id}: any) => {
+
+    let url = service
+    if (id) {
+        url = `${url}/${id}`
+    }
+
+    try {
+        const response = await axios.delete(url, { headers: getHeaders() });
+        console.log('👉 Returned data:', response);
+        return { response }
+    } catch (e: any) {
+        console.log(`😱 Axios request failed: ${e}`);
+        toast.error('😱 Erro: ' + JSON.stringify(e?.response?.data));
+        return e;
+    }
+}
+
 const put = async ({ service, data }: any) => {
 
     let url = `${service}/${data?.id}`
@@ -100,7 +129,7 @@ const put = async ({ service, data }: any) => {
 }
 
 const Api = {
-    post, get, put
+    post, get, put, drop
 }
 
 export { Api }
@@ -131,7 +160,7 @@ export default function useAxiosFetch(url: string, params?: any, method?: string
             return;
         }
         const fetch = async () => {
-            
+
             dispatch({ type: "INIT" })
             try {
                 const query = new URLSearchParams(params).toString();

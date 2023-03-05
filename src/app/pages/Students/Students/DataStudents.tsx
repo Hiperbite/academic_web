@@ -60,14 +60,14 @@ export const DataStudents = ({ student }: any) => {
                             <div className="row">
                                 <div className="col-md-4">
                                     <span>Morada</span>
-                                    <h5>
-                                        {student?.person?.livingAddres?.address ?? '-'}
-                                        {student?.person?.livingAddres?.city}
-                                    </h5>
+                                    <h6>
+                                        {student?.person?.livingAddress?.address ?? '-'}
+                                        {student?.person?.livingAddress?.city}
+                                    </h6>
                                 </div>
                                 <div className="col-md-4">
-                                    <span>.</span>
-                                    <h5>{student?.person?.livingAddres?.province}</h5>
+                                    <span>Província</span>
+                                    <h6>{student?.person?.livingAddress?.province}</h6>
                                 </div>
                                 <div className="col-md-4">
                                     <Link className="nav-link" style={{ float: "right" }} to={"/students/update/" + student.id+"/address"}><i className="far fa-edit"></i></Link>
@@ -78,17 +78,17 @@ export const DataStudents = ({ student }: any) => {
                             <div className="row">
                                 <div className="col-md-4">
                                     <span>Naturaliade</span>
-                                    <h5>
-                                        {student?.person?.birthPlaceAddres?.address}
-                                        {student?.person?.birthPlaceAddres?.city}
-                                    </h5>
+                                    <h6>
+                                        {student?.person?.birthPlaceAddress?.address}
+                                        {student?.person?.birthPlaceAddress?.city}
+                                    </h6>
                                 </div>
                                 <div className="col-md-4">
                                     <span>Provincia</span>
-                                    <h5>{student?.person?.birthPlaceAddres?.province}</h5>
+                                    <h6>{student?.person?.birthPlaceAddress?.province}</h6>
                                 </div>
                                 <div className="col-md-4">
-                                    <Link className="nav-link" style={{ float: "right" }} to={`/students/update/${student.id}/contacts`}><i className="far fa-edit"></i></Link>
+                                    
                                 </div>
                             </div>
                         </div>

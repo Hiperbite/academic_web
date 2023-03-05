@@ -23,12 +23,12 @@ export const ContactDataForm = ({ student }: any) => {
         const { response: { data: response, status } } = await Api.put({ service: services.common.contacts, data: data.contacts })
         if (status === 200) {
             toast.success('Contactos actualizados com sucesso');
+            navigate('/students/show/' + student?.id);
         }
         else {
-            toast.error('Não foi possive registar os contactos, por favor tente masi tarde');
+            toast.error('Não foi possive registar os contactos, por favor tente mais tarde');
         }
 
-        navigate('/students/show/' + student?.id);
     }
 
 

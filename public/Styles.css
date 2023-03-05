@@ -2527,6 +2527,10 @@ table.table-hover tr {
     cursor: pointer;
 }
 
+a.nav-link[href="/"] {
+    color: #999 !important;
+}
+
 .progress-bar {
     height: var(--bs-progress-height) !important;
 }

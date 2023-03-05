@@ -1,18 +1,21 @@
 
+import { useMemo, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { useGetStudentData } from '../../../../app/api/students/students';
+import { Api } from '../../../../app/api/Api';
+
 import { UpdateStudent } from './UpdateStudent';
 
 export const UpdateExistedStudent = () => {
 
   const { id } = useParams();
-  const {
-    data: student,
-    loading,
-  } = useGetStudentData({ id });
+  const [student, setStudent] = useState<any>({})
 
-
+  useMemo(async () => {
+    debugger
+    const { response: { data } } = await Api.get({ service: `/students/${id}?` });
+    setStudent(data||{})
+  }, [])
 
   return (
     <div className="az-content-body pd-lg-l-40 d-flex flex-column">

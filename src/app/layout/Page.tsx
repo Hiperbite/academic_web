@@ -9,6 +9,12 @@ const menuItems: any = {
                 { to: 'class-rooms', text: 'Salas' },
                 { to: 'periods', text: 'Periodo' },
                 { to: 'students', text: 'Periodo Academico' },]
+        },
+        {
+            text: "...", to: "/pedagogical", childs: [
+                { to: 'disciplines', text: 'Disciplinas' },
+                { to: 'courses', text: 'Cursos' },
+            ]
         }
 
     ],

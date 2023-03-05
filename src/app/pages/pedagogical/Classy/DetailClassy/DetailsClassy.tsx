@@ -20,7 +20,7 @@ export const DetailsClassy = () => {
   const Tabs = [TabStudentClassyList, TabScheduleClass, TabAssessmentClassy, History][tab]
 
 
-  const persent = (classy: any) => Number((((classy?.enrollmentConfirmations?.length ?? 1) / (classy?.classyRoom?.size ?? 1)) * 100).toFixed(2));
+  const persent = (classy: any) => Number((((classy?.activesEnrollments?.length ?? 1) / (classy?.classyRoom?.size ?? 1)) * 100).toFixed(2));
 
 
   return (
@@ -29,6 +29,7 @@ export const DetailsClassy = () => {
         <div>
           <h2 className="az-dashboard-title">Turma #{classy?.code}</h2>
           <p className="az-dashboard-text">{classy?.descriptions}</p>
+          <h4 className="az-dashboard-title">#{classy?.course?.code} - {classy?.course?.name}</h4>
 
           <ProgressBar now={persent(classy)} label={`${persent(classy)}%`} />
         </div>
@@ -36,7 +37,7 @@ export const DetailsClassy = () => {
           <div className="media">
             <div className="media-body text-right">
               <label>Sala</label>
-              <h6>{classy?.enrollmentConfirmations?.length}/{classy?.classyRoom?.size}</h6>
+              <h6>{classy?.activesEnrollments?.length}/{classy?.classyRoom?.size}</h6>
             </div>
           </div><div className="media">
             <div className="media-body text-right">

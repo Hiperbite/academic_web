@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Button, Card, ListGroup, Modal } from "react-bootstrap";
+import { Button, Card, ListGroup, Modal, ProgressBar } from "react-bootstrap";
 import Moment from "react-moment";
 import { useNavigate } from "react-router-dom";
 import useAxiosFetch, { Api, services } from "../../../../../app/api/Api";
 import { Autocomplete } from "../../../../Components/Autocomplete";
 import Paginate from "../../../../Components/Paginate";
 
-export const TabStudentClassyList = ({ classy }: any) => {
+export const TabClassyList = ({ period }: any) => {
 
     const [show, setShow] = useState(false);
 
@@ -14,35 +14,20 @@ export const TabStudentClassyList = ({ classy }: any) => {
     const handleShow = () => setShow(true);
 
     const navigate = useNavigate();
-    const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[classyId]': classy?.id, 'where[current]': 1 });
-    const { data, loading, isError } = useAxiosFetch(services.student.enrollmentConfirmations, params)
+    const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[academicPeriodId]': period?.id });
+
+    const { data, loading, isError } = useAxiosFetch(services.academic.class, params)
 
     const updateParams = (opts: any) => {
-        setParams({ ...params, ...opts });
+      setParams({ ...params, ...opts });
     }
+    const persent = (classy: any) => ((classy?.enrollmentConfirmations?.length ?? 1) / (classy?.classyRoom?.size ?? 1)) * 100;
+    
 
     return (<>
         <div className="az-content-body pd-lg-l-40 d-flex flex-column">
-            <h2 className="az-content-title">Estudantes</h2>
-            
-            <div className='row'>
-                <div className='col-md-6'>
+            <h2 className="az-content-title">Turmas</h2>
 
-                    <div className="az-content-label mg-b-5 hidden">Simple Table</div>
-                    <p className="mg-b-20 hidden">Using the most basic table markup.</p>
-
-                </div>
-                <div className='col-md-6 text-right'>
-
-                    <Button
-                        variant="primary"
-                        disabled={loading}
-                        onClick={handleShow}
-                    >
-                        {loading ? 'Loading…' : 'Registar'}
-                    </Button>
-                </div>
-            </div>
 
             <hr className="mg-y-30" />
             <div className="table-responsive">
@@ -50,33 +35,37 @@ export const TabStudentClassyList = ({ classy }: any) => {
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nome</th>
-                            <th></th>
-                            <th className="text-right">Data</th>
+                            <th>Descricao</th>
+                            <th>Sala</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data?.data?.map((enrollment: any) => <tr onClick={() => navigate("/students/show/" + enrollment?.enrollment?.student?.id)}>
-                            <th scope="row">{enrollment?.enrollment?.code}</th>
+                        {data?.data?.map((classy: any) => <tr onClick={() => navigate("/pedagogical/classy/" + classy?.id)}>
+                            <th scope="row">{classy.code}</th>
+                            <td>{classy?.descriptions}</td>
+                            <td>{classy?.classyRoom?.code ?? '-'}</td>
                             <td>
-                                {enrollment?.enrollment?.student?.person?.firstName}  {enrollment?.enrollment?.student?.person?.otherName}  {enrollment?.enrollment?.student?.person?.lastName}
-                            </td>
-                            <td></td>
-                            <td className="text-right">
-
-                                <Moment format="DD/MM/YYYY">
-                                    {enrollment?.createdAt}
-                                </Moment>
-                            </td>
+                                {classy?.enrollmentConfirmations?.length ?? '-'}/
+                                {classy?.classyRoom?.size ?? '-'}</td>
                             <td>
 
+                                <ProgressBar now={persent(classy)} label={`${persent(classy)}%`} />
                             </td>
                         </tr>)}
                     </tbody>
                 </table>
             </div>
-            <Paginate pages={data?.pages} updateParams={updateParams} params={data} />
-            <EnrollmentConfirmations show={show} handleClose={handleClose} classy={classy} updateParams={updateParams} />
+            <nav aria-label="Page navigation">
+                <div className="row">
+                    <div className="col-md-6">
+                        {data?.page}/{data?.pages} - {data?.total} registos
+                    </div>
+                    <div className="col-md-6">
+                        <Paginate pages={data?.pages} updateParams={updateParams} params={params} />
+                    </div>
+                </div>
+            </nav>
+
         </div>
     </>)
 }

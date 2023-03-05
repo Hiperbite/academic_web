@@ -12,6 +12,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorMessage } from '../../../../Components/ErrorMessage'
 import { Api, services } from '../../../../../app/api/Api'
+import { toast } from 'react-toastify'
 const FormSchema = z.object({
     firstName: z.string().min(3).max(20),
     lastName: z.string().min(3).max(20),
@@ -35,7 +36,15 @@ export const PersonalDataForm = ({ student }: any) => {
     const memoizedValue = useMemo(() => reset(student.person), student.person)
 
     const onSubmit = async (form: any) => {
-        const response = await Api.put({ service: services.common.persons, data: { ...form, id: student?.person?.id } })
+        const { response: { data: response, status } }  = await Api.put({ service: services.common.persons, data: { ...form, id: student?.person?.id } })
+        if (status === 200) {
+            toast.success('Dados Pessoais actualizados com sucesso');
+        }
+        else {
+            toast.error('Não foi possive registar, por favor tente masi tarde');
+        }
+
+        navigate('/students/show/' + student?.id);
 
     }
     return (

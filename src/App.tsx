@@ -30,6 +30,14 @@ import { RequireAuth } from './app/app/api/auth/RequireAuth';
 import { ListCandidates } from './app/pages/Students/Candidates/ListCandidates';
 import { AllStudents } from './app/pages/Students/Random/AllStudents';
 import { UpdateExistedStudent } from './app/pages/Students/Students/UpdateStudent/UpdateExistedStudent';
+import { Discipline } from './app/pages/pedagogical/Discipline/Discipline';
+import { NewDiscipline } from './app/pages/pedagogical/Discipline/NewDiscipline';
+import { DetailDiscipline } from './app/pages/pedagogical/Discipline/DetailDiscipline/DetailDiscipline';
+import { UpdateDiscipline } from './app/pages/pedagogical/Discipline/UpdateDiscipline';
+import { Course } from './app/pages/pedagogical/Course/Course';
+import { NewCourse } from './app/pages/pedagogical/Course/NewCourse';
+import { UpdateCourse } from './app/pages/pedagogical/Course/UpdateCourse';
+import { DetailCourse } from './app/pages/pedagogical/Course/DetailCourse/DetailCourse';
 
 
 
@@ -79,6 +87,22 @@ function App() {
                 <Route path="new" element={<NewClassRoom />} />
                 <Route path="update/:id" element={<UpdatePeriod />} />
                 <Route path=":id" element={<DetailsPeriod />} />
+              </Route>
+
+              <Route path="/pedagogical/disciplines" element={<Page type={"pedagogical"} />}>
+                <Route index element={<Discipline />} />
+                <Route path="list" element={<Discipline />} />
+                <Route path="new" element={<NewDiscipline />} />
+                <Route path="update/:id" element={<UpdateDiscipline />} />
+                <Route path=":id" element={<DetailDiscipline />} />
+              </Route>
+
+              <Route path="/pedagogical/courses" element={<Page type={"pedagogical"} />}>
+                <Route index element={<Course />} />
+                <Route path="list" element={<Course />} />
+                <Route path="new" element={<NewCourse />} />
+                <Route path="update/:id" element={<UpdateCourse />} />
+                <Route path=":id" element={<DetailCourse />} />
               </Route>
             </Route>
           </Route>

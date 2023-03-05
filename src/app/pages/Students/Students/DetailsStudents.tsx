@@ -8,18 +8,23 @@ import { DocumentStudents } from "./DocumentStudents";
 import { AssessmentStudents } from "./AssessmentStudents";
 import { HistoryStudents } from "./HystoryStudents";
 import { TabHistory } from "../../pedagogical/Period/DetailPeriod/tabs/TabHistory";
-import { Badge } from "react-bootstrap";
+import { Badge, Button, Dropdown } from "react-bootstrap";
+import { DetailsOptionsShow } from "./components/DetailsOptionsShow";
+import { StudentEnrollment } from "./components/StudentEnrollment";
+import { EventsStudents } from "./EventsStudents";
 
 export const DetailsStudents = () => {
   const { id } = useParams()
   const [params, setParams] = useState({ id });
   const [tab, setTab] = useState(0);
+  const [studentEnrollmentShow, studentEnrollmenthandleClose] = useState(false);
   const {
     data: student,
     loading,
-  } = useGetStudentData(params);
-  const tabsTitles = ['Detalhes', 'Documentos', 'Exames', 'Histórico']
-  const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, History][tab]
+  } = useGetStudentData(params, { studentEnrollmentShow });
+
+  const tabsTitles = ['Detalhes', 'Documentos', 'Situação academica', 'Histórico', 'Conclusão do curso']
+  const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, HistoryStudents, AssessmentStudents, History][tab]
   return (
     <div className="az-content-body">
       <div className="az-dashboard-one-title">
@@ -29,8 +34,11 @@ export const DetailsStudents = () => {
           <p className="az-dashboard-text">
             {student?.enrollment
               ? <Badge bg="primary"> Estudante matriculado </Badge>
-              : <Badge bg="warning" text="dark">Candidato</Badge>}</p>
-
+              : <Badge bg="warning" text="dark">Candidato</Badge>}
+            {student?.enrollment?.isActive == false
+              ? <Badge bg="danger">Matricula cancelada</Badge>
+              : null}
+          </p>
         </div>
         <div className="az-content-header-right">
           {student?.enrollment ? <>
@@ -56,7 +64,10 @@ export const DetailsStudents = () => {
                 </span>
               </Link>
             </div>
-          </>:null}
+          </> : <div className="media">
+            <Button variant="primary" size="sm" onClick={() => studentEnrollmenthandleClose(true)}>Matricular</Button>
+            <StudentEnrollment show={studentEnrollmentShow} handleClose={studentEnrollmenthandleClose} student={student} />
+          </div>}
           <div className="media">
             <div className="media-body text-right">
               <label>Data de registo</label>
@@ -90,10 +101,11 @@ export const DetailsStudents = () => {
         </nav>
 
         <nav className="nav">
-          <Link className="nav-link" to={"/students/update/"+student.id}><i className="far fa-edit"></i> Editar</Link>
-          <a className="nav-link" href="#"><i className="far fa-file-pdf"></i> Exportar em PDF</a>
-          <a className="nav-link" href="#"><i className="far fa-envelope"></i>Partilhar por Email</a>
-          <a className="nav-link" href="#"><i className="fas fa-ellipsis-h"></i></a>
+          <Link className="nav-link" to={''}  onClick={() => setTab(5)}><i className="fas fa-history"></i></Link>
+          <a className="nav-link" href="#"><i className="far fa-file-pdf"></i></a>
+          <a className="nav-link" href="#"><i className="far fa-envelope"></i></a>
+          <a className="nav-link" href="#" ><i className="fas fa-ellipsis-h"></i></a>
+          <a className="nav-link" href="#" ><i className="fas fa-ellipsis-h"></i></a>
         </nav>
       </div>
 
@@ -106,6 +118,8 @@ export const DetailsStudents = () => {
 
 const History = ({ student }: any) => {
 
-  return <TabHistory modelName={'Student'} objectId={student?.id} />
+  return <TabHistory modelName={'Student,Person,Contact, Address,Enrollment'} objectId={
+    [student?.personId,student?.person?.livingAddressId, student?.person?.birthPlaceAddressId].join(',')
+  } />
 }
 

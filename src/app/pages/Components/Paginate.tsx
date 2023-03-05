@@ -1,5 +1,5 @@
 
-const Paginate = ({ pages, updateParams, params }: any) => {
+const Paginate = ({ pages, updateParams, params, total=0 }: any) => {
 
     let rows = [];
     for (let i = 0; i < pages; i++)
@@ -10,7 +10,7 @@ const Paginate = ({ pages, updateParams, params }: any) => {
       <nav aria-label="Page navigation">
         <div className="row">
           <div className="col-md-6">
-            {params?.page}/{pages} - {params?.total} registos
+            {params?.page}/{pages} - {total} registos
           </div>
           <div className="col-md-6">
   
