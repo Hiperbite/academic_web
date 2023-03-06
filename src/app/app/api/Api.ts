@@ -42,6 +42,7 @@ export const services = {
         class: "academics/class",
 
         discipline: "commons/disciplines",
+        timeTables: "commons/time-tables",
         course: "commons/courses",
         curricularPlan: "commons/curricular-plans",
         curricularPlanItem: "commons/plan-items",
