@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
-import { Button, Card, ListGroup, Modal } from 'react-bootstrap'
-import Moment from 'react-moment'
-import { Api, services } from '../../../../app/api/Api'
+import React from 'react'
+import { Card, Modal } from 'react-bootstrap'
 import { FormScheduleClassRegister } from './FormScheduleClassRegister'
 
-export const ScheduleClassRegister = ({ show, handleClose,item, classy, updateParams }: any) => {
+export const ScheduleClassRegister = ({ show, handleClose, item, classy, updateParams }: any) => {
 
     return (
         <Modal show={show} onHide={handleClose}>
@@ -12,7 +10,6 @@ export const ScheduleClassRegister = ({ show, handleClose,item, classy, updatePa
                 <Modal.Title>Horarios na Turma #{classy?.code}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-
                 <Card >
                     <Card.Body>
                         <FormScheduleClassRegister updateParams={updateParams} item={item} handleClose={handleClose} classy={classy} />

@@ -1,6 +1,6 @@
 import moment from "moment";
 import { useCallback, useMemo, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import Moment from "react-moment";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -14,11 +14,12 @@ const weekDays = [
     'Quinta-feira',
     'Sexta-feira',
     'Sábado',
-    'Domingo'
+    //  'Domingo'
 ];
 export const TabScheduleClass = ({ classy }: any) => {
 
     const [show, setShow] = useState(false);
+    const [tab, setTab] = useState(0);
     const [timeTables, setTimeTables] = useState<any>();
     const [item, setItem] = useState<any>();
     const [loading, setLoading] = useState<any>();
@@ -26,14 +27,13 @@ export const TabScheduleClass = ({ classy }: any) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const navigate = useNavigate();
-    const [params, setParams] = useState({ pageSize: 100, page: 1, 'where[classyId]': classy?.id});
-    
-    
-    useMemo( async () => {
+    const [params, setParams] = useState({ pageSize: 100, page: 1, 'where[classyId]': classy?.id });
+
+
+    useMemo(async () => {
 
         setLoading(true)
-        
+
         const { response: { data: response, status } } = await Api.get({ service: services.academic.timeTables, params })
 
         if (status === 200) {
@@ -43,17 +43,17 @@ export const TabScheduleClass = ({ classy }: any) => {
         }
 
         setLoading(false)
-        
-    }, [params])
 
+    }, [params])
+    const Tabs = [ListTab, TableTab][tab]
     const updateParams = useCallback((opts: any) => {
         setParams({ ...params, ...opts });
-    },[])
+    }, [])
     const groups = timeTables?.reduce(function (groups: any, item: any) {
         const val = item.weekDay
         groups[val] = groups[val] || []
         groups[val].push(item)
-        groups[val].sort((x:any, y:any)=>x.startTime>y.startTime ? 1: -1)
+        groups[val].sort((x: any, y: any) => x.startTime > y.startTime ? 1 : -1)
         return groups
     }, {})
 
@@ -66,11 +66,18 @@ export const TabScheduleClass = ({ classy }: any) => {
 
                 </div>
                 <div className='col-md-6 text-right'>
-
+                    <ButtonGroup className="me-2" aria-label="First group">
+                        <Button variant="secondary" active={tab===0} onClick={()=>setTab(0)}>
+                            <i className="fas fa-stream"></i>
+                        </Button>{' '}
+                        <Button variant="secondary" active={tab===1} onClick={()=>setTab(1)}>
+                            <i className="fas fa-table"></i>
+                        </Button>{' '}
+                    </ButtonGroup>
                     <Button
                         variant="primary"
                         disabled={loading}
-                        onClick={handleShow}
+                        onClick={()=>{setItem({});handleShow()}}
                     >
                         {loading ? 'Loading…' : 'Registar'}
                     </Button>
@@ -78,44 +85,79 @@ export const TabScheduleClass = ({ classy }: any) => {
             </div>
 
             <hr className="mg-y-30" />
-            <div className="table-responsive">
-                <table className="table table-hover mg-b-0">
-                    <thead>
-                        <tr>
-                            <th>Dia</th>
-                            <th>Duracao</th>
-                            <th>Disciplina</th>
-                            <th className="text-right"></th>
-                        </tr>
-                    </thead>
-                    {Object.keys(groups??{})?.map((key: any) =>
-
-                        <tbody>
-                            <tr><td colSpan={4}>{weekDays[Number(key)]}</td></tr>
-                            {groups[key].map((timeTable: any) =>
-                            <tr onClick={() =>{setItem(timeTable) ;handleShow()}}>
-                                <th scope="row">
-
-                                    <Moment format="hh:mm">
-                                        {`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`}
-                                    </Moment>-
-                                    <Moment format="hh:mm">
-                                        {moment(`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`).add(timeTable?.duration, 'minutes')}
-                                    </Moment></th>
-
-                                <td>{timeTable?.duration} minutos</td>
-                                <td>
-                                    {timeTable?.discipline?.name}
-                                </td>
-                                <td className="text-right" style={{ color: "#aaa" }}>
-                                    <i className="fas fa-chevron-right"></i>
-                                </td>
-                            </tr>)}
-                        </tbody>
-                    )}
-                </table>
-            </div>
+            <Tabs groups={groups} setItem={setItem} handleShow={handleShow} />
             <ScheduleClassRegister show={show} handleClose={handleClose} classy={classy} item={item} updateParams={updateParams} />
         </div>
     </>)
 }
+
+
+const ListTab = ({ groups, setItem,  handleShow }: any) =>
+    <div className="table-responsive">
+        <table className="table table-hover mg-b-0">
+            <thead>
+                <tr>
+                    <th>Dia</th>
+                    <th>Duracao</th>
+                    <th>Disciplina</th>
+                    <th className="text-right"></th>
+                </tr>
+            </thead>
+            {Object.keys(groups ?? {})?.map((key: any) =>
+                <tbody>
+                    <tr><td colSpan={4}>{weekDays[Number(key)]}</td></tr>
+                    {groups[key].map((timeTable: any) =>
+                        <tr onClick={() => { setItem(timeTable); handleShow() }}>
+                            <th scope="row">
+
+                                <Moment format="hh:mm">
+                                    {`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`}
+                                </Moment>-
+                                <Moment format="hh:mm">
+                                    {moment(`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`).add(timeTable?.duration, 'minutes')}
+                                </Moment></th>
+
+                            <td>{timeTable?.duration} minutos</td>
+                            <td>
+                                {timeTable?.discipline?.name}
+                            </td>
+                            <td className="text-right" style={{ color: "#aaa" }}>
+                                <i className="fas fa-chevron-right"></i>
+                            </td>
+                        </tr>)}
+                </tbody>
+            )}
+        </table>
+    </div>
+const TableTab = ({ groups, setItem, handleShow }: any) =>
+    <Row>
+        {Object.keys(groups ?? {})?.map((key: any) => <>{groups ?
+            <Col>
+                <b>{weekDays[Number(key)]}</b>
+                {groups[key]?.map((timeTable: any) =>
+                    <Row style={{ border: "solid 1px #ddd" }}>
+                        <Col onClick={() => { setItem(timeTable); handleShow() }}>
+                            <br />
+                            <h5>{timeTable?.discipline?.name}</h5>
+
+                            <Moment format="hh:mm">
+                                {`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`}
+                            </Moment>-                                    <Moment format="hh:mm">
+                                {moment(`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`).add(timeTable?.duration, 'minutes')}
+                            </Moment><br/>
+                            <small><i>{timeTable?.duration} minutos</i></small>
+                            <br />
+                            <br />
+                        </Col>
+                    </Row>
+                )}
+            </Col> : null} </>
+        )}
+    </Row>
+
+/*
+
+
+
+
+*/

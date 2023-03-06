@@ -31,21 +31,15 @@ export const BasicControls = () => {
 
 
 export const ModalControls = ({handleClose, Addon=<></>}:any) => {
-    const navigate = useNavigate()
     return (
         <>
             <hr className="mg-y-30" />
             <div className='row'>
-                <div className='col-md-4 text-left'>
+                <div className='col-md-8 text-left'>
                     <Button variant="secondary" type="button" onClick={() => handleClose()}>
                         Cancelar
                     </Button>
                     <Addon/>
-                </div>
-                <div className='col-md-4'>
-
-
-
                 </div>
                 <div className='col-md-4 text-right'>
                     <Button variant="primary" type="submit">

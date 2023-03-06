@@ -29,7 +29,7 @@ export const DetailsClassy = () => {
         <div>
           <h2 className="az-dashboard-title">Turma #{classy?.code}</h2>
           <p className="az-dashboard-text">{classy?.descriptions}</p>
-          <h4 className="az-dashboard-title">#{classy?.course?.code} - {classy?.course?.name}</h4>
+          <h4 className="az-dashboard-title"><Link to={`/pedagogical/courses/${classy?.course?.id}`}>#{classy?.course?.code} - {classy?.course?.name}</Link></h4>
 
           <ProgressBar now={persent(classy)} label={`${persent(classy)}%`} />
         </div>
