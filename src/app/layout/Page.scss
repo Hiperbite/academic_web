@@ -1,0 +1,19 @@
+    .az-content-left.az-content-left-components {
+        a.nav-link {
+            padding: 5px !important;
+            /* background: #F00; */
+            border-left: solid 5px #eee;
+            margin: 5px 0;
+        }
+        a.nav-link:hover,
+        a.nav-link.active {
+            box-shadow: 0 0 15px #ddd;
+            border-left-color: #5b47fb;
+            margin-left: 5px;
+        }
+    }
+    
+    .gradiant {
+        background: linear-gradient(to bottom right, #5b47fb, #9086dc);
+        color: #FFF;
+    }

@@ -52,6 +52,11 @@ export const services = {
         enrollmentConfirmations: 'students/enrollment-confirmations',
         enrollment: 'students/enrollments',
         students: 'students'
+    },
+    staff: {
+        enrollmentConfirmations: 'students/enrollment-confirmations',
+        enrollment: 'students/enrollments',
+        staff: 'staffs'
     }
 }
 
@@ -70,7 +75,7 @@ const post = async ({ service, data }: any) => {
 }
 
 const get = async ({ service, id, params }: any) => {
-
+debugger
     let url = service
     if (id) {
         url = `${url}/${id}`
@@ -112,9 +117,9 @@ const drop = async ({ service, id}: any) => {
     }
 }
 
-const put = async ({ service, data }: any) => {
+const put = async ({ service, id, data }: any) => {
 
-    let url = `${service}/${data?.id}`
+    let url = `${service}/${data?.id??id}`
 
     try {
         const response = await axios.put(url, data, { headers: getHeaders() });

@@ -26,13 +26,9 @@ export const ListPeriod = () => {
         <span>Turnos</span>
         <span>Listagem</span>
       </div>
-      <h2 className="az-content-title">Turnos</h2>
       <div className='row'>
         <div className='col-md-6'>
-
-          <div className="az-content-label mg-b-5">Simple Table</div>
-          <p className="mg-b-20">Using the most basic table markup.</p>
-
+          <h2 className="az-content-title">Turnos</h2>
         </div>
         <div className='col-md-6 text-right'>
 
@@ -62,7 +58,7 @@ export const ListPeriod = () => {
             {data?.map((period: any) => <tr onClick={() => navigate("/pedagogical/periods/" + period?.id)}>
               <th scope="row">{period.code}</th>
               <td>{period?.descriptions}</td>
-              <td>{period?.classys.length}</td>
+              <td>{period?.classes.length}</td>
               <td>
                 {period?.isActive ?
                   <button className="btn btn-success btn-sm">Activo</button> :

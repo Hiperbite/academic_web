@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import useAxiosFetch, { services } from '../../../../app/api/Api';
 import { Disabled } from './tabs/Disabled';
-import { TabClassyList } from './tabs/TabClassyList';
+import { TabClasseList } from './tabs/TabClasseList';
 import { TabHistory } from './tabs/TabHistory';
 
 export const DetailsPeriod = () => {
@@ -14,7 +14,7 @@ export const DetailsPeriod = () => {
   const { data: period, loading } = useAxiosFetch(services.academic.period + "/" + id)
 
   const tabsTitles = ['Turmas', 'Histórico']
-  const Tabs = [TabClassyList,History][tab]
+  const Tabs = [TabClasseList,History][tab]
 
   return (
     <div className="az-content-body">
@@ -28,7 +28,7 @@ export const DetailsPeriod = () => {
         <div className="media">
             <div className="media-body text-right">
               <label>Turmas</label>
-              <h6>{period?.classys?.length ?? "-"}</h6>
+              <h6>{period?.classes?.length ?? "-"}</h6>
             </div>
           </div>
           <div className="media">
@@ -77,10 +77,10 @@ export const DetailsPeriod = () => {
         </nav>
 
         <nav className="nav">
-          <Link className="nav-link" to={`/pedagogical/periods/update/${period?.id}`}><i className="far fa-edit"></i> Editar</Link>
-          <a className="nav-link" href="#"><i className="far fa-file-pdf"></i> Exportar em PDF</a>
-          <a className="nav-link" href="#"><i className="far fa-envelope"></i>Partilhar por Email</a>
-          <a className="nav-link" href="#"><i className="fas fa-ellipsis-h"></i></a>
+          <Link className="nav-link" to={`/pedagogical/periods/update/${period?.id}`}><i className="fa fa-edit"></i> Editar</Link>
+          <a className="nav-link" href="#"><i className="fa fa-file-pdf"></i> Exportar em PDF</a>
+          <a className="nav-link" href="#"><i className="fa fa-envelope"></i>Partilhar por Email</a>
+          <a className="nav-link" href="#"><i className="fa fa-ellipsis-h"></i></a>
         </nav>
       </div>
 

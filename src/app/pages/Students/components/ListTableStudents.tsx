@@ -36,7 +36,7 @@ export const ListTableStudents = ({ data, setParams, params }: any) => {
         </tbody>
       </Table>
     </div>
-    <Paginate pages={data?.pages} updateParams={updateParams} params={params} />
+    <Paginate pages={data?.pages} total={data?.total} updateParams={updateParams} params={params} />
   </div>
   )
 }

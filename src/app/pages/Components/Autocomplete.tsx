@@ -11,21 +11,20 @@ export const Autocomplete = ({ onChange, options: opts }: any) => {
     return <>
         <AsyncTypeahead
 
+            placeholder='Pesquisar por Estudante...'
             onChange={onChange}
             isLoading={isLoading}
-            labelKey={({ code, person }: any) => `${code} - ${person?.firstName} ${person?.otherName ?? ''} ${person?.lastName}`}
-
+            labelKey={({ code, person, entryCode }: any) => `${code ?? entryCode ?? '00000'} - ${person?.firstName} ${person?.otherName ?? ''} ${person?.lastName}`}
             onSearch={async (query) => {
                 if (query.length < 3)
                     return;
+                debugger
                 setIsLoading(true);
 
                 try {
-                    Api.get({ service: `${services.student.students}?q=${query}` })
-                        .then(({ response }: any) => {
-                            setOptions(response?.data)
-                            setIsLoading(false)
-                        });
+                    const { response: { data } } = await Api.get({ service: `${services.student.students}?q=${query}` });
+                    setOptions(data)
+                    setIsLoading(false)
                 } catch (error: any) {
                     setOptions([])
                 }

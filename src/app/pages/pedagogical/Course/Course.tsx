@@ -17,7 +17,7 @@ export const Course = () => {
     setLoading(true)
     const { response: { data: response } } = await Api.get({ service: services.academic.course, params })
     setData(response)
-    
+
     setLoading(false)
   }, [params])
 
@@ -33,9 +33,9 @@ export const Course = () => {
         <span>Cursos</span>
         <span>Listagem</span>
       </div>
-      <h2 className="az-content-title">Cursos acadêmicas</h2>
       <div className='row'>
         <div className='col-md-6'>
+          <h2 className="az-content-title">Cursos acadêmicos</h2>
         </div>
         <div className='col-md-6 text-right'>
           <Button
@@ -51,7 +51,7 @@ export const Course = () => {
       <hr className="mg-y-30" />
 
       <div className="table-responsive">
-        <table className="table table-striped mg-b-0">
+        <table className="table table-striped table-hover mg-b-0">
           <thead>
             <tr>
               <th>No</th>
@@ -66,7 +66,7 @@ export const Course = () => {
               <th scope="row">{period.code}</th>
               <td>{period?.name}</td>
               <td>{period?.descriptions}</td>
-              <td>{period?.classys?.length}</td>
+              <td>{period?.classes?.length}</td>
               <td>
                 {period?.isActive ?
                   <button className="btn btn-success btn-sm">Activo</button> :
@@ -77,7 +77,7 @@ export const Course = () => {
         </table>
 
       </div>
-        <Paginate pages={data?.pages} total={data?.total}  updateParams={updateParams} params={params} />
+      <Paginate pages={data?.pages} total={data?.total} updateParams={updateParams} params={params} />
     </div>
   )
 }

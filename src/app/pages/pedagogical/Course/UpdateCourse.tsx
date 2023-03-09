@@ -2,7 +2,7 @@
 import Form from 'react-bootstrap/Form';
 import { useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Card, Col, FloatingLabel,  Row } from "react-bootstrap";
+import { Card, Col, FloatingLabel, Row } from "react-bootstrap";
 
 import { toast } from 'react-toastify';
 
@@ -46,7 +46,7 @@ export const UpdateCourse = () => {
 
       <div className="col-md-8 card-body">
 
-        {course ? <CourseForm course={course} /> : null }
+        {course ? <CourseForm course={course} /> : null}
       </div>
 
 
@@ -54,32 +54,28 @@ export const UpdateCourse = () => {
   )
 }
 
-
-
 const FormSchema = z.object({
   name: z.string().min(3).max(20),
   descriptions: z.string().optional(),
   isActive: z.boolean()
-
 });
 
-export const CourseForm = ({course}:any) => {
+export const CourseForm = ({ course }: any) => {
 
   const [data, setData] = useState<any>()
   const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
   const { register, handleSubmit,
     formState: { errors }, } = useForm({
-      defaultValues:course,
+      defaultValues: course,
       resolver: zodResolver(FormSchema)
     })
 
   const onSubmit = async (form: any) => {
     setLoading(true)
-    debugger
-    const { response: { data: response, status } } = await Api.put({ service: services.academic.course, data: {...form, id:course.id} })
+    const { response: { data: response, status } } = await Api.put({ service: services.academic.course, data: { ...form, id: course.id } })
     setData(response)
-    if(status === 200) {
+    if (status === 200) {
       toast.success("Curso actualziada com sucesso!")
       navigate(`/pedagogical/courses/${course?.id}`)
     }
@@ -87,56 +83,50 @@ export const CourseForm = ({course}:any) => {
   }
 
   return (<>
-    {data?.id == null ?
-      <form onSubmit={handleSubmit(onSubmit)} >
-        <Row>
-          <Col>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Nome">
-                <Form.Control type="text" {...register("name")} />
-              </FloatingLabel>
-              {errors.name &&
-                <ErrorMessage message={errors.name?.message} />
-              }
-            </Form.Group>
-          </Col>
-          <Col></Col>
-        </Row>
-        <Row>
-          <Row>
-            <Col>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <FloatingLabel
-                  controlId="floatingInput"
-                  label="Descricao">
-                  <Form.Control as="textarea" rows={6} {...register("descriptions")} />
-                </FloatingLabel>
-                {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
-              </Form.Group>
-            </Col>
-          </Row>
-          <Col />
-        </Row>
-        <Row>
-          <Col>
-
-
-            <Form.Check
-              type="switch"
-              id="custom-switch"
-              label="Activo/Desactivo"
-              {...register("isActive")}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <BasicControls />
-          </Col>
-        </Row>
-      </form> : <></>}
+    <form onSubmit={handleSubmit(onSubmit)} >
+      <Row>
+        <Col>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Nome">
+              <Form.Control type="text" {...register("name")} />
+            </FloatingLabel>
+            {errors.name &&
+              <ErrorMessage message={errors.name?.message} />
+            }
+          </Form.Group>
+        </Col>
+        <Col></Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Descricao">
+              <Form.Control as="textarea" rows={6} style={{ height: "160px" }}  {...register("descriptions")} />
+            </FloatingLabel>
+            {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form.Check
+            type="switch"
+            id="custom-switch"
+            label="Activo/Desactivo"
+            {...register("isActive")}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <BasicControls />
+        </Col>
+      </Row>
+    </form>
   </>
   )
 }

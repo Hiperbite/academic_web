@@ -12,7 +12,7 @@ export const HistoryStudents = ({ student }: any) => {
                             <h6 className="card-title">Historico de suporte</h6>
                             <p className="card-text">...</p>
                         </Col>
-                        <Col><Link className="nav-link" style={{ float: "right" }} to={`/students/update/${student.id}/documents`}><i className="far fa-edit"></i></Link></Col>
+                        <Col><Link className="nav-link" style={{ float: "right" }} to={`/students/update/${student.id}/documents`}><i className="fa fa-edit"></i></Link></Col>
                     </Row>
                 </div>
                 <div className="card-body">
@@ -26,7 +26,7 @@ export const HistoryStudents = ({ student }: any) => {
                                 </Card.Header>
                         </Card>
                             <div>
-                                <span>{enroll?.classy?.code}</span>
+                                <span>{enroll?.classe?.code}</span>
                                 <h6 className="tx-primary">{enroll?.number ?? enroll?.descriptions ?? '-'}</h6>
                             </div>
                             <div>

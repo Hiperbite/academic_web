@@ -3,8 +3,8 @@ import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Api, services } from '../../../../app/api/Api';
 import { Disabled } from './tabs/Disabled';
-import { TabClassyList } from './tabs/TabClassyList';
 import { TabHistory } from './tabs/TabHistory';
+import { TabClasseList } from './tabs/TabClasseList';
 
 export const DetailDiscipline = () => {
   const { id } = useParams()
@@ -21,22 +21,27 @@ export const DetailDiscipline = () => {
   }, [])
 
   const tabsTitles = ['Cursos', 'Histórico']
-  const Tabs = [TabClassyList, History][tab]
+  const Tabs = [TabClasseList, History][tab]
 
   return (
     <div className="az-content-body">
+      <div className="az-content-breadcrumb">
+        <span>Academicos</span>
+        <span>Disciplinas</span>
+        <span>{discipline?.code} - {discipline?.name}</span>
+      </div>
       <div className="az-dashboard-one-title">
         <div>
-          <h4 className="az-dashboard-title">Disciplina - {discipline?.code}</h4>
-          <h2 className="az-dashboard-title">{discipline?.name}</h2>
-          <p className="az-dashboard-text">{discipline?.descriptions}</p>
+          <h4 className="az-dashboard-title">Disciplina</h4>
+          <h2 className="">{discipline?.code} - {discipline?.name}</h2>
+          <p  style={{maxWidth:"600px"}} className="az-dashboard-text">{discipline?.descriptions}</p>
         </div>
         <div className="az-content-header-right">
 
           <div className="media">
             <div className="media-body text-right">
               <label>Cursos</label>
-              <h6>{discipline?.classys?.length ?? "-"}</h6>
+              <h6>{discipline?.classes?.length ?? "-"}</h6>
             </div>
           </div>
           <div className="media">
@@ -71,10 +76,10 @@ export const DetailDiscipline = () => {
         </nav>
 
         <nav className="nav">
-          <Link className="nav-link" to={`/pedagogical/disciplines/update/${discipline?.id}`}><i className="far fa-edit"></i> Editar</Link>
-          <a className="nav-link" href="#"><i className="far fa-file-pdf"></i> Exportar em PDF</a>
-          <a className="nav-link" href="#"><i className="far fa-envelope"></i>Partilhar por Email</a>
-          <a className="nav-link" href="#"><i className="fas fa-ellipsis-h"></i></a>
+          <Link className="nav-link" to={`/pedagogical/disciplines/update/${discipline?.id}`}><i className="fa fa-edit"></i></Link>
+          <a className="nav-link" href="#"><i className="fa fa-print"></i></a>
+          <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
+          <a className="nav-link" href="#"><i className="fa fa-ellipsis-h"></i></a>
         </nav>
       </div>
 

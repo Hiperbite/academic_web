@@ -8,11 +8,12 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'react-toastify'
 import { ErrorMessage } from '../../../../Components/ErrorMessage'
-import { BasicControls, ModalControls } from '../../../../Components/Controls'
-
+import { ModalControls } from '../../../../Components/Controls'
+import { numericString } from '../../../../../helpers/form.helpers';
 const FormSchema = z.object({
     disciplineId: z.string().min(3).max(50),
-    semester: z.string().max(2),
+    professorId: z.string().max(50).nullable().optional(),
+    semester: numericString(z.number().positive().max(12)),
     descriptions: z.string().optional()
 });
 
@@ -20,9 +21,10 @@ export const FormRegisterCurricularItem = ({ updateParams, show, item, handleClo
 
     const [data, setData] = useState<any>()
     const [disciplines, setDisciplines] = useState<any>()
+    const [professors, setProfessors] = useState<any[]>()
     const [loading, setLoading] = useState<boolean>(false)
-    const { disciplineId, semester, descriptions } = item ?? {}
-    const defaultValues = { disciplineId, semester, descriptions }
+    const { disciplineId, semester, descriptions, professorId } = item ?? {}
+    const defaultValues = { disciplineId, semester, descriptions, professorId }
     const { register, handleSubmit, reset,
         formState: { errors }, } = useForm({
             resolver: zodResolver(FormSchema)
@@ -32,11 +34,15 @@ export const FormRegisterCurricularItem = ({ updateParams, show, item, handleClo
         const { response: { data: response, status } } = await Api.get({ service: services.academic.discipline, params: { pageSize: 100 } });
         setDisciplines(response?.data)
 
+        const { response: { data: professorResponse } } = await Api.get({ service: services.staff.staff, params: { pageSize: 100, 'where[roles]': 'TEACHER' } });
+        setProfessors(professorResponse?.data)
+
         reset(defaultValues)
     }, [])
+
     const handleDelete = async () => {
         setLoading(true)
-alert(1)
+
         const { response: { data: response, status } } = await Api.drop({ service: services.academic.curricularPlanItem, id: item?.id })
 
         if (status === 200) {
@@ -85,63 +91,71 @@ alert(1)
     }
 
     return (<>
-        {data?.id == null ?
-            <form onSubmit={handleSubmit(onSubmit)} >
-                <Row>
-                    <Col>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <FloatingLabel
-                                controlId="floatingInput"
-                                label="Semestre">
-                                <Form.Control type="number" max={14} min={1} {...register("semester")} />
-                            </FloatingLabel>
-                            {errors.semester &&
-                                <ErrorMessage message={errors.semester?.message} />
-                            }
-                        </Form.Group>
-                    </Col>
-                    <Col>
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <FloatingLabel
-                                controlId="floatingInput"
-                                label="Disciplina">
-                                <Form.Select aria-label="Default select example"
-                                    {...register("disciplineId")}
-                                >
-                                    <option value={undefined}>-</option>
-                                    {disciplines?.map(({ id, code, name }: any) => <option value={id}>{code} - {name}</option>)}
-                                </Form.Select>
-                            </FloatingLabel>
-                            {errors.disciplineId && <ErrorMessage message={errors.disciplineId?.message} />}
-                        </Form.Group></Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <FloatingLabel
-                                controlId="floatingInput"
-                                label="Descricao">
-                                <Form.Control as="textarea" rows={6} {...register("descriptions")} />
-                            </FloatingLabel>
-                            {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
-                        </Form.Group>
-                    </Col>
+        <form onSubmit={handleSubmit(onSubmit)} >
+            <Row>
+                <Col>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="Disciplina">
+                            <Form.Select aria-label="Default select example"
+                                {...register("disciplineId")}
+                            >
+                                <option value={undefined}>-</option>
+                                {disciplines?.map(({ id, code, name }: any) => <option value={id}>{code} - {name}</option>)}
+                            </Form.Select>
+                        </FloatingLabel>
+                        {errors.disciplineId && <ErrorMessage message={errors.disciplineId?.message} />}
+                    </Form.Group>
+                </Col>                 <Col>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="Semestre">
+                            <Form.Control type="number" max={14} min={1} {...register("semester")} />
+                        </FloatingLabel>
+                        {errors.semester &&
+                            <ErrorMessage message={errors.semester?.message} />
+                        }
+                    </Form.Group>
+                </Col>
 
-                </Row>
+            </Row>
+            <Row>
 
-                <Row>
-                    <Col>
-                        
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <ModalControls Addon={()=>item?.id ? <Button variant='danger' onClick={handleDelete}>Eliminar</Button>:null} handleClose={handleClose} />
-                    </Col>
-                </Row>
-            </form> : <></>}
+                <Col>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="Docente">
+                            <Form.Select aria-label="Default select example"
+                                {...register("professorId")}>
+                                <option value={undefined}>-</option>
+                                {professors?.map(({ id, code, person, roles }: any) => <option value={id}>{code} - {person.firstName} {person.lastName}</option>)}
+                            </Form.Select>
+                        </FloatingLabel>
+                        {errors.professorId && <ErrorMessage message={errors.professorId?.message} />}
+                    </Form.Group>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="Descricao">
+                            <Form.Control as="textarea" rows={6} style={{ height: "160px" }} {...register("descriptions")} />
+                        </FloatingLabel>
+                        {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
+                    </Form.Group>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <ModalControls Addon={() => item?.id ? <Button variant='danger' onClick={handleDelete}><i className="fa fa-trash"></i> {" "}Eliminar</Button> : null} handleClose={handleClose} />
+                </Col>
+            </Row>
+        </form>
     </>
     )
 }
-
-

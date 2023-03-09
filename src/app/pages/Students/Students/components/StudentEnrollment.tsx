@@ -8,7 +8,7 @@ import Paginate from '../../../Components/Paginate'
 
 export const StudentEnrollment = ({ show, handleClose, student }: any) => {
 
-    const [classy, setClassy] = useState<any>({})
+    const [classe, setClasse] = useState<any>({})
 
     const data = { data: [] }
     const spanStyles = {
@@ -17,7 +17,7 @@ export const StudentEnrollment = ({ show, handleClose, student }: any) => {
         'fontSize': '12px'
     }
     const onChange = (v: any) => {
-        setClassy(v[0]);
+        setClasse(v[0]);
     }
     const registeEnrollment = async () => {
 
@@ -26,7 +26,7 @@ export const StudentEnrollment = ({ show, handleClose, student }: any) => {
             {
                 studentId: student.id,
                 enrollmentConfirmations: [{
-                    classyId: classy.id
+                    classeId: classe.id
                 }]
             }
         })
@@ -39,10 +39,10 @@ export const StudentEnrollment = ({ show, handleClose, student }: any) => {
             size="lg"
             onHide={() => handleClose(false)}>
             <Modal.Header closeButton >
-                <Modal.Title>Registar estudante <b>{student?.person?.firstName} {student?.person?.lastName}</b> Turma #{classy?.code}</Modal.Title>
+                <Modal.Title>Registar estudante <b>{student?.person?.firstName} {student?.person?.lastName}</b> Turma #{classe?.code}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <ListClassy setClassy={setClassy} selectedClass={classy} />
+                <ListClasse setClasse={setClasse} selectedClass={classe} />
                 <hr />
 
             </Modal.Body>
@@ -61,7 +61,7 @@ export const StudentEnrollment = ({ show, handleClose, student }: any) => {
 
 
 
-export const ListClassy = ({ setClassy, selectedClass }: any) => {
+export const ListClasse = ({ setClasse, selectedClass }: any) => {
     //const [data, setData] = useState({})
     const navigate = useNavigate();
     const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[isActive]': 1 });
@@ -72,14 +72,14 @@ export const ListClassy = ({ setClassy, selectedClass }: any) => {
     const updateParams = (opts: any) => {
         setParams({ ...params, ...opts });
     }
-    const persent = (classy: any) => Number((((classy?.activesEnrollments?.length ?? 1) / (classy?.classyRoom?.size ?? 1)) * 100).toFixed(2));
+    const persent = (classe: any) => Number((((classe?.activesEnrollments?.length ?? 1) / (classe?.classeRoom?.size ?? 1)) * 100).toFixed(2));
 
 
-    const handleSetClass = (classy: any) => {
-        if (persent(classy) >= 100) {
+    const handleSetClass = (classe: any) => {
+        if (persent(classe) >= 100) {
             alert('overload')
         } else {
-            setClassy(classy)
+            setClasse(classe)
         }
     }
     return (
@@ -117,23 +117,23 @@ export const ListClassy = ({ setClassy, selectedClass }: any) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data?.data?.map((classy: any) => <tr  className={`overload_${persent(classy)}`} onClick={() => handleSetClass(classy)}>
-                            <th scope="row">{classy.code}</th>
+                        {data?.data?.map((classe: any) => <tr  className={`overload_${persent(classe)}`} onClick={() => handleSetClass(classe)}>
+                            <th scope="row">{classe.code}</th>
 
-                            <td>{classy?.academicPeriod?.code ?? '-'}</td>
-                            <td>{classy?.grade ? `${classy?.grade} º` : '-'}</td>
-                            <td>{classy?.classyRoom?.code ?? '-'}</td>
+                            <td>{classe?.academicPeriod?.code ?? '-'}</td>
+                            <td>{classe?.grade ? `${classe?.grade} º` : '-'}</td>
+                            <td>{classe?.classeRoom?.code ?? '-'}</td>
                             <td>
-                                {classy?.activesEnrollments?.length ?? '-'}/
-                                {classy?.classyRoom?.size ?? '-'}</td>
+                                {classe?.activesEnrollments?.length ?? '-'}/
+                                {classe?.classeRoom?.size ?? '-'}</td>
                             <td>
 
-                                <ProgressBar now={persent(classy)} label={`${persent(classy)}%`} />
+                                <ProgressBar now={persent(classe)} label={`${persent(classe)}%`} />
                             </td>
                             <td>
-                                {selectedClass?.id === classy?.id
-                                    ? <Button onClick={() => setClassy({})} variant={'success'}><i className="fas fa-check"></i></Button>
-                                    : <Button onClick={() => handleSetClass(classy)} variant={'xlight'}></Button>
+                                {selectedClass?.id === classe?.id
+                                    ? <Button onClick={() => setClasse({})} variant={'success'}><i className="fa fa-check"></i></Button>
+                                    : <Button onClick={() => handleSetClass(classe)} variant={'xlight'}></Button>
                                 }
                             </td>
                         </tr>)}

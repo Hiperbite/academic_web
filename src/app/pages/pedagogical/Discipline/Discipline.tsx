@@ -17,7 +17,7 @@ export const Discipline = () => {
     setLoading(true)
     const { response: { data: response } } = await Api.get({ service: services.academic.discipline, params })
     setData(response)
-    
+
     setLoading(false)
   }, [params])
 
@@ -33,9 +33,9 @@ export const Discipline = () => {
         <span>Disciplinas</span>
         <span>Listagem</span>
       </div>
-      <h2 className="az-content-title">Disciplinas acadêmicas</h2>
       <div className='row'>
         <div className='col-md-6'>
+          <h2 className="az-content-title">Disciplinas acadêmicas</h2>
         </div>
         <div className='col-md-6 text-right'>
           <Button
@@ -57,15 +57,15 @@ export const Discipline = () => {
               <th>No</th>
               <th>Descricao</th>
               <th>Sala</th>
-              <th>Turmas</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {data?.data?.map((period: any) => <tr onClick={() => navigate("/pedagogical/disciplines/" + period?.id)}>
               <th scope="row">{period.code}</th>
               <td>{period?.name}</td>
-              <td>{period?.descriptions}</td>
-              <td>
+              <td style={{ maxWidth: "200px" }}>{period?.descriptions}</td>
+              <td className="text-right">
                 {period?.isActive ?
                   <button className="btn btn-success btn-sm">Activo</button> :
                   <button className="btn btn-danger btn-sm">Inactivo</button>}
@@ -75,7 +75,7 @@ export const Discipline = () => {
         </table>
 
       </div>
-        <Paginate pages={data?.pages} total={data?.total}  updateParams={updateParams} params={params} />
+      <Paginate pages={data?.pages} total={data?.total} updateParams={updateParams} params={params} />
     </div>
   )
 }

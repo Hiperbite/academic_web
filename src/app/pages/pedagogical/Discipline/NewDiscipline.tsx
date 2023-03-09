@@ -1,11 +1,9 @@
 import Form from 'react-bootstrap/Form';
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Card, Col, FloatingLabel, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { Col, FloatingLabel, Row } from "react-bootstrap";
 
-import { ToastContainer, toast } from 'react-toastify';
-
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 import { z } from "zod";
 
@@ -37,7 +35,7 @@ export const NewDiscipline = () => {
 
 const FormSchema = z.object({
   name: z.string().min(3).max(50),
-  descriptions: z.string().optional()
+  descriptions: z.string().max(500).optional()
 });
 
 export const DisciplineForm = () => {
@@ -52,75 +50,51 @@ export const DisciplineForm = () => {
 
   const onSubmit = async (form: any) => {
     setLoading(true)
-    const { response: { data: response } } = await Api.post({ service: services.academic.discipline, data: form })
+    const { response: { data: response, status } } = await Api.post({ service: services.academic.discipline, data: form })
+    if (status === 200) {
+      toast.success('Sala de aulas registada com successo');
+      navigate(`/pedagogical/disciplines/${response?.id}`)
+    }
     setData(response)
     setLoading(false)
   }
 
   return (<>
-    {data?.id ? <MessageScreen message={"Sala de aulas registada com successo"} data={data} status={'success'} /> : null}
-    {data?.id == null ?
-      <form onSubmit={handleSubmit(onSubmit)} >
-        <Row>
-          <Col>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Nome">
-                <Form.Control type="text" {...register("name")} />
-              </FloatingLabel>
-              {errors.name &&
-                <ErrorMessage message={errors.name?.message} />
-              }
-            </Form.Group>
-          </Col>
-          <Col></Col>
-        </Row>
-        <Row>
-          <Row>
-            <Col>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <FloatingLabel
-                  controlId="floatingInput"
-                  label="Descricao">
-                  <Form.Control as="textarea" rows={6} {...register("descriptions")} />
-                </FloatingLabel>
-                {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
-              </Form.Group>
-            </Col>
-          </Row>
-          <Col />
-        </Row>
-
-        <Row>
-          <Col>
-            <BasicControls />
-          </Col>
-        </Row>
-      </form> : <></>}
+    <form onSubmit={handleSubmit(onSubmit)} >
+      <Row>
+        <Col>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Nome">
+              <Form.Control type="text" {...register("name")} />
+            </FloatingLabel>
+            {errors.name &&
+              <ErrorMessage message={errors.name?.message} />
+            }
+          </Form.Group>
+        </Col>
+        <Col />
+      </Row>
+      <Row>
+        <Col>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Descricao">
+              <Form.Control as="textarea" rows={6} style={{ height: "160px" }} {...register("descriptions")} />
+            </FloatingLabel>
+            {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <BasicControls />
+        </Col>
+      </Row>
+    </form>
   </>
   )
 }
 
-const MessageScreen = ({ message, status, data }: any) => {
-  return (
-    <Card>
-      <Card.Body style={{ "textAlign": "center" }}>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <h1>Ok</h1>
-        <h3>{message}</h3>
-        <Link to={`/pedagogical/disciplines/${data?.id}`}>Ver dados registados</Link>
-        <br />
-        <br />
-        <br />
-        <br />
-      </Card.Body>
-    </Card>
-  )
-}

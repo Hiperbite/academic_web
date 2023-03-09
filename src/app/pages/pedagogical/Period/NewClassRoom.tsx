@@ -13,7 +13,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '../../Components/ErrorMessage';
-import { useRegisterClassRoomData } from '../../../app/api/pedagogical/classy';
+import { useRegisterClassRoomData } from '../../../app/api/pedagogical/classe';
 import useAxiosFetch, { services } from '../../../app/api/Api';
 import { BasicControls } from '../../Components/Controls';
 
@@ -56,7 +56,7 @@ export const ClassRoomForm = () => {
 
   const { data: academicPeriods } = useAxiosFetch(services.academic.period)
   const { data: academicShifts } = useAxiosFetch(services.academic.shift)
-  const { data: classyRooms } = useAxiosFetch(services.academic.classRoom)
+  const { data: classeRooms } = useAxiosFetch(services.academic.classRoom)
 
   const { post, data, loading, error } = useRegisterClassRoomData();
 

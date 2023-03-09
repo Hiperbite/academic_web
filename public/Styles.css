@@ -2531,24 +2531,64 @@ a.nav-link[href="/"] {
     color: #999 !important;
 }
 
+* {
+    transition: .2s !important
+}
+
 .progress-bar {
     height: var(--bs-progress-height) !important;
 }
 
+.card,
+.form-floating {
+    box-shadow: 0 0 15px #ddd;
+    border: none !important;
+}
+
+.form-floating:hover,
+.btn:hover {
+    box-shadow: 0 0 45px #ccc;
+}
+
+.card:hover {
+    box-shadow: 0 0 35px #ccc;
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+
+.react-date-picker__wrapper {
+    border: none !important;
+}
+
+.form-control,
 textarea,
 input,
 select {
     border-radius: 0 !important;
 }
 
+.btn.btn-primary {
+    background: linear-gradient(to bottom right, #5b47fb, #9086dc);
+    color: #FFF;
+}
+
+.btn.btn-primary:hover {
+    background: linear-gradient(to bottom right, #b1a8f9, #5b47fb, );
+}
+
+.btn.btn-secondary {
+    background-color: #eee;
+    color: #333;
+}
+
 .btn {
+    cursor: "pointer";
+    border: none !important;
     font-weight: 400;
-    color: #031b4e;
     text-align: center;
     vertical-align: middle;
     user-select: none;
     background-color: transparent;
-    border: 1px solid transparent;
     padding: 0.375rem 0.75rem;
     font-size: 0.875rem;
     line-height: 1.5;
@@ -10801,7 +10841,7 @@ a.text-dark:focus {
 }
 
 .table-striped tbody tr:nth-of-type(2n+1) {
-    background-color: rgba(151, 163, 185, 0.1);
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .table-bordered thead th,
@@ -53511,3 +53551,15 @@ width: 100vw;
 idth: 100vw;
 
 }
+
+}
+idth: 100vw;
+.
+}
+idth: 100vw;
+.dth: 100vw;
+.dth: 100vw;
+.dth: 100vw;
+.dth: 100vw;
+.dth: 100vw;
+.

@@ -7,7 +7,7 @@ import { ProfileMenu } from "./ProfileMenu";
 const menuItems = [
     { to: '/home', text: 'Dashboard', active: false },
     { to: '/students', text: 'Estudantes', active: false },
-    { to: '#', text: 'Pessoal', active: false },
+    { to: '/staffs', text: 'Pessoal', active: false },
     { to: '/pedagogical', text: 'Pedagógico', active: false },
     { to: '#', text: 'Biblioteca', active: false },
     { to: '#', text: 'Acervo Digital', active: false },
@@ -53,16 +53,15 @@ export const Header = () => {
                                 to={menuItem.to}
                                 className="nav-link"
                             >
-
-                                <i className="far fa-exclamation"></i> {menuItem.text}
+                                <i className="fa fa-exclamation"></i> {menuItem.text}
                             </Link>
                         </li>
                     )}
                 </ul>
             </div>{/* az-header-menu */}
             <div className="az-header-right">
-                <Link to="https://www.bootstrapdash.com/demo/azia-free/docs/documentation.html" target="_blank" className="az-header-search-link"><i className="far fa-file-alt"></i></Link>
-                <Link to="" className="az-header-search-link"><i className="fas fa-search"></i></Link>
+                <Link to="" target="_blank" className="az-header-search-link"><i className="fa fa-file-alt"></i></Link>
+                <Link to="" className="az-header-search-link"><i className="fa fa-search"></i></Link>
                 <div className="az-header-message">
                     <Link to="#"><i className="typcn typcn-messages"></i></Link>
                 </div>{/* az-header-message */}
@@ -76,21 +75,21 @@ export const Header = () => {
                         <p className="az-notification-text">You have 2 unread notification</p>
                         <div className="az-notification-list">
                             <div className="media new">
-                                <div className="az-img-user"><img src="../img/faces/face2.jpg" alt="" /></div>
+                                <div className="az-img-user"><img src="/logo192.png" alt="" /></div>
                                 <div className="media-body">
                                     <p>Congratulate <strong>Socrates Itumay</strong> for work anniversaries</p>
                                     <span>Mar 15 12:32pm</span>
                                 </div>{/* media-body */}
                             </div>{/* media */}
                             <div className="media new">
-                                <div className="az-img-user online"><img src="../img/faces/face3.jpg" alt="" /></div>
+                                <div className="az-img-user online"><img src="/logo192.png" alt="" /></div>
                                 <div className="media-body">
                                     <p><strong>Joyce Chua</strong> just created a new blog post</p>
                                     <span>Mar 13 04:16am</span>
                                 </div>{/* media-body */}
                             </div>{/* media */}
                             <div className="media">
-                                <div className="az-img-user"><img src="../img/faces/face4.jpg" alt="" /></div>
+                                <div className="az-img-user"><img src="/logo192.png" alt="" /></div>
                                 <div className="media-body">
                                     <p><strong>Althea Cabardo</strong> just created a new blog post</p>
                                     <span>Mar 13 02:56am</span>

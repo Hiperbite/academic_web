@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-export const BasicControls = () => {
+export const BasicControls = ({ Addon = () => <></> }: any) => {
     const navigate = useNavigate()
     return (
         <>
@@ -13,6 +13,7 @@ export const BasicControls = () => {
                     <Button variant="secondary" type="button" onClick={() => navigate(-1)}>
                         Cancelar
                     </Button>
+                    <Addon />
                 </div>
                 <div className='col-md-4'>
 
@@ -30,19 +31,21 @@ export const BasicControls = () => {
 }
 
 
-export const ModalControls = ({handleClose, Addon=<></>}:any) => {
+export const ModalControls = ({ handleClose, Addon = <></> }: any) => {
     return (
         <>
             <hr className="mg-y-30" />
             <div className='row'>
                 <div className='col-md-8 text-left'>
                     <Button variant="secondary" type="button" onClick={() => handleClose()}>
+                    <i className="fa fa-times"></i> {" "}
                         Cancelar
                     </Button>
-                    <Addon/>
+                    <Addon />
                 </div>
                 <div className='col-md-4 text-right'>
                     <Button variant="primary" type="submit">
+                        <i className="fa fa-save"></i> {" "}
                         Registar
                     </Button>
                 </div>

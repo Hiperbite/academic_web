@@ -32,21 +32,24 @@ export const DetailsStudents = () => {
           <h2 className="az-dashboard-title"># {student?.enrollment ? student?.enrollment?.code : student?.code}</h2>
           <h1>{student?.person?.firstName} {student?.person?.otherName} {student?.person?.lastName}</h1>
           <p className="az-dashboard-text">
-            {student?.enrollment
+            {student?.code
               ? <Badge bg="primary"> Estudante matriculado </Badge>
               : <Badge bg="warning" text="dark">Candidato</Badge>}
-            {student?.enrollment?.isActive == false
+            {student?.enrollment?.isActive
               ? <Badge bg="danger">Matricula cancelada</Badge>
               : null}
+            {student?.isActive
+              ? <Badge pill bg="success">Estudante Activo</Badge>
+              : <Badge pill bg="danger">Estudante Suspenco</Badge>}
           </p>
         </div>
         <div className="az-content-header-right">
-          {student?.enrollment ? <>
+          {student?.code ? <>
             <div className="media">
               <div className="media-body text-right">
                 <label>Ano</label>
                 <h6>
-                  {student?.enrollment?.current?.classy?.grade} º
+                  {student?.current?.classe?.grade} º
                 </h6>
                 <span>
 
@@ -54,10 +57,10 @@ export const DetailsStudents = () => {
               </div>
             </div>
             <div className="media">
-              <Link to={"/pedagogical/classy/" + student?.enrollment?.current?.classy?.id} className="media-body text-right">
+              <Link to={"/pedagogical/classe/" + student?.current?.classe?.id} className="media-body text-right">
                 <label>Turma</label>
                 <h6>
-                  {student?.enrollment?.current?.classy?.code}
+                  {student?.current?.classe?.code}
                 </h6>
                 <span>
 
@@ -86,9 +89,9 @@ export const DetailsStudents = () => {
           <div className="media">
             <div className="media-body text-right">
               <label>Estado</label><br />
-              {student?.isActive ?
-                <button className="btn btn-success btn-sm">Activo</button> :
-                <button className="btn btn-danger btn-sm">Inactivo</button>}
+              {student?.isActive
+                ? <Badge pill bg="success">Activo</Badge>
+                : <Badge pill bg="danger">Inactivo</Badge>}
             </div>
           </div>
         </div>
@@ -101,11 +104,11 @@ export const DetailsStudents = () => {
         </nav>
 
         <nav className="nav">
-          <Link className="nav-link" to={''}  onClick={() => setTab(5)}><i className="fas fa-history"></i></Link>
-          <a className="nav-link" href="#"><i className="far fa-file-pdf"></i></a>
-          <a className="nav-link" href="#"><i className="far fa-envelope"></i></a>
-          <a className="nav-link" href="#" ><i className="fas fa-ellipsis-h"></i></a>
-          <a className="nav-link" href="#" ><i className="fas fa-ellipsis-h"></i></a>
+          <Link className="nav-link" to={''} onClick={() => setTab(5)}><i className="fa fa-history"></i></Link>
+          <a className="nav-link" href="#"><i className="fa fa-file-pdf"></i></a>
+          <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
+          <a className="nav-link" href="#" ><i className="fa fa-ellipsis-h"></i></a>
+          <a className="nav-link" href="#" ><i className="fa fa-ellipsis-h"></i></a>
         </nav>
       </div>
 
@@ -119,7 +122,7 @@ export const DetailsStudents = () => {
 const History = ({ student }: any) => {
 
   return <TabHistory modelName={'Student,Person,Contact, Address,Enrollment'} objectId={
-    [student?.personId,student?.person?.livingAddressId, student?.person?.birthPlaceAddressId].join(',')
+    [student?.personId, student?.person?.livingAddressId, student?.person?.birthPlaceAddressId].join(',')
   } />
 }
 

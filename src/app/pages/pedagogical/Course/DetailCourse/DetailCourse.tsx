@@ -8,11 +8,12 @@ import { TabHistory } from './tabs/TabHistory';
 import { TabDashBoard } from './tabs/TabDashBoard';
 import { TabStudentCourseList } from './tabs/TabStudentCourseList';
 import { TabClassList } from './tabs/TabClassList';
+import { Dropdown } from 'react-bootstrap';
 
 export const DetailCourse = () => {
   const { id } = useParams()
 
-  const [tab, setTab] = useState(3);
+  const [tab, setTab] = useState(0);
   const [course, setCourse] = useState<any>()
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -23,15 +24,15 @@ export const DetailCourse = () => {
     setLoading(false)
   }, [])
 
-  const tabsTitles = ['Inicio', 'Turmas', 'Estudantes', 'Plano Curricular', 'Histórico']
-  const Tabs = [TabDashBoard, TabClassList, TabStudentCourseList, TabCurricularPlan, History][tab]
+  const tabsTitles = [/*'Inicio',*/ 'Turmas', 'Estudantes', 'Plano Curricular', 'Histórico']
+  const Tabs = [/*TabDashBoard, */TabClassList, TabStudentCourseList, TabCurricularPlan, History][tab]
 
   return (
     <div className="az-content-body">
       <div className="az-dashboard-one-title">
         <div>
-          <h4 className="az-dashboard-title">Curso - {course?.code}</h4>
-          <h2 className="az-dashboard-title">{course?.name}</h2>
+          <h4 className="az-dashboard-title">Curso </h4>
+          <h2 className="">{course?.code} - {course?.name}</h2>
           <p className="az-dashboard-text">{course?.descriptions}</p>
         </div>
         <div className="az-content-header-right">
@@ -39,7 +40,7 @@ export const DetailCourse = () => {
           <div className="media">
             <div className="media-body text-right">
               <label>Turmas</label>
-              <h6>{course?.classys?.length ?? "-"}</h6>
+              <h6>{course?.classes?.length ?? "-"}</h6>
             </div>
           </div>
           <div className="media">
@@ -74,11 +75,13 @@ export const DetailCourse = () => {
         </nav>
 
         <nav className="nav">
-          <Link className="nav-link" to={`/pedagogical/courses/update/${course?.id}`}><i className="far fa-edit"></i> Editar</Link>
-          <a className="nav-link" href="#"><i className="far fa-file-pdf"></i> Exportar em PDF</a>
-          <a className="nav-link" href="#"><i className="far fa-envelope"></i>Partilhar por Email</a>
-          <a className="nav-link" href="#"><i className="fas fa-ellipsis-h"></i></a>
+          <Link className="nav-link" to={`/pedagogical/courses/update/${course?.id}`}><i className="fa fa-edit"></i></Link>
+          <a className="nav-link" href="#"><i className="fa fa-print"></i></a>
+          <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
+          <a className="nav-link" href="#"><i className="fa fa-history"></i></a>
+          <Link className="nav-link" to="" onClick={()=>setTab(3)}><i className="fa fa-history"></i></Link>
         </nav>
+       
       </div>
 
       <div className="row row-sm mg-b-20">

@@ -18,7 +18,7 @@ export const TabClassList = ({ course }: any) => {
     const updateParams = (opts: any) => {
         setParams({ ...params, ...opts });
     }
-    const persent = (classy: any) => Number((((classy?.activesEnrollments?.length ?? 1) / (classy?.classyRoom?.size ?? 1)) * 100).toFixed(2));;
+    const persent = (classe: any) => Number((((classe?.enrollments?.length ?? 1) / (classe?.classeRoom?.size ?? 1)) * 100).toFixed(2));;
 
     return (
         <div className="az-content-body pd-lg-l-40 d-flex flex-column">
@@ -28,7 +28,7 @@ export const TabClassList = ({ course }: any) => {
             <hr className="mg-y-30" />
 
             <div className="table-responsive">
-                <table className="table table-striped mg-b-0">
+                <table className="table table-striped table-hover mg-b-0">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -39,18 +39,18 @@ export const TabClassList = ({ course }: any) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data?.data?.map((classy: any) => <tr onClick={() => navigate("/pedagogical/classy/" + classy?.id)}>
-                            <th scope="row">{classy.code}</th>
-                            <td>{classy?.descriptions}</td>
-                            <td>{classy?.academicPeriod?.code ?? '-'}</td>
-                            <td>{classy?.grade ? `${classy?.grade} º` : '-'}</td>
-                            <td>{classy?.classyRoom?.code ?? '-'}</td>
+                        {data?.data?.map((classe: any) => <tr onClick={() => navigate("/pedagogical/classe/" + classe?.id)}>
+                            <th scope="row">{classe.code}</th>
+                            <td>{classe?.descriptions}</td>
+                            <td>{classe?.period?.code ?? '-'}</td>
+                            <td>{classe?.grade ? `${classe?.grade} º` : '-'}</td>
+                            <td>{classe?.classeRoom?.code ?? '-'}</td>
                             <td>
-                                {classy?.activesEnrollments?.length ?? '-'}/
-                                {classy?.classyRoom?.size ?? '-'}</td>
+                                {classe?.enrollments?.length ?? '-'}/
+                                {classe?.classeRoom?.size ?? '-'}</td>
                             <td>
 
-                                <ProgressBar now={persent(classy)} label={`${persent(classy)}%`} />
+                                <ProgressBar now={persent(classe)} label={`${persent(classe)}%`} />
                             </td>
                         </tr>)}
                     </tbody>

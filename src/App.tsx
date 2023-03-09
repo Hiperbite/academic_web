@@ -9,16 +9,13 @@ import { AuthLayout } from './app/layout/AuthLayout';
 import { SingIn } from './app/pages/Auth/SingIn';
 import { SingOn } from './app/pages/Auth/SingOn';
 import { NotFound } from './app/pages/Common/NotFound';
-import { Page } from './app/layout/Page';
+import { Default, Page } from './app/layout/Page';
 import { Students } from './app/pages/Students/Students';
 import { ListStudents } from './app/pages/Students/Students/ListStudents';
 import { DetailsStudents } from './app/pages/Students/Students/DetailsStudents';
 import { RegisterNewStudent } from './app/pages/Students/Students/RegisteStudent/RegisteNewStudent';
-import { ListClassy } from './app/pages/pedagogical/Classy/ListClassy';
-import { NewClassy } from './app/pages/pedagogical/Classy/NewClassy';
 import { ToastContainer } from 'react-toastify';
-import { DetailsClassy } from './app/pages/pedagogical/Classy/DetailClassy/DetailsClassy';
-import { UpdateClassy } from './app/pages/pedagogical/Classy/UpdateClassy';
+
 import { ListClassRoom } from './app/pages/pedagogical/ClassRoom/ListClassRoom';
 import { NewClassRoom } from './app/pages/pedagogical/ClassRoom/NewClassRoom';
 import { DetailsClassRoom } from './app/pages/pedagogical/ClassRoom/DetailClassRoom/DetailClassRoom';
@@ -38,6 +35,19 @@ import { Course } from './app/pages/pedagogical/Course/Course';
 import { NewCourse } from './app/pages/pedagogical/Course/NewCourse';
 import { UpdateCourse } from './app/pages/pedagogical/Course/UpdateCourse';
 import { DetailCourse } from './app/pages/pedagogical/Course/DetailCourse/DetailCourse';
+import { Staff } from './app/pages/Staff/Staff';
+import { ListStaff } from './app/pages/Staff/Staff/ListStaffs';
+import { RegisterNewStaff } from './app/pages/Staff/Staff/RegisteStaff/RegisteNewStaff';
+import { DetailsStaff } from './app/pages/Staff/Staff/DetailsStaff';
+import { UserProfile } from './app/pages/User/UserProfile';
+import { Activities } from './app/pages/User/Activities';
+import { Settings } from './app/pages/User/Settings';
+import { HomeUserProfile } from './app/pages/User/HomeUserProfile';
+import { Contacts } from './app/pages/User/Contacts';
+import { ListClasse } from './app/pages/pedagogical/Classe/ListClasse';
+import { NewClasse } from './app/pages/pedagogical/Classe/NewClasse';
+import { UpdateClasse } from './app/pages/pedagogical/Classe/UpdateClasse';
+import { DetailsClasse } from './app/pages/pedagogical/Classe/DetailClasse/DetailsClasse';
 
 
 
@@ -51,6 +61,16 @@ function App() {
               <Route index element={<Dashboard />} />
               <Route path="Home" element={<Dashboard />} />
 
+              <Route path="/me" element={<Default type={"students"} />}>
+                <Route index element={<HomeUserProfile />} />
+                <Route path="contacts" element={<Contacts />} />
+                <Route path="activities" element={<Activities />} />
+                <Route path="settings" element={<Settings />} />
+
+                <Route path="candidates" element={<ListCandidates />} />
+                <Route path="all" element={<AllStudents />} />
+              </Route>
+
               <Route path="/students" element={<Page type={"students"} />}>
                 <Route index element={<Students />} />
                 <Route path="list" element={<ListStudents />} />
@@ -61,16 +81,26 @@ function App() {
                 <Route path="candidates" element={<ListCandidates />} />
                 <Route path="all" element={<AllStudents />} />
               </Route>
+              <Route path="/staffs" element={<Page type={"staffs"} />}>
+                <Route index element={<Staff />} />
+                <Route path="list" element={<ListStaff />} />
+                <Route path="new/*" element={<RegisterNewStaff />} />
+                <Route path="show/:id" element={<DetailsStaff />} />
+                <Route path="update/:id/*" element={<UpdateExistedStudent />} />
+
+                <Route path="candidates" element={<ListCandidates />} />
+                <Route path="all" element={<AllStudents />} />
+              </Route>
 
               <Route path="/pedagogical" element={<Page type={"pedagogical"} />}>
-                <Route index element={<ListClassy />} />
+                <Route index element={<ListClasse />} />
               </Route>
-              <Route path="/pedagogical/classy" element={<Page type={"pedagogical"} />}>
-                <Route index element={<ListClassy />} />
-                <Route path="list" element={<ListClassy />} />
-                <Route path="new" element={<NewClassy />} />
-                <Route path="update/:id" element={<UpdateClassy />} />
-                <Route path=":id" element={<DetailsClassy />} />
+              <Route path="/pedagogical/classe" element={<Page type={"pedagogical"} />}>
+                <Route index element={<ListClasse />} />
+                <Route path="list" element={<ListClasse />} />
+                <Route path="new" element={<NewClasse />} />
+                <Route path="update/:id" element={<UpdateClasse />} />
+                <Route path=":id" element={<DetailsClasse />} />
               </Route>
 
               <Route path="/pedagogical/class-rooms" element={<Page type={"pedagogical"} />}>

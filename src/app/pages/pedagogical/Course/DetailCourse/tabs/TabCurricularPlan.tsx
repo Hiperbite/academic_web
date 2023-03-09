@@ -1,11 +1,8 @@
 /* eslint-disable jsx-a11y/scope */
-import { useEffect, useMemo, useState } from "react";
-import { Button, Card, ListGroup, Modal, ProgressBar } from "react-bootstrap";
+import { useMemo, useState } from "react";
+import { Button } from "react-bootstrap";
 import Moment from "react-moment";
-import { useNavigate } from "react-router-dom";
-import useAxiosFetch, { Api, services } from "../../../../../app/api/Api";
-import { Autocomplete } from "../../../../Components/Autocomplete";
-import Paginate from "../../../../Components/Paginate";
+import { Api, services } from "../../../../../app/api/Api";
 import { RegisterCurricularItem } from "../components/RegisterCurricularItem";
 
 const plans = {
@@ -25,10 +22,9 @@ export const TabCurricularPlan = ({ course }: any) => {
         setData(response)
     }, [course?.curricularPlanId, params])
     useMemo(async () => {
-        
+
         setItem(item)
-        if(item?.id)
-        {
+        if (item?.id) {
             showRegisterCurricularItem(true)
         }
     }, [item])
@@ -39,18 +35,20 @@ export const TabCurricularPlan = ({ course }: any) => {
 
     return (<>
         <div className="az-content-body pd-lg-l-40 d-flex flex-column">
-            <h2 className="az-content-title">Plano Curricular do curso</h2>
             <div className='row'>
                 <div className='col-md-6'>
+            <h2 className="az-content-title">Plano Curricular do curso</h2>
                 </div>
                 <div className='col-md-6 text-right'>
-                    <Button variant="primary" size="sm" onClick={() => showRegisterCurricularItem(true)}>Adicionar</Button>
+                    <Button variant="primary" size="sm" onClick={() => {setItem(null);showRegisterCurricularItem(true)}}>
+                        <i className="fa fa-plus"></i>{" "}
+                        Adicionar</Button>
                     <RegisterCurricularItem updateParams={updateParams} show={registerCurricularItem} handleClose={showRegisterCurricularItem} item={item} curricularPlan={data} />
                 </div>
             </div>
             <hr className="mg-y-30" />
             <div className="table-responsive">
-                <table className="table  mg-b-0">
+                <table className="table table-hover  mg-b-0">
                     <thead>
                         <tr>
                             <th></th>
@@ -66,7 +64,7 @@ export const TabCurricularPlan = ({ course }: any) => {
     </>)
 }
 
-const Year = ({ year, items,setItem }: any) => {
+const Year = ({ year, items, setItem }: any) => {
 
     return <><tbody><tr>
         <th scope="row" colSpan={5} style={{ textAlign: "center" }}><h5>{year}º Ano</h5></th>
@@ -84,11 +82,11 @@ const Semester = ({ semester, items, setItem }: any) => {
             <th scope="row">-</th>
         </tr>
         {myItems?.map((item: any, i: number) =>
-            <tr onClick={()=>setItem(item)}>
+            <tr onClick={() => setItem(item)}>
                 <td scope="row"></td>
 
                 <td scope="row">{item?.discipline?.code} - {item?.discipline?.name}</td>
-                <td scope="row">-</td>
+                <td scope="row">{item?.professor?.person?.firstName} {item?.professor?.person?.lastName}</td>
                 <td scope="row">
                     <Moment format="DD/MM/YYYY">
                         {item.updatedAt}

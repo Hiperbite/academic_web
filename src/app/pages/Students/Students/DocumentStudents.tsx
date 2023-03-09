@@ -12,7 +12,7 @@ export const DocumentStudents = ({ student }: any) => {
                             <h6 className="card-title">Documentos de suporte</h6>
                             <p className="card-text">...</p>
                         </Col>
-                        <Col><Link className="nav-link" style={{ float: "right" }} to={`/students/update/${student.id}/documents`}><i className="far fa-edit"></i></Link></Col>
+                        <Col><Link className="nav-link" style={{ float: "right" }} to={`/students/update/${student.id}/documents`}><i className="fa fa-edit"></i></Link></Col>
                     </Row>
 
                 </div>

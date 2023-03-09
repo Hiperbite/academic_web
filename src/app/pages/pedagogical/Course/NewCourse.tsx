@@ -52,60 +52,53 @@ export const CourseForm = () => {
 
   const onSubmit = async (form: any) => {
     setLoading(true)
-    const { response: { data: response , status} } = await Api.post({ service: services.academic.course, data: form })
+    const { response: { data: response, status } } = await Api.post({ service: services.academic.course, data: form })
 
-    if(status === 200){
+    if (status === 200) {
       setData(response)
       navigate(`/pedagogical/courses/${response?.id}`)
       toast.success("Disciplina registado com sucesso!")
-    }else{
+    } else {
       toast.error("Erro ao registar aa Disciplina, por favor tente mais tarde")
     }
-    
     setLoading(false)
-    
   }
 
   return (<>
-    {data?.id == null ?
-      <form onSubmit={handleSubmit(onSubmit)} >
-        <Row>
-          <Col>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Nome">
-                <Form.Control type="text" {...register("name")} />
-              </FloatingLabel>
-              {errors.name &&
-                <ErrorMessage message={errors.name?.message} />
-              }
-            </Form.Group>
-          </Col>
-          <Col></Col>
-        </Row>
-        <Row>
-          <Row>
-            <Col>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <FloatingLabel
-                  controlId="floatingInput"
-                  label="Descricao">
-                  <Form.Control as="textarea" rows={6} {...register("descriptions")} />
-                </FloatingLabel>
-                {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
-              </Form.Group>
-            </Col>
-          </Row>
-          <Col />
-        </Row>
-
-        <Row>
-          <Col>
-            <BasicControls />
-          </Col>
-        </Row>
-      </form> : <></>}
+    <form onSubmit={handleSubmit(onSubmit)} >
+      <Row>
+        <Col>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Nome">
+              <Form.Control type="text" {...register("name")} />
+            </FloatingLabel>
+            {errors.name &&
+              <ErrorMessage message={errors.name?.message} />
+            }
+          </Form.Group>
+        </Col>
+        <Col></Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Descricao">
+              <Form.Control as="textarea" rows={6} style={{ height: "160px" }} {...register("descriptions")} />
+            </FloatingLabel>
+            {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <BasicControls />
+        </Col>
+      </Row>
+    </form>
   </>
   )
 }

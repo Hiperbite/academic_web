@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import storage from '../../storage';
 
-const useGetClassysData = (params = {}): any => {
+const useGetClassesData = (params = {}): any => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   console.log(params);
@@ -31,7 +31,7 @@ const useGetClassysData = (params = {}): any => {
     loading,
   };
 };
-const useGetClassyData = (params: any = {}): any => {
+const useGetClasseData = (params: any = {}): any => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   console.log(params);
@@ -58,7 +58,7 @@ const useGetClassyData = (params: any = {}): any => {
     loading,
   };
 };
-const useRegisterClassyData = (): any => {
+const useRegisterClasseData = (): any => {
   const [data, setData] = useState({});
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(true);

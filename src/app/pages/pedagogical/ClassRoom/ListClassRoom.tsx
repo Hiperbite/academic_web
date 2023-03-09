@@ -26,16 +26,11 @@ export const ListClassRoom = () => {
         <span>Salas de aulas</span>
         <span>Listagem</span>
       </div>
-      <h2 className="az-content-title">Salas de aulas</h2>
       <div className='row'>
         <div className='col-md-6'>
-
-          <div className="az-content-label mg-b-5">Simple Table</div>
-          <p className="mg-b-20">Using the most basic table markup.</p>
-
+          <h2 className="az-content-title">Salas de aulas</h2>
         </div>
         <div className='col-md-6 text-right'>
-
           <Button
             variant="primary"
             disabled={loading}
@@ -54,8 +49,8 @@ export const ListClassRoom = () => {
             <tr>
               <th>No</th>
               <th>Descricao</th>
-              <th>Sala</th>
-              <th>Turmas</th>
+              <th>Lugares</th>
+              <th colSpan={2}>Turmas</th>
             </tr>
           </thead>
           <tbody>
@@ -63,8 +58,8 @@ export const ListClassRoom = () => {
               <th scope="row">{classRoom.code}</th>
               <td>{classRoom?.descriptions}</td>
               <td>{classRoom?.size ?? '-'}</td>
-              <td>{classRoom?.classys.length}</td>
-              <td>
+              <td>{classRoom?.classes.length}</td>
+              <td className="text-right">
                 {classRoom?.isActive ?
                   <button className="btn btn-success btn-sm">Activo</button> :
                   <button className="btn btn-danger btn-sm">Inactivo</button>}
@@ -73,16 +68,7 @@ export const ListClassRoom = () => {
           </tbody>
         </table>
       </div>
-      <nav aria-label="Page navigation">
-        <div className="row">
-          <div className="col-md-6">
-            {data?.page}/{data?.pages} - {data?.total} registos
-          </div>
-          <div className="col-md-6">
-            <Paginate pages={data?.pages} updateParams={updateParams} params={params} />
-          </div>
-        </div>
-      </nav>
+      <Paginate pages={data?.pages} total={data?.total} updateParams={updateParams} params={params} />
     </div>
   )
 }

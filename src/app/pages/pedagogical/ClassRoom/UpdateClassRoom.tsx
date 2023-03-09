@@ -1,12 +1,7 @@
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Alert, Card, Col, FloatingLabel, ProgressBar, Row } from "react-bootstrap";
-
-import { toast } from 'react-toastify';
-
-import 'react-toastify/dist/ReactToastify.css';
+import { Alert, Card, Col, FloatingLabel, Row } from "react-bootstrap";
 
 import { z } from "zod";
 
@@ -16,8 +11,8 @@ import { ErrorMessage } from '../../Components/ErrorMessage';
 
 import useAxiosFetch, { services } from '../../../app/api/Api';
 import { BasicControls } from '../../Components/Controls';
-import { useUpdateClassRoomData } from '../../../app/api/pedagogical/classyRoom';
-import { numericString } from '../../../helpers';
+import { numericString } from '../../../helpers/form.helpers';
+import { useUpdateClassRoomData } from '../../../app/api/pedagogical/classeRoom';
 
 export const UpdateClassRoom = () => {
 
@@ -32,18 +27,10 @@ export const UpdateClassRoom = () => {
         <span>#{data?.code}</span>
       </div>
       <h2 className="az-content-title">Actualizar Sala de aulas #{data?.code}</h2>
-
-      <div className="az-content-label mg-b-5">Simple Table</div>
-      <p className="mg-b-20">Using the most basic table markup.</p>
-
       <hr className="mg-y-30" />
-
       <div className="col-md-8 card-body">
-
         <ClassForm classRoom={data} />
       </div>
-
-
     </div>
   )
 }
@@ -52,12 +39,12 @@ export const UpdateClassRoom = () => {
 const FormSchema = z.object({
   code: z.string().min(3).max(20),
   descriptions: z.string().optional().nullable(),
-  size:  numericString(z.number().positive().max(1000)),
+  size: numericString(z.number().positive().max(1000)),
   isActive: z.boolean()
 
 });
 export const ClassForm = ({ classRoom }: any) => {
-
+  const navigate = useNavigate();
   const { put, data, loading, success, error } = useUpdateClassRoomData();
 
   const { register, reset, handleSubmit,
@@ -70,9 +57,12 @@ export const ClassForm = ({ classRoom }: any) => {
     reset(classRoom);
   }, [classRoom, reset]);
 
+  useMemo(() => {
+    if (success) {
+      navigate(`/pedagogical/class-rooms/${data?.id}`)
+    }
+  }, [success])
   return (<>
-
-    {success ? <MessageScreen message={"Turma registada com successo"} data={classRoom} status={'success'} /> : null}
     {!success ?
       <form onSubmit={handleSubmit(onSubmit)} >
         <Row>
@@ -89,30 +79,30 @@ export const ClassForm = ({ classRoom }: any) => {
             </Form.Group>
           </Col>
           <Col>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Lugares">
-              <Form.Control type="text" {...register("size")} />
-            </FloatingLabel>
-            {errors.size &&
-              <ErrorMessage message={errors.size?.message} />
-            }
-          </Form.Group></Col>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Lugares">
+                <Form.Control type="text" {...register("size")} />
+              </FloatingLabel>
+              {errors.size &&
+                <ErrorMessage message={errors.size?.message} />
+              }
+            </Form.Group></Col>
         </Row>
 
         <Row>
-            <Col>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <FloatingLabel
-                  controlId="floatingInput"
-                  label="Descricao">
-                  <Form.Control as="textarea" style={{height:'120px'}} rows={6} {...register("descriptions")} />
-                </FloatingLabel>
-                {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
-              </Form.Group>
-            </Col>
-          
+          <Col>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Descricao">
+                <Form.Control as="textarea" style={{ height: '120px' }} rows={6} {...register("descriptions")} />
+              </FloatingLabel>
+              {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
+            </Form.Group>
+          </Col>
+
         </Row>
         <Row>
           <Col>

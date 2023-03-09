@@ -5,8 +5,8 @@ import useAxiosFetch, { services } from '../../../../app/api/Api';
 import { ProgressBar } from 'react-bootstrap';
 import { TabScheduleClass } from './tabs/TabScheduleClass';
 import { Disabled } from './tabs/Disabled';
-import { TabClassyList } from './tabs/TabClassyList';
 import { TabHistory } from '../../Period/DetailPeriod/tabs/TabHistory';
+import { TabClasseList } from './tabs/TabClasseList';
 
 export const DetailsClassRoom = () => {
   const { id } = useParams()
@@ -16,7 +16,7 @@ export const DetailsClassRoom = () => {
   const { data: classRoom, loading } = useAxiosFetch(services.academic.classRoom + "/" + id)
 
   const tabsTitles = ['Turmas', 'Histórico']
-  const Tabs = [TabClassyList,History][tab]
+  const Tabs = [TabClasseList, History][tab]
 
 
   const persent = (classRoom: any) => ((classRoom?.enrollmentConfirmations?.length ?? 1) / (classRoom?.classRoomRoom?.size ?? 1)) * 100;
@@ -31,24 +31,10 @@ export const DetailsClassRoom = () => {
         </div>
         <div className="az-content-header-right">
 
-        <div className="media">
+          <div className="media">
             <div className="media-body text-right">
               <label>Lugares</label>
               <h6>{classRoom?.size ?? "-"}</h6>
-            </div>
-          </div>
-          <div className="media">
-            <div className="media-body text-right">
-              <label>Data de registo</label>
-              <h6>
-                <Moment format="DD [de] MMMM  [de] YYYY">
-                  {classRoom?.createdAt ?? '.'}
-                </Moment></h6>
-              <span>
-                <Moment format="dddd [as] h:m">
-                  {classRoom?.createdAt}
-                </Moment>
-              </span>
             </div>
           </div>
           <div className="media">
@@ -83,15 +69,15 @@ export const DetailsClassRoom = () => {
         </nav>
 
         <nav className="nav">
-          <Link className="nav-link" to={`/pedagogical/class-rooms/update/${classRoom?.id}`}><i className="far fa-edit"></i> Editar</Link>
-          <a className="nav-link" href="#"><i className="far fa-file-pdf"></i> Exportar em PDF</a>
-          <a className="nav-link" href="#"><i className="far fa-envelope"></i>Partilhar por Email</a>
-          <a className="nav-link" href="#"><i className="fas fa-ellipsis-h"></i></a>
+          <Link className="nav-link" to={`/pedagogical/class-rooms/update/${classRoom?.id}`}><i className="fa fa-edit"></i></Link>
+          <a className="nav-link" href="#"><i className="fa fa-share"></i></a>
+          <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
+          <a className="nav-link" href="#"><i className="fa fa-ellipsis-h"></i></a>
         </nav>
       </div>
 
       <div className="row row-sm mg-b-20">
-        {loading ? null : classRoom?.isActive  ? <Tabs classRoom={classRoom}/>:<Disabled text={"Turma desactivada"}/>}
+        {loading ? null : classRoom?.isActive ? <Tabs classRoom={classRoom} /> : <Disabled text={"Turma desactivada"} />}
       </div>
     </div>
   )
@@ -102,5 +88,5 @@ export const DetailsClassRoom = () => {
 
 const History = ({ classRoom }: any) => {
 
-  return <TabHistory modelName={'ClassyRoom'} objectId={classRoom?.id} />
+  return <TabHistory modelName={'ClasseRoom'} objectId={classRoom?.id} />
 }

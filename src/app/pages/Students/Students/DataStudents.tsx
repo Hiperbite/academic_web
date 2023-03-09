@@ -12,7 +12,7 @@ export const DataStudents = ({ student }: any) => {
                             <h6 className="card-title">Dados Pessoais do Estudante</h6>
                         </Col>
                         <Col className="text-right">
-                            <Link className="nav-link" to={`/students/update/${student.id}/personal`}><i className="far fa-edit"></i></Link>
+                            <Link className="nav-link" to={`/students/update/${student.id}/personal`}><i className="fa fa-edit"></i></Link>
                         </Col>
                     </Row>
 
@@ -70,7 +70,7 @@ export const DataStudents = ({ student }: any) => {
                                     <h6>{student?.person?.livingAddress?.province}</h6>
                                 </div>
                                 <div className="col-md-4">
-                                    <Link className="nav-link" style={{ float: "right" }} to={"/students/update/" + student.id+"/address"}><i className="far fa-edit"></i></Link>
+                                    <Link className="nav-link" style={{ float: "right" }} to={"/students/update/" + student.id+"/address"}><i className="fa fa-edit"></i></Link>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@ export const DataStudents = ({ student }: any) => {
                         <div className="list-group-item">
                             <div className="row">
                                 <Col>
-                                <Link className="nav-link" style={{ float: "right" }} to={`/students/update/${student.id}/contacts`}><i className="far fa-edit"></i></Link>
+                                <Link className="nav-link" style={{ float: "right" }} to={`/students/update/${student.id}/contacts`}><i className="fa fa-edit"></i></Link>
                                 </Col>
                             </div>
                             <div className="row">

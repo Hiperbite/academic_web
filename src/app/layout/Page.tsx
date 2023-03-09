@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { Col, Image, Row } from "react-bootstrap";
 import { Link, Outlet } from "react-router-dom"
-
+import storage from "../app/storage";
+import { UserProfile } from "../pages/User/UserProfile";
+import "./Page.scss"
 const menuItems: any = {
     pedagogical: [
         {
             text: "Menu Pedagogico", to: "/pedagogical", childs: [
-                { to: 'classy', text: 'Turmas' },
+                { to: 'classe', text: 'Turmas' },
                 { to: 'class-rooms', text: 'Salas' },
                 { to: 'periods', text: 'Periodo' },
                 { to: 'students', text: 'Periodo Academico' },]
@@ -35,9 +38,37 @@ const menuItems: any = {
                 { to: 'all', text: 'Todos registos' },
             ],
         }
+    ],
+    staffs: [
+        {
+            text: "Pessoal", to: "/staffs", childs: [
+                { to: '', text: 'Inicio' },
+                { to: 'list', text: 'Lista' },
+            ]
+        }
+    ],
+    users: [
+        {
+            text: "Pessoal", to: "/staffs", childs: [
+                { to: '', text: 'Inicio' },
+                { to: 'list', text: 'Contactos' },
+                { to: 'list', text: 'Privacidade' },
+                { to: 'list', text: 'Actividades' },
+            ]
+        }
+    ],
+    me: [
+        {
+            text: "Pessoal", to: "/me", childs: [
+                { to: '', text: 'Inicio' },
+                { to: 'contacts', text: 'Contactos' },
+                { to: 'settings', text: 'Privacidade' },
+                { to: 'activities', text: 'Actividades' },
+            ]
+        }
     ]
 };
-const Menu = ({ menu }: any) => {
+export const Menu = ({ menu }: any) => {
 
     const [activeMenu, setActiveMenu] = useState<any>()
     //const [currentMenuItem, setCurrentMenuItem] = useState<any>()
@@ -82,6 +113,14 @@ export const Page = ({ type }: any) => {
                 </div>
             </div>
         </div>
+    )
+}
+export const Default = ({ type }: any) => {
+
+    return (
+        <>
+            <UserProfile />
+        </>
     )
 }
 export const Blank = () => {

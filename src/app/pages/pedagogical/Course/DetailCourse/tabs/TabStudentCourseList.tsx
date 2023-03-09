@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Card, ListGroup, Modal } from "react-bootstrap";
 import Moment from "react-moment";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import useAxiosFetch, { Api, services } from "../../../../../app/api/Api";
 import { Autocomplete } from "../../../../Components/Autocomplete";
 import Paginate from "../../../../Components/Paginate";
 
-export const TabStudentCourseList = ({ classy }: any) => {
+export const TabStudentCourseList = ({ course, classe }: any) => {
 
     const [show, setShow] = useState(false);
 
@@ -14,54 +14,49 @@ export const TabStudentCourseList = ({ classy }: any) => {
     const handleShow = () => setShow(true);
 
     const navigate = useNavigate();
-    const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[classyId]': classy?.id, 'where[current]': 1 });
-    const { data, loading, isError } = useAxiosFetch(services.student.enrollmentConfirmations, params)
+    const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[current]': 1 });
+    const { data, loading, isError } = useAxiosFetch(services.student.enrollment, params)
+
 
     const updateParams = (opts: any) => {
         setParams({ ...params, ...opts });
     }
-
+    useMemo(() => {
+        updateParams({ 'where[classeId]': course?.classes.map((x: any) => x.id) })
+    }, [course?.classes])
     return (<>
         <div className="az-content-body pd-lg-l-40 d-flex flex-column">
             <h2 className="az-content-title">Estudantes</h2>
-            
+
             <div className='row'>
                 <div className='col-md-6'>
-
-                    <div className="az-content-label mg-b-5 hidden">Simple Table</div>
-                    <p className="mg-b-20 hidden">Using the most basic table markup.</p>
-
                 </div>
                 <div className='col-md-6 text-right'>
 
-                    <Button
-                        variant="primary"
-                        disabled={loading}
-                        onClick={handleShow}
-                    >
-                        {loading ? 'Loading…' : 'Registar'}
-                    </Button>
                 </div>
             </div>
 
             <hr className="mg-y-30" />
             <div className="table-responsive">
-                <table className="table table-striped mg-b-0">
+                <table className="table table-striped table-hover mg-b-0">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Nome</th>
-                            <th></th>
+                            <th>Turma</th>
+                            <th>Ano</th>
                             <th className="text-right">Data</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data?.data?.map((enrollment: any) => <tr onClick={() => navigate("/students/show/" + enrollment?.enrollment?.student?.id)}>
+                            <th scope="row">{enrollment?.enrollment?.person?.user?.avatar}</th>
                             <th scope="row">{enrollment?.enrollment?.code}</th>
                             <td>
-                                {enrollment?.enrollment?.student?.person?.firstName}  {enrollment?.enrollment?.student?.person?.otherName}  {enrollment?.enrollment?.student?.person?.lastName}
+                                {enrollment?.enrollment?.student?.person?.fullName}
                             </td>
-                            <td></td>
+                            <td>{enrollment?.classe?.code}</td>
+                            <td>{enrollment?.classe?.grade}º</td>
                             <td className="text-right">
 
                                 <Moment format="DD/MM/YYYY">
@@ -75,14 +70,14 @@ export const TabStudentCourseList = ({ classy }: any) => {
                     </tbody>
                 </table>
             </div>
-            <Paginate pages={data?.pages} updateParams={updateParams} params={data} />
-            <EnrollmentConfirmations show={show} handleClose={handleClose} classy={classy} updateParams={updateParams} />
+            <Paginate pages={data?.pages} total={data?.total} updateParams={updateParams} params={data} />
+            <EnrollmentConfirmations show={show}  handleClose={handleClose} classe={classe} updateParams={updateParams} />
         </div>
     </>)
 }
 
 
-const EnrollmentConfirmations = ({ show, handleClose, classy, updateParams }: any) => {
+const EnrollmentConfirmations = ({ show, handleClose, classe, updateParams }: any) => {
 
     const [student, setStudent] = useState<any>({})
 
@@ -102,7 +97,7 @@ const EnrollmentConfirmations = ({ show, handleClose, classy, updateParams }: an
             {
                 studentId: student.id,
                 enrollmentConfirmations: [{
-                    classyId: classy.id
+                    classeId: classe.id
                 }]
             }
         })
@@ -114,7 +109,7 @@ const EnrollmentConfirmations = ({ show, handleClose, classy, updateParams }: an
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Registar estudante na Turma #{classy?.code}</Modal.Title>
+                <Modal.Title>Registar estudante na Turma #{classe?.code}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {student?.id ?

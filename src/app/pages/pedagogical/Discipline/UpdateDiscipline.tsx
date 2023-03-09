@@ -1,12 +1,10 @@
 
 import Form from 'react-bootstrap/Form';
 import { useMemo, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { Card, Col, FloatingLabel,  Row } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import { Col, FloatingLabel,  Row } from "react-bootstrap";
 
 import { toast } from 'react-toastify';
-
-import 'react-toastify/dist/ReactToastify.css';
 
 import { z } from "zod";
 
@@ -76,7 +74,6 @@ export const DisciplineForm = ({discipline}:any) => {
 
   const onSubmit = async (form: any) => {
     setLoading(true)
-    debugger
     const { response: { data: response, status } } = await Api.put({ service: services.academic.discipline, data: {...form, id:discipline.id} })
     setData(response)
     if(status === 200) {
@@ -111,7 +108,7 @@ export const DisciplineForm = ({discipline}:any) => {
                 <FloatingLabel
                   controlId="floatingInput"
                   label="Descricao">
-                  <Form.Control as="textarea" rows={6} {...register("descriptions")} />
+                  <Form.Control as="textarea" rows={6}  style={{height:"160px"}} {...register("descriptions")} />
                 </FloatingLabel>
                 {errors.descriptions && <ErrorMessage message={errors.descriptions?.message} />}
               </Form.Group>
@@ -121,8 +118,6 @@ export const DisciplineForm = ({discipline}:any) => {
         </Row>
         <Row>
           <Col>
-
-
             <Form.Check
               type="switch"
               id="custom-switch"
