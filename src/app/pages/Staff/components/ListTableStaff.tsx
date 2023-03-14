@@ -19,6 +19,7 @@ export const ListTableStaff = ({ data, setParams, params }: any) => {
             <th>No</th>
             <th>Name</th>
             <th>Sexo</th>
+            <th>Idade</th>
             <th></th>
             <th>Data</th>
           </tr>
@@ -28,6 +29,7 @@ export const ListTableStaff = ({ data, setParams, params }: any) => {
             <th scope="row">{staff?.enrollment?.code ?? staff?.code}</th>
             <td>{staff?.person?.firstName} {staff?.person?.otherName} {staff?.person?.lastName}</td>
             <td>{staff?.person?.gender}</td>
+            <td>{staff?.person?.yearsOld} Anos</td>
             <td>{(staff?.roles?.map((role:string)=><><Badge bg="primary">{role}</Badge>{' '}</>))}</td>
             <td>
               <Moment format="DD/MM/YYYY">

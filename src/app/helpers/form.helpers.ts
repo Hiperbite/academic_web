@@ -11,3 +11,15 @@ export const numericString = (schema: z.ZodTypeAny) =>
             return undefined;
         }
     }, schema)
+
+export const floatString = (schema: z.ZodTypeAny) =>
+    z.preprocess((a) => {
+
+        if (typeof a === 'string') {
+            return parseFloat(a);
+        } else if (typeof a === 'number') {
+            return a;
+        } else {
+            return undefined;
+        }
+    }, schema)

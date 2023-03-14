@@ -19,15 +19,18 @@ export const ListTableStudents = ({ data, setParams, params }: any) => {
             <th>No</th>
             <th>Name</th>
             <th>Sexo</th>
+            <th>Turma</th>
+            <th>Ano</th>
             <th>Data</th>
           </tr>
         </thead>
         <tbody>
           {data?.data?.map((student: any) => <tr onClick={() => navigate("/students/show/" + student?.id)}>
-            <th scope="row">{student?.enrollment?.code ?? student?.code}</th>
-            <td>{student?.person?.firstName} {student?.person?.otherName} {student?.person?.lastName}</td>
+            <th scope="row">{student?.code ?? student?.entryCode}</th>
+            <td>{student?.person?.fullName}</td>
             <td>{student?.person?.gender}</td>
-            <td>{JSON.stringify(student?.enrollment?.current)}</td>
+            <td>{student?.enrollment?.classe?.code}</td>
+            <td>{student?.enrollment?.classe?.grade} º</td>
             <td>
               <Moment format="DD/MM/YYYY">
                 {student.createdAt}

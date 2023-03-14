@@ -38,7 +38,7 @@ export const ModalControls = ({ handleClose, Addon = <></> }: any) => {
             <div className='row'>
                 <div className='col-md-8 text-left'>
                     <Button variant="secondary" type="button" onClick={() => handleClose()}>
-                    <i className="fa fa-times"></i> {" "}
+                        <i className="fa fa-times"></i> {" "}
                         Cancelar
                     </Button>
                     <Addon />

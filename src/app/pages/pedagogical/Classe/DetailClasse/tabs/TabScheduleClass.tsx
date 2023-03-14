@@ -32,7 +32,8 @@ export const TabScheduleClass = ({ classe }: any) => {
 
 
     useMemo(async () => {
-        const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: classe?.course?.curricularPlanId, params })
+        debugger
+        const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: classe?.course?.id, params:{} })
         setCurricularPlan(response)
     }, [params])
 
@@ -73,6 +74,7 @@ export const TabScheduleClass = ({ classe }: any) => {
 
     return (<>
         <div className="az-content-body pd-lg-l-40 d-flex flex-column">
+            {classe?.course?.curricularPlanId}
             <div className='row'>
                 <div className='col-md-6'>
                     <h2 className="az-content-title">Horario</h2>

@@ -45,7 +45,7 @@ export const FormScheduleClassRegister = ({ updateParams, show, item, handleClos
             service: services.academic.curricularPlanItem,
             params: {
                 pageSize: 100,
-                'where[curricularPlanId]': classe?.course?.curricularPlanId,
+                'where[curricularPlanId]': classe?.course?.id,
                 'where[semester]': classe?.semester,
             }
         });

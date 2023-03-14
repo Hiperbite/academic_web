@@ -10,7 +10,7 @@ import { ListTableStudents } from '../components/ListTableStudents';
 export const AllStudents = () => {
 
     const navigate = useNavigate();
-    const [params, setParams] = useState({ pageSize: 4, page: 1 });
+    const [params, setParams] = useState({ pageSize: 6, page: 1 });
     const {
       data,
       loading,

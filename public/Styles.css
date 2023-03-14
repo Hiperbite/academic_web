@@ -2553,7 +2553,7 @@ a.nav-link[href="/"] {
 .card:hover {
     box-shadow: 0 0 35px #ccc;
     margin-top: -5px;
-    margin-bottom: 5px;
+    margin-bottom: 20px !important;
 }
 
 .react-date-picker__wrapper {

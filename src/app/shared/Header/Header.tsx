@@ -5,10 +5,10 @@ import { selectCurrentUser } from "../../app/api/auth/authSlice";
 import { ProfileMenu } from "./ProfileMenu";
 
 const menuItems = [
-    { to: '/home', text: 'Dashboard', active: false },
-    { to: '/students', text: 'Estudantes', active: false },
-    { to: '/staffs', text: 'Pessoal', active: false },
-    { to: '/pedagogical', text: 'Pedagógico', active: false },
+    { to: '/home', text: 'Dashboard' },
+    { to: '/students', text: 'Estudantes', },
+    { to: '/staffs', text: 'Pessoal', },
+    { to: '/pedagogical', text: 'Pedagógico' },
     { to: '#', text: 'Biblioteca', active: false },
     { to: '#', text: 'Acervo Digital', active: false },
     { to: '#', text: 'Definições', active: false },
@@ -53,7 +53,7 @@ export const Header = () => {
                                 to={menuItem.to}
                                 className="nav-link"
                             >
-                                <i className="fa fa-exclamation"></i> {menuItem.text}
+                                {menuItem.active == false ? <i className="fa fa-exclamation"></i> : null} {menuItem.text}
                             </Link>
                         </li>
                     )}
@@ -106,7 +106,7 @@ export const Header = () => {
                         <div className="dropdown-footer"><Link to="">View All Notifications</Link></div>
                     </div>{/* dropdown-menu */}
                 </div>{/* az-header-notification */}
-                <ProfileMenu/>
+                <ProfileMenu />
             </div>{/* az-header-right */}
         </div>{/* container */}
     </div >

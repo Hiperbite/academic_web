@@ -20,7 +20,7 @@ export const DetailsClasse = () => {
   const Tabs = [TabStudentClasseList, TabScheduleClass, TabAssessmentClasse, History][tab]
 
 
-  const persent = (classe: any) => Number((((classe?.enrollments?.length ?? 1) / (classe?.classeRoom?.size ?? 1)) * 100).toFixed(2));
+  const persent = (classe: any) => Number((((classe?.activeEnrollments?.length ?? 1) / (classe?.classeRoom?.size ?? 1)) * 100).toFixed(2));
 
 
   return (
@@ -37,7 +37,7 @@ export const DetailsClasse = () => {
           <div className="media">
             <div className="media-body text-right">
               <label>Sala</label>
-              <h6>{classe?.enrollments?.length}/{classe?.classeRoom?.size}</h6>
+              <h6>{classe?.activeEnrollments?.length}/{classe?.classeRoom?.size}</h6>
             </div>
           </div><div className="media">
             <div className="media-body text-right">
@@ -47,8 +47,14 @@ export const DetailsClasse = () => {
           </div>
           <div className="media">
             <div className="media-body text-right">
-              <label>Ano</label>
+              <label> Ano</label>
               <h6>{classe?.grade ? `${classe?.grade} º ` : "-"} </h6>
+            </div>
+          </div>
+          <div className="media">
+            <div className="media-body text-right">
+              <label> Sem</label>
+              <h6>{classe?.semester}º </h6>
             </div>
           </div>
           <div className="media">

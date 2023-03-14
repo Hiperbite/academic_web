@@ -17,7 +17,7 @@ export const ListClasse = () => {
   const updateParams = (opts: any) => {
     setParams({ ...params, ...opts });
   }
-  const persent = (classe: any) => Number((((classe?.activesEnrollments?.length ?? 1) / (classe?.classeRoom?.size ?? 1)) * 100).toFixed(2));;
+  const persent = (classe: any) => Number((((classe?.activeEnrollments?.length ?? 1) / (classe?.classeRoom?.size ?? 1)) * 100).toFixed(2));;
 
   return (
     <div className="az-content-body pd-lg-l-40 d-flex flex-column">
@@ -68,7 +68,7 @@ export const ListClasse = () => {
                 {classe?.classeRoom?.isActive ? '' : 'x'}
               </td>
               <td>
-                {classe?.activesEnrollments?.length ?? '-'}/
+                {classe?.activeEnrollments?.length ?? '-'}/
                 {classe?.classeRoom?.size ?? '-'}</td>
               <td>
 

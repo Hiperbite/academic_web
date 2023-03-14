@@ -29,27 +29,29 @@ export const DetailsStudents = () => {
     <div className="az-content-body">
       <div className="az-dashboard-one-title">
         <div>
-          <h2 className="az-dashboard-title"># {student?.enrollment ? student?.enrollment?.code : student?.code}</h2>
-          <h1>{student?.person?.firstName} {student?.person?.otherName} {student?.person?.lastName}</h1>
+          
+          <h2 className="az-dashboard-title"># {student?.code ? student?.code : student?.entryCode}</h2>
+          <h1>{student?.person?.fullName}</h1>
           <p className="az-dashboard-text">
-            {student?.code
+            {student?.enrollment
               ? <Badge bg="primary"> Estudante matriculado </Badge>
               : <Badge bg="warning" text="dark">Candidato</Badge>}
-            {student?.enrollment?.isActive
-              ? <Badge bg="danger">Matricula cancelada</Badge>
-              : null}
-            {student?.isActive
-              ? <Badge pill bg="success">Estudante Activo</Badge>
-              : <Badge pill bg="danger">Estudante Suspenco</Badge>}
+            {!student?.enrollment?.isActive
+              ? null:  <Badge bg="danger">Matricula cancelada</Badge>
+              }
+            {!student?.isActive
+              ? <Badge pill bg="danger">Suspenco</Badge>
+            : null}
           </p>
         </div>
         <div className="az-content-header-right">
           {student?.code ? <>
+          
             <div className="media">
               <div className="media-body text-right">
                 <label>Ano</label>
                 <h6>
-                  {student?.current?.classe?.grade} º
+                  {student?.enrollment?.classe?.grade} º
                 </h6>
                 <span>
 
@@ -57,10 +59,10 @@ export const DetailsStudents = () => {
               </div>
             </div>
             <div className="media">
-              <Link to={"/pedagogical/classe/" + student?.current?.classe?.id} className="media-body text-right">
+              <Link to={"/pedagogical/classe/" + student?.enrollment?.classe?.id} className="media-body text-right">
                 <label>Turma</label>
                 <h6>
-                  {student?.current?.classe?.code}
+                  {student?.enrollment?.classe?.code}
                 </h6>
                 <span>
 
@@ -105,7 +107,7 @@ export const DetailsStudents = () => {
 
         <nav className="nav">
           <Link className="nav-link" to={''} onClick={() => setTab(5)}><i className="fa fa-history"></i></Link>
-          <a className="nav-link" href="#"><i className="fa fa-file-pdf"></i></a>
+          <a className="nav-link" href="#"><i className="fa fa-print"></i></a>
           <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
           <a className="nav-link" href="#" ><i className="fa fa-ellipsis-h"></i></a>
           <a className="nav-link" href="#" ><i className="fa fa-ellipsis-h"></i></a>

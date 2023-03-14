@@ -24,7 +24,7 @@ export const UpdateExistedStudent = () => {
         <span>Listagem</span>
       </div>
       <h1>Actualizar estudante</h1>
-      <h2 className="az-content-title">#{student?.enrollment?.code ?? student?.code}</h2>
+      <h2 className="az-content-title">#{student?.code ?? student?.entryCode} - {student?.person?.fullName}</h2>
 
       <hr className="mg-y-30" />
 

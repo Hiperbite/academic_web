@@ -1,7 +1,7 @@
 import './StudentEnrollment.scss'
 
 import React, { useState } from 'react'
-import { Button, Card, ListGroup, Modal, ProgressBar } from 'react-bootstrap'
+import { Badge, Button, Card, ListGroup, Modal, ProgressBar } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import useAxiosFetch, { Api, services } from '../../../../app/api/Api'
 import Paginate from '../../../Components/Paginate'
@@ -25,9 +25,7 @@ export const StudentEnrollment = ({ show, handleClose, student }: any) => {
             service: services.student.enrollment, data:
             {
                 studentId: student.id,
-                enrollmentConfirmations: [{
-                    classeId: classe.id
-                }]
+                classeId: classe.id
             }
         })
         handleClose()
@@ -43,8 +41,6 @@ export const StudentEnrollment = ({ show, handleClose, student }: any) => {
             </Modal.Header>
             <Modal.Body>
                 <ListClasse setClasse={setClasse} selectedClass={classe} />
-                <hr />
-
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => handleClose(false)}>
@@ -72,7 +68,7 @@ export const ListClasse = ({ setClasse, selectedClass }: any) => {
     const updateParams = (opts: any) => {
         setParams({ ...params, ...opts });
     }
-    const persent = (classe: any) => Number((((classe?.activesEnrollments?.length ?? 1) / (classe?.classeRoom?.size ?? 1)) * 100).toFixed(2));
+    const persent = (classe: any) => Number((((classe?.activeEnrollments?.length ?? 1) / (classe?.classeRoom?.size ?? 1)) * 100).toFixed(2));
 
 
     const handleSetClass = (classe: any) => {
@@ -82,74 +78,54 @@ export const ListClasse = ({ setClasse, selectedClass }: any) => {
             setClasse(classe)
         }
     }
-    return (
-        <div className="az-content-body pd-lg-l-40 d-flex flex-column">
-            <div className="az-content-breadcrumb">
-                <span>Academicos</span>
-                <span>Turmas</span>
-                <span>Listagem</span>
+    return (<>
+        <div className='row'>
+            <div className='col-md-6'>
+                <h2 className="az-content-title">Turmas</h2>
             </div>
-
-            <h2 className="az-content-title">Turmas</h2>
-            <div className='row'>
-                <div className='col-md-6'>
-
-                    <div className="az-content-label mg-b-5">Simple Table</div>
-                    <p className="mg-b-20">Using the most basic table markup.</p>
-
-                </div>
-                <div className='col-md-6 text-right'>
-                </div>
+            <div className='col-md-6 text-right'>
             </div>
-
-            <hr className="mg-y-30" />
-
-            <div className="table-responsive">
-                <table className="table table-striped mg-b-0">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Turno</th>
-                            <th>Ano</th>
-                            <th>Sala</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data?.data?.map((classe: any) => <tr  className={`overload_${persent(classe)}`} onClick={() => handleSetClass(classe)}>
-                            <th scope="row">{classe.code}</th>
-
-                            <td>{classe?.academicPeriod?.code ?? '-'}</td>
-                            <td>{classe?.grade ? `${classe?.grade} º` : '-'}</td>
-                            <td>{classe?.classeRoom?.code ?? '-'}</td>
-                            <td>
-                                {classe?.activesEnrollments?.length ?? '-'}/
-                                {classe?.classeRoom?.size ?? '-'}</td>
-                            <td>
-
-                                <ProgressBar now={persent(classe)} label={`${persent(classe)}%`} />
-                            </td>
-                            <td>
-                                {selectedClass?.id === classe?.id
-                                    ? <Button onClick={() => setClasse({})} variant={'success'}><i className="fa fa-check"></i></Button>
-                                    : <Button onClick={() => handleSetClass(classe)} variant={'xlight'}></Button>
-                                }
-                            </td>
-                        </tr>)}
-                    </tbody>
-                </table>
-            </div>
-            <nav aria-label="Page navigation">
-                <div className="row">
-                    <div className="col-md-6">
-                        {data?.page}/{data?.pages} - {data?.total} registos
-                    </div>
-                    <div className="col-md-6">
-                        <Paginate pages={data?.pages} updateParams={updateParams} params={params} />
-                    </div>
-                </div>
-            </nav>
         </div>
+
+        <div className="table-responsive">
+            <table className="table table-striped table-hover mg-b-0">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Turno</th>
+                        <th>Ano</th>
+                        <th>Curso</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data?.data?.map((classe: any) => <tr className={`overload_${persent(classe)}`} onClick={() => handleSetClass(classe)}>
+                        <th scope="row">{classe.code}</th>
+
+                        <td>{classe?.period?.code ?? '-'}</td>
+                        <td>{classe?.grade ? `${classe?.grade} º` : '-'}</td>
+                        <td>{classe?.course?.code ?? '-'} - {classe?.course?.name ?? '-'}</td>
+                        <td>
+                            {classe?.activeEnrollments?.length}/
+                            {classe?.classeRoom?.size ?? '-'}</td>
+                        <td>
+
+                            <ProgressBar now={persent(classe)} label={`${persent(classe)}%`} />
+                        </td>
+                        <td>
+                            {selectedClass?.id === classe?.id
+                                ? <Badge onClick={() => setClasse({})} bg={'success'}><i className="fa fa-check"></i></Badge>
+                                : <Badge onClick={() => handleSetClass(classe)} bg={'xlight'}></Badge>
+                            }
+                        </td>
+                    </tr>)}
+                </tbody>
+            </table>
+        </div>
+
+        <Paginate pages={data?.pages} total={data?.total} updateParams={updateParams} params={params} />
+    </>
+
     )
 }

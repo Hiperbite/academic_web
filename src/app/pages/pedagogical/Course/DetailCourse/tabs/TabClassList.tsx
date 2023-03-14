@@ -18,7 +18,7 @@ export const TabClassList = ({ course }: any) => {
     const updateParams = (opts: any) => {
         setParams({ ...params, ...opts });
     }
-    const persent = (classe: any) => Number((((classe?.enrollments?.length ?? 1) / (classe?.classeRoom?.size ?? 1)) * 100).toFixed(2));;
+    const persent = (classe: any) => Number((((classe?.activeEnrollments?.length ?? 1) / (classe?.classeRoom?.size ?? 1)) * 100).toFixed(2));;
 
     return (
         <div className="az-content-body pd-lg-l-40 d-flex flex-column">
@@ -46,7 +46,7 @@ export const TabClassList = ({ course }: any) => {
                             <td>{classe?.grade ? `${classe?.grade} º` : '-'}</td>
                             <td>{classe?.classeRoom?.code ?? '-'}</td>
                             <td>
-                                {classe?.enrollments?.length ?? '-'}/
+                                {classe?.activeEnrollments?.length ?? '-'}/
                                 {classe?.classeRoom?.size ?? '-'}</td>
                             <td>
 

@@ -12,7 +12,8 @@ import { z } from 'zod'
 
 const ContactFormSchema = z.object({
     type: z.string().min(3).max(20),
-    descriptions: z.string()
+    descriptions: z.string(),
+    id: z.string().uuid().optional().nullable()
 })
 
     .superRefine((v: any, ctx: any) => {
@@ -43,9 +44,9 @@ const FormSchema = z.object({
 
 export const ContactDataForm = ({ student }: any) => {
     const [contacts, setcontacts] = useState<any>()
-    const { register, control, handleSubmit, formState: { errors }, }: any = useForm({
+    const { register, control, handleSubmit, reset, formState: { errors }, }: any = useForm({
         resolver: zodResolver(FormSchema),
-        defaultValues: { contacts: student?.person?.contacts }// you can populate the fields by this attribute 
+        defaultValues: { contacts: student?.person?.contacts.filter(({isActive}:any)=>isActive) ?? [{}]}// you can populate the fields by this attribute 
     });
     const navigate = useNavigate();
     //const errors: any = {};
@@ -55,7 +56,7 @@ export const ContactDataForm = ({ student }: any) => {
     });
 
     const onSubmit = async (data: any) => {
-        const { response: { data: response, status } } = await Api.put({ service: services.common.contacts,id:student?.personId, data: data.contacts })
+        const { response: { data: response, status } } = await Api.put({ service: services.common.contacts, id: student?.personId, data: data.contacts })
         if (status === 200) {
             toast.success('Contactos actualizados com sucesso');
             navigate('/students/show/' + student?.id);
@@ -66,15 +67,12 @@ export const ContactDataForm = ({ student }: any) => {
 
     }
     useMemo(() => {
-        debugger
         setcontacts(errors?.contacts);
-
-        const rr = contacts ?? []
-        const err = errors;
     }, [errors])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            <h3>Contactos</h3>
             {fields.map((item, index) => (
                 <Row>
                     <Col>

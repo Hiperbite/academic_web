@@ -14,7 +14,8 @@ const FormSchema = z.object({
     disciplineId: z.string().min(3).max(50),
     professorId: z.string().max(50).nullable().optional(),
     semester: numericString(z.number().positive().max(12)),
-    descriptions: z.string().optional()
+    descriptions: z.string().optional(),
+    curricularPlanId: z.string()
 });
 
 export const FormRegisterCurricularItem = ({ updateParams, show, item, handleClose, curricularPlan }: any) => {
@@ -23,8 +24,8 @@ export const FormRegisterCurricularItem = ({ updateParams, show, item, handleClo
     const [disciplines, setDisciplines] = useState<any>()
     const [professors, setProfessors] = useState<any[]>()
     const [loading, setLoading] = useState<boolean>(false)
-    const { disciplineId, semester, descriptions, professorId } = item ?? {}
-    const defaultValues = { disciplineId, semester, descriptions, professorId }
+    const { disciplineId, semester, descriptions, professorId} = item ?? {}
+    const defaultValues = { disciplineId, semester, descriptions, professorId, curricularPlanId:curricularPlan?.id }
     const { register, handleSubmit, reset,
         formState: { errors }, } = useForm({
             resolver: zodResolver(FormSchema)
@@ -119,10 +120,8 @@ export const FormRegisterCurricularItem = ({ updateParams, show, item, handleClo
                         }
                     </Form.Group>
                 </Col>
-
             </Row>
             <Row>
-
                 <Col>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <FloatingLabel

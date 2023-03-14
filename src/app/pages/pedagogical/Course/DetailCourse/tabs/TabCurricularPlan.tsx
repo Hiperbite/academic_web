@@ -5,20 +5,14 @@ import Moment from "react-moment";
 import { Api, services } from "../../../../../app/api/Api";
 import { RegisterCurricularItem } from "../components/RegisterCurricularItem";
 
-const plans = {
-    years:
-        [
-
-        ]
-}
 export const TabCurricularPlan = ({ course }: any) => {
 
     const [registerCurricularItem, showRegisterCurricularItem] = useState(false)
-    const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[courseId]': course?.id });
+    const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[id]': course?.id });
     const [data, setData] = useState<any>()
     const [item, setItem] = useState<any>()
     useMemo(async () => {
-        const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: course?.curricularPlanId, params })
+        const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: course?.id, params })
         setData(response)
     }, [course?.curricularPlanId, params])
     useMemo(async () => {
@@ -37,10 +31,10 @@ export const TabCurricularPlan = ({ course }: any) => {
         <div className="az-content-body pd-lg-l-40 d-flex flex-column">
             <div className='row'>
                 <div className='col-md-6'>
-            <h2 className="az-content-title">Plano Curricular do curso</h2>
+                    <h2 className="az-content-title">Plano Curricular do curso</h2>
                 </div>
                 <div className='col-md-6 text-right'>
-                    <Button variant="primary" size="sm" onClick={() => {setItem(null);showRegisterCurricularItem(true)}}>
+                    <Button variant="primary" size="sm" onClick={() => { setItem(null); showRegisterCurricularItem(true) }}>
                         <i className="fa fa-plus"></i>{" "}
                         Adicionar</Button>
                     <RegisterCurricularItem updateParams={updateParams} show={registerCurricularItem} handleClose={showRegisterCurricularItem} item={item} curricularPlan={data} />
@@ -77,7 +71,6 @@ const Semester = ({ semester, items, setItem }: any) => {
     return <>
         <tr>
             <td scope="row" colSpan={2}>{semester}º  Semestre</td>
-
             <th scope="row">-</th>
             <th scope="row">-</th>
         </tr>

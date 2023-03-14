@@ -22,7 +22,7 @@ export const DocumentDataForm = ({ student }: any) => {
     });
 
     const onSubmit = async (data: any) => {
-        const { response: { data: response, status } } = await Api.put({ service: services.common.documents, data: data.documents })
+        const { response: { data: response, status } } = await Api.put({ service: services.common.documents, id: student?.personId, data: data.documents })
         if (status === 200) {
             toast.success('Contactos actualizados com sucesso');
         }
@@ -95,7 +95,7 @@ export const DocumentDataForm = ({ student }: any) => {
                                 controlId="floatingInput"
                                 label="Data de validade"
                                 className="mb-3">
-                                    <Controller
+                                <Controller
                                     render={({
                                         field: { onChange, onBlur, value, name, ref },
                                         fieldState: { invalid, isTouched, isDirty, error },

@@ -1,10 +1,10 @@
-import { Col, Row } from "react-bootstrap"
+import { Col, Image, Row } from "react-bootstrap"
 import Moment from "react-moment"
 import { Link } from "react-router-dom"
 
 export const DataStudents = ({ student }: any) => {
-    return (
-        <div className="col-lg-8">
+    return (<Row>
+        <Col md={8} >
             <div className="card card-dashboard-pageviews">
                 <div className="card-header">
                     <Row>
@@ -100,7 +100,7 @@ export const DataStudents = ({ student }: any) => {
                             </div>
                             <div className="row">
 
-                                {student?.person?.contacts?.map((contact: any) =>
+                                {student?.person?.contacts?.filter((contact:any)=>contact.isActive).map((contact: any) =>
                                     <div className="col-md-4">
                                         <span>{contact?.type}</span>
                                         <h6>
@@ -113,6 +113,10 @@ export const DataStudents = ({ student }: any) => {
                 </div>
             </div>
 
-        </div>
+        </Col>
+        <Col>
+            <Image thumbnail src={student?.person?.user?.avatar}/>
+        </Col>
+        </Row>
     )
 }

@@ -27,10 +27,10 @@ const FormSchema = z.object({
         province: z.string().min(2)
     })
 });
-export const AddressDataForm = ({ student }: any) => {
+export const AddressDataForm = ({ staff }: any) => {
     const navigate = useNavigate()
 
-    const { livingAddress, birthPlaceAddress } = student?.person
+    const { livingAddress, birthPlaceAddress } = staff?.person
 
     const { register, handleSubmit, formState: { errors } }: any = useForm({
         defaultValues: { livingAddress, birthPlaceAddress },
@@ -47,12 +47,12 @@ export const AddressDataForm = ({ student }: any) => {
                     data: { 
                         livingAddress:{...livingAddress,...updatedlivingAddress}, 
                         birthPlaceAddress:{...birthPlaceAddress,...updatedbirthPlaceAddress},
-                        personId: student?.person.id }
+                        personId: staff?.person.id }
                 })
 
         if (status === 200) {
             toast.success('Endereços actualizados com sucesso.');
-            navigate('/students/show/' + student?.id);
+            navigate('/staffs/show/' + staff?.id);
         }
         else {
             toast.error('Não foi possive salvar os endereços, por favor tente mais tarde');

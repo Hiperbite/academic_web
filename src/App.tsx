@@ -26,7 +26,6 @@ import { UpdatePeriod } from './app/pages/pedagogical/Period/UpdatePeriod';
 import { RequireAuth } from './app/app/api/auth/RequireAuth';
 import { ListCandidates } from './app/pages/Students/Candidates/ListCandidates';
 import { AllStudents } from './app/pages/Students/Random/AllStudents';
-import { UpdateExistedStudent } from './app/pages/Students/Students/UpdateStudent/UpdateExistedStudent';
 import { Discipline } from './app/pages/pedagogical/Discipline/Discipline';
 import { NewDiscipline } from './app/pages/pedagogical/Discipline/NewDiscipline';
 import { DetailDiscipline } from './app/pages/pedagogical/Discipline/DetailDiscipline/DetailDiscipline';
@@ -48,6 +47,8 @@ import { ListClasse } from './app/pages/pedagogical/Classe/ListClasse';
 import { NewClasse } from './app/pages/pedagogical/Classe/NewClasse';
 import { UpdateClasse } from './app/pages/pedagogical/Classe/UpdateClasse';
 import { DetailsClasse } from './app/pages/pedagogical/Classe/DetailClasse/DetailsClasse';
+import { UpdateExistedStudent } from './app/pages/Students/Students/UpdateStudent/UpdateExistedStudent';
+import { UpdateExistedStaff } from './app/pages/Staff/Staff/UpdateStaff/UpdateExistedStaff';
 
 
 
@@ -86,7 +87,7 @@ function App() {
                 <Route path="list" element={<ListStaff />} />
                 <Route path="new/*" element={<RegisterNewStaff />} />
                 <Route path="show/:id" element={<DetailsStaff />} />
-                <Route path="update/:id/*" element={<UpdateExistedStudent />} />
+                <Route path="update/:id/*" element={<UpdateExistedStaff/>} />
 
                 <Route path="candidates" element={<ListCandidates />} />
                 <Route path="all" element={<AllStudents />} />

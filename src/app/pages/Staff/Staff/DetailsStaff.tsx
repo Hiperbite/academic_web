@@ -68,7 +68,7 @@ export const DetailsStaff = () => {
 
         <nav className="nav">
           <Link className="nav-link" to={''}  onClick={() => setTab(5)}><i className="fa fa-history"></i></Link>
-          <a className="nav-link" href="#"><i className="fa fa-file-pdf"></i></a>
+          <a className="nav-link" href="#"><i className="fa fa-print"></i></a>
           <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
           <a className="nav-link" href="#" ><i className="fa fa-ellipsis-h"></i></a>
           <a className="nav-link" href="#" ><i className="fa fa-ellipsis-h"></i></a>

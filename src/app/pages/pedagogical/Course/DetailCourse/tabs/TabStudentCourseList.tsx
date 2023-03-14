@@ -41,7 +41,7 @@ export const TabStudentCourseList = ({ course, classe }: any) => {
                 <table className="table table-striped table-hover mg-b-0">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th colSpan={2}>No</th>
                             <th>Nome</th>
                             <th>Turma</th>
                             <th>Ano</th>
@@ -50,10 +50,10 @@ export const TabStudentCourseList = ({ course, classe }: any) => {
                     </thead>
                     <tbody>
                         {data?.data?.map((enrollment: any) => <tr onClick={() => navigate("/students/show/" + enrollment?.enrollment?.student?.id)}>
-                            <th scope="row">{enrollment?.enrollment?.person?.user?.avatar}</th>
-                            <th scope="row">{enrollment?.enrollment?.code}</th>
+                            <th scope="row">{enrollment?.person?.user?.avatar}</th>
+                            <th scope="row">{enrollment?.student?.code}</th>
                             <td>
-                                {enrollment?.enrollment?.student?.person?.fullName}
+                                {enrollment?.student?.person?.fullName}
                             </td>
                             <td>{enrollment?.classe?.code}</td>
                             <td>{enrollment?.classe?.grade}º</td>

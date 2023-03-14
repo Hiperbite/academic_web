@@ -26,7 +26,7 @@ const FormSchema = z.object({
 
 });
 export const PersonalDataForm = ({ student }: any) => {
-    const dispatch = useDispatch()
+    student.person.birthDate=moment(student.person.birthDate).toDate()
     const navigate = useNavigate()
     const data = useSelector((state: any) => state.person)
     const { register, reset, handleSubmit, control,
@@ -35,7 +35,7 @@ export const PersonalDataForm = ({ student }: any) => {
             resolver: zodResolver(FormSchema)
         })
 
-    const memoizedValue = useMemo(() => reset(student.person), student.person)
+    useMemo(() => reset(student.person), [reset, student.person])
 
     const onSubmit = async (form: any) => {
         const { response: { data: response, status } }  = await Api.put({ service: services.common.persons, data: { ...form, id: student?.person?.id } })

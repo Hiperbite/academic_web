@@ -4,17 +4,17 @@ import { Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { Api } from '../../../../app/api/Api';
 
-import { UpdateStudent } from './UpdateStudent';
+import { UpdateStaff } from './UpdateStaff';
 
-export const UpdateExistedStudent = () => {
+export const UpdateExistedStaff = () => {
 
   const { id } = useParams();
-  const [student, setStudent] = useState<any>({})
+  const [staff, setStaff] = useState<any>({})
 
   useMemo(async () => {
     debugger
-    const { response: { data } } = await Api.get({ service: `/students/${id}?` });
-    setStudent(data||{})
+    const { response: { data } } = await Api.get({ service: `/staffs/${id}?` });
+    setStaff(data||{})
   }, [])
 
   return (
@@ -23,15 +23,15 @@ export const UpdateExistedStudent = () => {
         <span>Estudantes</span>
         <span>Listagem</span>
       </div>
-      <h1>Actualizar estudante</h1>
-      <h2 className="az-content-title">#{student?.enrollment?.code ?? student?.code}</h2>
+      <h1>Actualizar Pessoal</h1>
+      <h2 className="az-content-title">#{staff?.code} - {staff?.person?.fullName}</h2>
 
       <hr className="mg-y-30" />
 
       <div className="card-body">
         <Row>
           <Col>
-            {student.id ? <UpdateStudent student={student} /> : null}
+            {staff.id ? <UpdateStaff staff={staff} /> : null}
           </Col>
           <Col xs lg={4}></Col>
         </Row>

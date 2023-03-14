@@ -47,6 +47,7 @@ export const TabStudentClasseList = ({ classe }: any) => {
                             <th>No</th>
                             <th>Nome</th>
                             <th>Sexo</th>
+                            <th>Idade</th>
                             <th></th>
                             <th className="text-right">Data</th>
                         </tr>
@@ -61,9 +62,14 @@ export const TabStudentClasseList = ({ classe }: any) => {
                                 {enrollment?.student?.person?.gender}
                             </td>
                             <td>
-                                {enrollment?.student?.person?.yearsOld}
+                                {enrollment?.student?.person?.yearsOld} anos
                             </td>
-                            <td></td>
+                            <td>
+                                {enrollment?.student?.isActive
+                                    ? <Badge pill bg="success">Activo</Badge>
+                                    : <Badge pill bg="danger">Suspenco</Badge>}
+                            </td>
+
                             <td className="text-right">
 
                                 <Moment format="DD/MM/YYYY">
@@ -112,47 +118,67 @@ const EnrollmentConfirmations = ({ show, handleClose, classe, updateParams }: an
     }
 
     return (
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header >
+        <Modal show={show} size={"lg"} onHide={handleClose}>
+            <Modal.Header>
                 <Modal.Title>Registar estudante na Turma #{classe?.code}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {student ?
-                    <Row><Row><Col><Badge onClick={() => setStudent(null)} className="pull-right"><i className="fa fa-times"></i></Badge></Col></Row>
-                    <Col md={4}>
-                        
-                        <Image thumbnail src={student?.person?.user?.avatar ?? '/logo192.png'} />
-</Col>
-<Col>
-                        <ListGroup className="list-group-flush">
-                            <ListGroup.Item>
+                    <Row><Row><Col>
+                        <button onClick={() => setStudent(null)} type="button" className="btn-close pull-right" aria-label="Close"></button>
+                    </Col></Row>
 
-                            {student?.code ?? student?.entryCode }
-                            <h5>{student?.person?.fullName}</h5>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                            <span style={spanStyles}>Data de Nascimento</span>
-                                        <Moment format="DD/MM/YYYY">
-                                            {student?.person?.birthDate}
-                                        </Moment>
-                                        <span style={spanStyles}>Idade</span>
-                                        {student?.person?.yearsOld} anos
-                                
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col><span style={spanStyles}>EStado civil</span>
-                                        {student?.person?.maritalStatus}</Col>
-                                    <Col>
-                                        <span style={spanStyles}>Sexo</span>
-                                        {student?.person?.gender}</Col>
-                                </Row>
+                        <Col md={4} className="img-thumbnail image" style={{ minHeight: "300px", backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover", backgroundImage: `url(${student?.person?.user?.avatar ?? '/logo192.png'})` }}>
 
-                            </ListGroup.Item>
-                        </ListGroup>
+                        </Col>
+                        <Col>
+                            <ListGroup className="list-group-flush">
+                                <ListGroup.Item>
 
-                        <Link to={`/students/show/${student?.id}`}>Ver mais</Link>
-                    </Col>
+                                    <h4>{student?.code ?? student?.entryCode}</h4>
+                                    <h3>{student?.person?.fullName}</h3>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    {student?.isActive
+                                        ? <Badge pill bg="success">Activo</Badge>
+                                        : <Badge pill bg="danger">Suspenco</Badge>}
+
+                                    {student?.code
+                                    ? <Badge pill bg="primary">Estudante</Badge>
+                                    : <Badge pill bg="warning">Candidato</Badge>}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>
+                                            <span style={spanStyles}>Data de Nascimento</span>
+                                            <Moment format="DD/MM/YYYY">
+                                                {student?.person?.birthDate}
+                                            </Moment>
+                                        </Col>
+                                        <Col>
+                                            <span style={spanStyles}>Idade</span>
+                                            {student?.person?.yearsOld} anos
+                                        </Col>
+                                    </Row>
+
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col><span style={spanStyles}>EStado civil</span>
+                                            {student?.person?.maritalStatus}</Col>
+                                        <Col>
+                                            <span style={spanStyles}>Sexo</span>
+                                            {student?.person?.gender}</Col>
+                                    </Row>
+
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                <Link to={`/students/show/${student?.id}`} className={"badge rounded-pill bg-secondary"}>Ver mais</Link>
+                                </ListGroup.Item>
+                            </ListGroup>
+
+                            
+                        </Col>
                     </Row> :
                     <Autocomplete options={data?.data} onChange={onChange} />
                 }

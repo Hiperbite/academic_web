@@ -33,7 +33,9 @@ export const services = {
         contacts: "/commons/contacts",
         documents: "/commons/documents",
         persons: "/commons/persons",
-        address: "/commons/address"
+        address: "/commons/address",
+        assessmentTypes: "/commons/assessment-types",
+        assessments: "/commons/assessments"
     },
     academic: {
         classRoom: "academics/class-rooms",

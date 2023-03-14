@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { saveData, savePerson } from '../rootSlice'
 import { Col, FloatingLabel, Form, Row } from 'react-bootstrap'
 import { BasicControls, Controls } from '../../../../Components/Controls'
@@ -13,6 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorMessage } from '../../../../Components/ErrorMessage'
 import { Api, services } from '../../../../../app/api/Api'
 import { toast } from 'react-toastify'
+import DatePicker from 'react-date-picker'
+import moment from 'moment'
 const FormSchema = z.object({
     firstName: z.string().min(3).max(20),
     lastName: z.string().min(3).max(20),
@@ -20,23 +22,23 @@ const FormSchema = z.object({
     gender: z.string(),
     nationality: z.string(),
     maritalStatus: z.string(),
-    birthDate: z.string()
+    birthDate: z.date().max((new Date(new Date().setFullYear(new Date().getFullYear() - 10))), { message: "Too young!" })
 
 });
-export const PersonalDataForm = ({ student }: any) => {
-    const dispatch = useDispatch()
+export const PersonalDataForm = ({ staff }: any) => {
+    staff.person.birthDate=moment(staff.person.birthDate).toDate()
     const navigate = useNavigate()
     const data = useSelector((state: any) => state.person)
-    const { register, reset, handleSubmit,
+    const { register, reset, handleSubmit, control,
         formState: { errors }, } = useForm({
-            defaultValues: { ...student.person, ...data },
+            defaultValues: { ...staff.person, ...data },
             resolver: zodResolver(FormSchema)
         })
 
-    const memoizedValue = useMemo(() => reset(student.person), student.person)
+    useMemo(() => reset(staff.person), [reset, staff.person])
 
     const onSubmit = async (form: any) => {
-        const { response: { data: response, status } }  = await Api.put({ service: services.common.persons, data: { ...form, id: student?.person?.id } })
+        const { response: { data: response, status } }  = await Api.put({ service: services.common.persons, data: { ...form, id: staff?.person?.id } })
         if (status === 200) {
             toast.success('Dados Pessoais actualizados com sucesso');
         }
@@ -44,7 +46,7 @@ export const PersonalDataForm = ({ student }: any) => {
             toast.error('Não foi possive registar, por favor tente masi tarde');
         }
 
-        navigate('/students/show/' + student?.id);
+        navigate('/staffs/show/' + staff?.id);
 
     }
     return (
@@ -122,7 +124,18 @@ export const PersonalDataForm = ({ student }: any) => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Data de Nascimento">
-                            <Form.Control type="date" {...register("birthDate")} />
+                                 <Controller
+                                    render={({
+                                        field: { onChange, onBlur, value, name, ref },
+                                        fieldState: { invalid, isTouched, isDirty, error },
+                                        formState,
+                                    }) => <DatePicker
+                                            maxDate={(new Date(new Date().setFullYear(new Date().getFullYear() - 16)))}
+                                            clearIcon={null} format="dd/MM/yyyy" className="form-control" onChange={onChange} value={value ? moment(value).toDate() : null} />}
+                                    control={control}
+                                    {...register("birthDate")}
+                                />
+                            
                         </FloatingLabel>
                         {errors.birthDate && <ErrorMessage message={errors.birthDate?.message} />}
                     </Form.Group>

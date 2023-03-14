@@ -11,7 +11,8 @@ const menuItems: any = {
                 { to: 'classe', text: 'Turmas' },
                 { to: 'class-rooms', text: 'Salas' },
                 { to: 'periods', text: 'Periodo' },
-                { to: 'students', text: 'Periodo Academico' },]
+            
+            ]
         },
         {
             text: "...", to: "/pedagogical", childs: [
@@ -45,6 +46,13 @@ const menuItems: any = {
                 { to: '', text: 'Inicio' },
                 { to: 'list', text: 'Lista' },
             ]
+        },
+
+        {
+            text: "..", to: "/staffs", childs: [
+                { to: 'list?scope=teacher', text: 'Professores' },
+                { to: 'list?scope=supervisor', text: 'Administrativos' },
+            ]
         }
     ],
     users: [
@@ -71,7 +79,6 @@ const menuItems: any = {
 export const Menu = ({ menu }: any) => {
 
     const [activeMenu, setActiveMenu] = useState<any>()
-    //const [currentMenuItem, setCurrentMenuItem] = useState<any>()
 
     const currentMenuItem = menuItems[`${menu}`] ?? []
     useEffect(() => {
