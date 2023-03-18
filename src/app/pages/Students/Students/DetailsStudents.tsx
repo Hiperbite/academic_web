@@ -23,7 +23,7 @@ export const DetailsStudents = () => {
     loading,
   } = useGetStudentData(params, { studentEnrollmentShow });
 
-  const tabsTitles = ['Detalhes', 'Documentos', 'Situação academica', 'Histórico', 'Conclusão do curso']
+  const tabsTitles = ['Detalhes', 'Documentos', 'Situação academica', 'Histórico', 'Conclusão do curso',''].slice(0,student?.code ? -1 : 2)
   const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, HistoryStudents, AssessmentStudents, History][tab]
   return (
     <div className="az-content-body">

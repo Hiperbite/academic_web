@@ -56,7 +56,7 @@ const useGetStaffData = (params: any = {}, opts:any={}): any => {
 };
 const useRegisterStaffData = (): any => {
   const [data, setData] = useState({});
-  const [error, setError] = useState({});
+  const [error, setError] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const post = async (params: any) => {
@@ -65,7 +65,7 @@ const useRegisterStaffData = (): any => {
     try {
       const { response: { data: response } } = await Api.post({ service: "staffs", data: params });
       setData(response);
-      setError({})
+      setError([])
     } catch (error: any) {
       console.error(error)
       setError(error.response)

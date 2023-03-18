@@ -2,20 +2,19 @@ import React from 'react'
 import { Alert, Card, ListGroup, Spinner } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { useRegisterStaffData } from '../../../../../app/api/staff/staff'
+import { useRegisterStudentData } from '../../../../../app/api/students/students'
 import { Controls } from '../../../../Components/Controls'
 
-export const Result = () => {
+export const Result = ({student: st}:any) => {
   const formData = useSelector((state: any) => state)
-  const staff = { person: { ...formData, ...formData.person, ...formData.data,...formData.contacts,...formData?.person?.documents,...formData?.documents,...formData.address }, ...formData.data }
+  const student = { person: { ...formData, ...formData.person, ...formData.person.documents } }
 
-  const { post, data, loading, error } = useRegisterStaffData();
-
-  const current = 6
-  const total = 6
+  const { post, data, loading, error = [] } = useRegisterStudentData();
+  const current = 5
+  const total = 5
 
   const onSubmit = () => {
-    post(staff);
+    post(student);
   };
   return (
     <>
@@ -24,7 +23,7 @@ export const Result = () => {
 
           <h2>Confirmar e gravar</h2>
           <hr />
-          <pre>{JSON.stringify(staff,null,1)}</pre>
+          
             {error?.map((i: any) => 
               <Alert key={"danger"} variant={"danger"}>
                 {i.message}
@@ -36,7 +35,7 @@ export const Result = () => {
             ? <Success data={data} />
             : error?.length > 0
               ? <Failed data={error} current={current} total={total} onSubmit={onSubmit} />
-              : <Confirm data={staff} current={current} total={total} onSubmit={onSubmit} />}
+              : <Confirm data={student} current={current} total={total} onSubmit={onSubmit} />}
 
         </Card.Body>
       </Card>
@@ -54,7 +53,7 @@ const Success = ({ data }: any) => {
       <h1>
         {data.code}
       </h1>
-      <Link to={`/staffs/show/${data.id}`}>Ver dados</Link>
+      <Link to={`/students/show/${data.id}`}>Ver dados</Link>
     </div>
   )
 }

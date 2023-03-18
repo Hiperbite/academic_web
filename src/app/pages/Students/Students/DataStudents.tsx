@@ -1,24 +1,24 @@
-import { Col, Image, Row } from "react-bootstrap"
+import { Card, Col, Image, Row } from "react-bootstrap"
 import Moment from "react-moment"
 import { Link } from "react-router-dom"
 
 export const DataStudents = ({ student }: any) => {
     return (<Row>
         <Col md={8} >
-            <div className="card card-dashboard-pageviews">
-                <div className="card-header">
+            <Card>
+                <Card.Header>
                     <Row>
                         <Col>
                             <h6 className="card-title">Dados Pessoais do Estudante</h6>
                         </Col>
                         <Col className="text-right">
-                            <Link className="nav-link" to={`/students/update/${student.id}/personal`}><i className="fa fa-edit"></i></Link>
+                            <Link className="nav-link" to={`/students/update/${student.id}/step1`}><i className="fa fa-edit"></i></Link>
                         </Col>
                     </Row>
 
 
-                </div>
-                <div className="card-body">
+                </Card.Header>
+                <Card.Body>
                     <ul className="list-group list-group-flush">
                         <div className="list-group-item">
                             <div className="row">
@@ -70,7 +70,7 @@ export const DataStudents = ({ student }: any) => {
                                     <h6>{student?.person?.livingAddress?.province}</h6>
                                 </div>
                                 <div className="col-md-4">
-                                    <Link className="nav-link" style={{ float: "right" }} to={"/students/update/" + student.id+"/address"}><i className="fa fa-edit"></i></Link>
+                                    <Link className="nav-link" style={{ float: "right" }} to={"/students/update/" + student.id + "/step5"}><i className="fa fa-edit"></i></Link>
                                 </div>
                             </div>
                         </div>
@@ -88,19 +88,19 @@ export const DataStudents = ({ student }: any) => {
                                     <h6>{student?.person?.birthPlaceAddress?.province}</h6>
                                 </div>
                                 <div className="col-md-4">
-                                    
+
                                 </div>
                             </div>
                         </div>
                         <div className="list-group-item">
                             <div className="row">
                                 <Col>
-                                <Link className="nav-link" style={{ float: "right" }} to={`/students/update/${student.id}/contacts`}><i className="fa fa-edit"></i></Link>
+                                    <Link className="nav-link" style={{ float: "right" }} to={`/students/update/${student.id}/step2`}><i className="fa fa-edit"></i></Link>
                                 </Col>
                             </div>
                             <div className="row">
 
-                                {student?.person?.contacts?.filter((contact:any)=>contact.isActive).map((contact: any) =>
+                                {student?.person?.contacts?.filter((contact: any) => contact.isActive).map((contact: any) =>
                                     <div className="col-md-4">
                                         <span>{contact?.type}</span>
                                         <h6>
@@ -110,13 +110,27 @@ export const DataStudents = ({ student }: any) => {
                             </div>
                         </div>
                     </ul>
-                </div>
-            </div>
-
+                </Card.Body>
+            </Card>
+            <hr />
+            <Card>
+                <Card.Body>
+                    <ul className="list-group list-group-flush">
+                        <div className="list-group-item">
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <span>Curso desejado</span>
+                                    <h5>{student?.desiredCourse?.code} - {student?.desiredCourse?.name}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </Card.Body>
+            </Card>
         </Col>
         <Col>
-            <Image thumbnail src={student?.person?.user?.avatar}/>
+            <Image thumbnail src={student?.person?.user?.avatar ?? '/logo192.png'} />
         </Col>
-        </Row>
+    </Row>
     )
 }

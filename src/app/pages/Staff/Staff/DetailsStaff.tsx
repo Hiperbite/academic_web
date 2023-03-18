@@ -30,10 +30,27 @@ export const DetailsStaff = () => {
           <h2 className="az-dashboard-title"># {staff?.enrollment ? staff?.enrollment?.code : staff?.code}</h2>
           <h1>{staff?.person?.firstName} {staff?.person?.otherName} {staff?.person?.lastName}</h1>
           <p className="az-dashboard-text">
-            {staff?.roles?.map((r:string)=><Badge bg="primary"> {r} </Badge>)}
+            {staff?.roles?.map((r: string) => <Badge bg="primary"> {r} </Badge>)}
           </p>
         </div>
         <div className="az-content-header-right">
+          <div className="media">
+            <div className="media-body text-right">
+              <label>Careira</label>
+              <h6>
+                {staff?.career?.code} - {staff?.career?.name}
+              </h6>
+            </div>
+          </div>
+
+          <div className="media">
+            <div className="media-body text-right">
+              <label>Categoria</label>
+              <h6>
+                {staff?.category?.code} - {staff?.category?.name}
+              </h6>
+            </div>
+          </div>
           <div className="media">
             <div className="media-body text-right">
               <label>Data de registo</label>
@@ -48,7 +65,6 @@ export const DetailsStaff = () => {
               </span>
             </div>
           </div>
-
           <div className="media">
             <div className="media-body text-right">
               <label>Estado</label><br />
@@ -67,7 +83,7 @@ export const DetailsStaff = () => {
         </nav>
 
         <nav className="nav">
-          <Link className="nav-link" to={''}  onClick={() => setTab(5)}><i className="fa fa-history"></i></Link>
+          <Link className="nav-link" to={''} onClick={() => setTab(5)}><i className="fa fa-history"></i></Link>
           <a className="nav-link" href="#"><i className="fa fa-print"></i></a>
           <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
           <a className="nav-link" href="#" ><i className="fa fa-ellipsis-h"></i></a>
@@ -85,7 +101,7 @@ export const DetailsStaff = () => {
 const History = ({ staff }: any) => {
 
   return <TabHistory modelName={'Staff,Person,Contact, Address,Enrollment'} objectId={
-    [staff?.personId,staff?.person?.livingAddressId, staff?.person?.birthPlaceAddressId].join(',')
+    [staff?.personId, staff?.person?.livingAddressId, staff?.person?.birthPlaceAddressId].join(',')
   } />
 }
 

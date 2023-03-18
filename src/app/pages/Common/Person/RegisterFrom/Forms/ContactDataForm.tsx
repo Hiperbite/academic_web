@@ -1,21 +1,18 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 
 import { useFieldArray, useForm, } from 'react-hook-form'
 import { Button, Col, FloatingLabel, Form, Row } from 'react-bootstrap'
-import { BasicControls } from '../../../../Components/Controls'
+import { BasicControls, Controls } from '../../../../Components/Controls'
 import { ErrorMessage } from '../../../../Components/ErrorMessage'
-import { Api, services } from '../../../../../app/api/Api'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useSelector } from 'react-redux'
 
 const ContactFormSchema = z.object({
     type: z.string().min(3).max(20),
     descriptions: z.string(),
     id: z.string().uuid().optional().nullable()
 })
-
     .superRefine((v: any, ctx: any) => {
 
         if (v.type === 'EMAIL') {
@@ -42,33 +39,20 @@ const FormSchema = z.object({
     contacts: ContactFormSchema.array().min(1)
 });
 
-export const ContactDataForm = ({ student }: any) => {
-    const [contacts, setcontacts] = useState<any>()
+export const ContactDataForm = ({ onSubmit, data }: any) => {
+    const stored = useSelector((state: any) => state.contacts)
+
     const { register, control, handleSubmit, reset, formState: { errors }, }: any = useForm({
         resolver: zodResolver(FormSchema),
-        defaultValues: { contacts: student?.person?.contacts.filter(({isActive}:any)=>isActive) ?? [{}]}// you can populate the fields by this attribute 
+        defaultValues: { contacts: stored[0].type ? stored : data?.person?.contacts.filter(({ isActive }: any) => isActive) ?? [{}] }// you can populate the fields by this attribute 
     });
-    const navigate = useNavigate();
-    //const errors: any = {};
+
+    const current = 2, total = 6;
+
     const { fields, append, remove } = useFieldArray({
         control,
         name: "contacts"
     });
-
-    const onSubmit = async (data: any) => {
-        const { response: { data: response, status } } = await Api.put({ service: services.common.contacts, id: student?.personId, data: data.contacts })
-        if (status === 200) {
-            toast.success('Contactos actualizados com sucesso');
-            navigate('/students/show/' + student?.id);
-        }
-        else {
-            toast.error('Não foi possive registar os contactos, por favor tente mais tarde');
-        }
-
-    }
-    useMemo(() => {
-        setcontacts(errors?.contacts);
-    }, [errors])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -87,8 +71,8 @@ export const ContactDataForm = ({ student }: any) => {
                                 </Form.Select>
                             </FloatingLabel>
 
-                            {contacts && contacts[index] && contacts[index].type &&
-                                <ErrorMessage message={contacts[index].type.message} />
+                            {errors.contacts && errors.contacts[index] && errors.contacts[index].type &&
+                                <ErrorMessage message={errors.contacts[index].type.message} />
                             }
                         </Form.Group>
                     </Col>
@@ -100,10 +84,10 @@ export const ContactDataForm = ({ student }: any) => {
                                 <Form.Control type="text" {...register(`contacts.${index}.descriptions`)} />
                             </FloatingLabel>
 
-                            {contacts && contacts[index] && contacts[index].descriptions &&
-                                <ErrorMessage message={contacts[index].descriptions.message} />}
-                            {contacts && contacts[index] && contacts[index].message &&
-                                <ErrorMessage message={contacts[index].message} />}
+                            {errors.contacts && errors.contacts[index] && errors.contacts[index].descriptions &&
+                                <ErrorMessage message={errors.contacts[index].descriptions.message} />}
+                            {errors.contacts && errors.contacts[index] && errors.contacts[index].message &&
+                                <ErrorMessage message={errors.contacts[index].message} />}
                         </Form.Group>
                     </Col>
                     <Col xs lg={1}>
@@ -113,9 +97,10 @@ export const ContactDataForm = ({ student }: any) => {
             ))}
             <Button
                 type="button"
-                onClick={() => append({ type: "", descriptions: "", personId: student?.personId })}
+                onClick={() => append({ type: "", descriptions: "", personId: data?.student?.personId })}
             > + </Button>
-            <BasicControls />
+
+            {data?.id ? <BasicControls /> : <Controls current={current} total={total} />}
         </form>
     );
 }

@@ -4,23 +4,23 @@ const rootSlice = createSlice({
     name: "root",
     initialState: {
         data: {},
-        documents: [],
+        documents: [{}],
         contacts: [{}],
         person: {},
-        roles: []
+        address: {},
     },
     reducers: {
         saveData: (state: any, action: any) => {
             state.data = action.payload
         },
         saveContacts: (state: any, action: any) => { state.contacts = action.payload },
-        saveDocuments: (state: any, action: any) => { state.documents = action?.payload?.documents },
+        saveDocuments: (state: any, action: any) => { state.documents = action.payload },
+        saveAddress: (state: any, action: any) => { state.address = action.payload },
         savePerson: (state: any, action: any) => { state.person = action.payload },
-        saveRoles: (state: any, action: any) => { state.roles = action.payload },
         chooseCheese: (state: any, action: any) => { state.cheese = action.payload },
     }
 })
 
 export const reducer = rootSlice.reducer;
 
-export const { saveData, saveContacts, saveDocuments, savePerson, saveRoles } = rootSlice.actions
+export const { saveData, saveContacts, saveDocuments, savePerson, saveAddress } = rootSlice.actions

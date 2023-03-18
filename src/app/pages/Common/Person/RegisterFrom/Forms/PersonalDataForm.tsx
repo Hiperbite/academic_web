@@ -1,20 +1,17 @@
-import React, { useEffect, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { saveData, savePerson } from '../rootSlice'
+import React from 'react'
+
+import { Controller, useForm } from 'react-hook-form'
 import { Col, FloatingLabel, Form, Row } from 'react-bootstrap'
 import { BasicControls, Controls } from '../../../../Components/Controls'
-//import { chooseBase } from './rootSlice'
 
 import { z } from "zod";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorMessage } from '../../../../Components/ErrorMessage'
-import { Api, services } from '../../../../../app/api/Api'
-import { toast } from 'react-toastify'
+
 import DatePicker from 'react-date-picker'
 import moment from 'moment'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useSelector } from 'react-redux';
 const FormSchema = z.object({
     firstName: z.string().min(3).max(20),
     lastName: z.string().min(3).max(20),
@@ -25,30 +22,14 @@ const FormSchema = z.object({
     birthDate: z.date().max((new Date(new Date().setFullYear(new Date().getFullYear() - 10))), { message: "Too young!" })
 
 });
-export const PersonalDataForm = ({ staff }: any) => {
-    staff.person.birthDate=moment(staff.person.birthDate).toDate()
-    const navigate = useNavigate()
-    const data = useSelector((state: any) => state.person)
-    const { register, reset, handleSubmit, control,
+export const PersonalDataForm = ({ onSubmit, data }: any) => {
+    const stored = useSelector((state: any) => state.person)
+    const { register, handleSubmit, control,
         formState: { errors }, } = useForm({
-            defaultValues: { ...staff.person, ...data },
+            defaultValues: stored.firstName ? stored : data?.person,
             resolver: zodResolver(FormSchema)
         })
-
-    useMemo(() => reset(staff.person), [reset, staff.person])
-
-    const onSubmit = async (form: any) => {
-        const { response: { data: response, status } }  = await Api.put({ service: services.common.persons, data: { ...form, id: staff?.person?.id } })
-        if (status === 200) {
-            toast.success('Dados Pessoais actualizados com sucesso');
-        }
-        else {
-            toast.error('Não foi possive registar, por favor tente masi tarde');
-        }
-
-        navigate('/staffs/show/' + staff?.id);
-
-    }
+    const current = 1, total = 5;
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
             <Row>
@@ -57,13 +38,12 @@ export const PersonalDataForm = ({ staff }: any) => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Primeiro Nome">
-                            <Form.Control type="text" value={data?.firstName} {...register("firstName")} />
+                            <Form.Control type="text" {...register("firstName")} />
                         </FloatingLabel>
                         {errors.firstName &&
                             <ErrorMessage message={errors.firstName?.message} />
                         }
                     </Form.Group>
-
                 </Col>
                 <Col>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -124,18 +104,18 @@ export const PersonalDataForm = ({ staff }: any) => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Data de Nascimento">
-                                 <Controller
-                                    render={({
-                                        field: { onChange, onBlur, value, name, ref },
-                                        fieldState: { invalid, isTouched, isDirty, error },
-                                        formState,
-                                    }) => <DatePicker
-                                            maxDate={(new Date(new Date().setFullYear(new Date().getFullYear() - 16)))}
-                                            clearIcon={null} format="dd/MM/yyyy" className="form-control" onChange={onChange} value={value ? moment(value).toDate() : null} />}
-                                    control={control}
-                                    {...register("birthDate")}
-                                />
-                            
+                            <Controller
+                                render={({
+                                    field: { onChange, onBlur, value, name, ref },
+                                    fieldState: { invalid, isTouched, isDirty, error },
+                                    formState,
+                                }) => <DatePicker
+                                        maxDate={(new Date(new Date().setFullYear(new Date().getFullYear() - 16)))}
+                                        clearIcon={null} format="dd/MM/yyyy" className="form-control" onChange={onChange} value={value ? moment(value).toDate() : null} />}
+                                control={control}
+                                {...register("birthDate")}
+                            />
+
                         </FloatingLabel>
                         {errors.birthDate && <ErrorMessage message={errors.birthDate?.message} />}
                     </Form.Group>
@@ -179,7 +159,10 @@ export const PersonalDataForm = ({ staff }: any) => {
 
                 </Col>
             </Row>
-            <BasicControls />
+            {data?.id ? <BasicControls /> : <Controls current={current} total={total} />}
+
         </form>
     )
 }
+
+

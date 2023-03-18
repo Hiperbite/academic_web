@@ -29,8 +29,6 @@ export const BasicControls = ({ Addon = () => <></> }: any) => {
         </>
     )
 }
-
-
 export const ModalControls = ({ handleClose, Addon = <></> }: any) => {
     return (
         <>

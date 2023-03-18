@@ -1,47 +1,34 @@
 import React from 'react'
 
-import { Controller, useFieldArray, useForm, } from 'react-hook-form'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { Button, Col, FloatingLabel, Form, Row } from 'react-bootstrap'
-import { BasicControls } from '../../../../Components/Controls'
-import { ErrorMessage } from '../../../../Components/ErrorMessage'
-import { Api, services } from '../../../../../app/api/Api'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { BasicControls, Controls } from '../../../../Components/Controls'
+
 import DatePicker from 'react-date-picker'
 import moment from 'moment'
+import { ErrorMessage } from '../../../../Components/ErrorMessage'
+import { useSelector } from 'react-redux'
 
-export const DocumentDataForm = ({ student }: any) => {
-    const { register, control, handleSubmit } = useForm({
-        defaultValues: { documents: student?.person?.documents }// you can populate the fields by this attribute 
+export const DocumentDataForm = ({ onSubmit, data }: any) => {
+
+    const { documents: stored } = useSelector((state: any) => state.documents)
+
+    const { register, control, handleSubmit, formState: { errors } }: any = useForm({
+        defaultValues: { documents: stored ? stored : data?.person?.documents ?? [{}] }// you can populate the fields by this attribute 
     });
-    const navigate = useNavigate();
-    const errors: any = {};
+
     const { fields, append, remove } = useFieldArray({
         control,
         name: "documents"
     });
 
-    const onSubmit = async (data: any) => {
-        const { response: { data: response, status } } = await Api.put({ service: services.common.documents, id: student?.personId, data: data.documents })
-        if (status === 200) {
-            toast.success('Contactos actualizados com sucesso');
-        }
-        else {
-            toast.error('Não foi possive registar os contactos, por favor tente masi tarde');
-        }
-
-        navigate('/students/show/' + student?.id);
-    }
-
-
+    const current = 3, total = 6;
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            {fields.map((item, index) => (<>
+            {fields.map((item: any, index) => (<>
                 <Row>
                     <Col>
                         <Form.Group className="mb-3" controlId="formBasicPassword">
-
-
                             <FloatingLabel
                                 controlId="floatingInput"
                                 label="Tipo de documento"
@@ -62,8 +49,9 @@ export const DocumentDataForm = ({ student }: any) => {
                                 controlId="floatingInput"
                                 label="Numero"
                                 className="mb-3">
-                                <Form.Control type="text" {...register(`documents.${index}.descriptions`, { required: "Please enter your first name." })} />
+                                <Form.Control type="text" {...register(`documents.${index}.descriptions`, { required: "O numero do documento é obrigatório." })} />
                             </FloatingLabel>
+                            {errors.documents && errors?.documents[index].descriptions && <ErrorMessage message={errors?.documents[index].descriptions.message} />}
                         </Form.Group>
                     </Col>
                 </Row>
@@ -76,7 +64,7 @@ export const DocumentDataForm = ({ student }: any) => {
                                 className="mb-3">
                                 <Controller
                                     render={({
-                                        field: { onChange, onBlur, value, name, ref },
+                                        field: { onChange, value, name, ref },
                                         fieldState: { invalid, isTouched, isDirty, error },
                                         formState,
                                     }) => <DatePicker
@@ -122,9 +110,10 @@ export const DocumentDataForm = ({ student }: any) => {
             ))}
             <Button
                 type="button"
-                onClick={() => append({ type: "", descriptions: "", personId: student?.personId })}
+                onClick={() => append({ type: "", descriptions: "", personId: data?.student?.personId })}
             > + </Button>
-            <BasicControls />
+
+            {data?.id ? <BasicControls /> : <Controls current={current} total={total} />}
         </form>
     );
 }

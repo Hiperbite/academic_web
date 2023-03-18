@@ -50,8 +50,8 @@ const FormSchema = z.object({
   semester: numericString(z.number().positive().max(10)),
   periodId: z.string().min(3),
   courseId: z.string().min(3),
-
 });
+
 const semesters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 export const ClassForm = () => {
 
@@ -221,3 +221,5 @@ const MessageScreen = ({ message, status, data }: any) => {
     </Card>
   )
 }
+
+

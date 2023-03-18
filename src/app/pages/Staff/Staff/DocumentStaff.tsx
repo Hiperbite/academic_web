@@ -12,7 +12,7 @@ export const DocumentStaffs = ({ staff }: any) => {
                             <h6 className="card-title">Documentos de suporte</h6>
                             <p className="card-text">...</p>
                         </Col>
-                        <Col><Link className="nav-link" style={{ float: "right" }} to={`/staffs/update/${staff.id}/documents`}><i className="fa fa-edit"></i></Link></Col>
+                        <Col><Link className="nav-link" style={{ float: "right" }} to={`/staffs/update/${staff.id}/step4`}><i className="fa fa-edit"></i></Link></Col>
                     </Row>
 
                 </div>

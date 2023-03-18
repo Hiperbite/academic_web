@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Spinner } from 'react-bootstrap'
+import { Alert, Card, ListGroup, Spinner } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useRegisterStudentData } from '../../../../../app/api/students/students'
@@ -7,12 +7,12 @@ import { Controls } from '../../../../Components/Controls'
 
 export const Result = () => {
   const formData = useSelector((state: any) => state)
-  const student = { person: { ...formData, ...formData.person, ...formData.person.documents } }
+  const student = { person: { ...formData, ...formData.person, ...formData.data,...formData.contacts,...formData?.person?.documents,...formData?.documents,...formData.address }, ...formData.data }
 
-  const { post, data, loading, error } = useRegisterStudentData();
-  const current = 5
-  const total = 5
-  
+  const { post, data, loading, error = [] } = useRegisterStudentData();
+  const current = 6
+  const total = 6
+
   const onSubmit = () => {
     post(student);
   };
@@ -20,9 +20,17 @@ export const Result = () => {
     <>
       <Card>
         <Card.Body>
-          <Spin loading={loading} />
-          {JSON.stringify(error)}
+
+          <h2>Confirmar e gravar</h2>
           <hr />
+          <pre>{JSON.stringify(student,null,1)}</pre>
+            {error?.map((i: any) => 
+              <Alert key={"danger"} variant={"danger"}>
+                {i.message}
+              </Alert>
+            )}
+
+          
           {data.id
             ? <Success data={data} />
             : error?.length > 0
@@ -61,14 +69,13 @@ const Spin = ({ loading }: { loading: boolean }) => {
 }
 const Failed = ({ data, current, total, onSubmit }: any) => {
   return (<>
-    <pre>{JSON.stringify(data, null, 1)}</pre>
+
     <Controls current={current} total={total} onSubmit={onSubmit} />
   </>)
 }
 
 const Confirm = ({ data, current, total, onSubmit }: any) => {
   return (<>
-    <pre>{JSON.stringify(data, null, 1)}</pre>
     <Controls current={current} total={total} onSubmit={onSubmit} />
   </>)
 }

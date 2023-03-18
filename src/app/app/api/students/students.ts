@@ -29,7 +29,7 @@ const useGetStudentsData = (params = {}): any => {
     loading,
   };
 };
-const useGetStudentData = (params: any = {}, opts:any={}): any => {
+const useGetStudentData = (params: any = {}, opts: any = {}): any => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   console.log(params);
@@ -58,19 +58,21 @@ const useGetStudentData = (params: any = {}, opts:any={}): any => {
 };
 const useRegisterStudentData = (): any => {
   const [data, setData] = useState({});
-  const [error, setError] = useState({});
+  const [error, setError] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const post = async (params: any) => {
     console.log(params);
     debugger
     try {
-      const { response: { data: response } } = await Api.post({ service: "students", data: params });
+      const { response: { data: response, status } } = await Api.post({ service: "students", data: params });
+      if (status !== 200)
+        throw response;
       setData(response);
-      setError({})
+      setError([])
     } catch (error: any) {
       console.error(error)
-      setError(error.response)
+      setError(error)
     }
     setLoading(false);
   };

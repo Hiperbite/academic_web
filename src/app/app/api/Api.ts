@@ -27,13 +27,17 @@ export const getHeaders = () => {
 export const services = {
     common: {
         auth: {
-            singIn: 'auth'
+            singIn: 'auth',
+            forgotPassword: '/users/forgotpassword',
+            resetPassword: '/users/resetpassword',
         },
         track: "tracks",
         contacts: "/commons/contacts",
         documents: "/commons/documents",
         persons: "/commons/persons",
         address: "/commons/address",
+        careers: "/commons/careers",
+        categories: "/commons/categories",
         assessmentTypes: "/commons/assessment-types",
         assessments: "/commons/assessments"
     },

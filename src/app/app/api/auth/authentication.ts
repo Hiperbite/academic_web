@@ -128,5 +128,113 @@ const useAuthenticationHandlerData = (): any => {
     post
   };
 };
+const useForgotPasswordHandlerData = (): any => {
+  const [data, setData] = useState({});
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const post = async (params: any, opts?: any) => {
+
+    try {
+      debugger
+      const data = await Api.post({
+        service: services.common.auth.forgotPassword
+        , data: params
+      })
+      const { data: response, status } = data?.response;
+      if (status !== 200) {
+        throw new Error(response);
+      }
+      setData({ response, status });
+      setError('')
+    } catch (error: any) {
+      debugger
+      console.error(error)
+      setData({});
+      setError(error.message)
+    }
+    setLoading(false);
+  };
+  //return fetchData;
+  //}, [params]);
+
+  return {
+    data,
+    loading,
+    error,
+    post
+  };
+};
+const useCheckResetPasswordHandlerData = (): any => {
+  const [data, setData] = useState({});
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const get = async (params: any, opts?: any) => {
+    const { id, passwordResetCode } = params;
+    try {
+      debugger
+      const data = await Api.get({
+        service: `${services.common.auth.resetPassword}/${id}/${passwordResetCode}`
+      })
+      const { data: response, status } = data?.response;
+      setData({ response, status });
+      setError('')
+    } catch (error: any) {
+      debugger
+      console.error(error)
+      setData({});
+      setError(error.message)
+    }
+    setLoading(false);
+  };
+  //return fetchData;
+  //}, [params]);
+
+  return {
+    data,
+    loading,
+    error,
+    get
+  };
+};
+const useResetPasswordHandlerData = (): any => {
+  const [data, setData] = useState({});
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const post = async (params: any, opts?: any) => {
+    const { id, passwordResetCode } = opts;
+    try {
+      
+      debugger
+      const data = await Api.post({
+        service: `${services.common.auth.resetPassword}/${id}/${passwordResetCode}`,
+        data:params
+      })
+      const { data: response, status } = data?.response;
+      if (status !== 200) {
+        throw new Error(response);
+      }
+      setData({ response, status });
+      setError('')
+    } catch (error: any) {
+      debugger
+      console.error(error)
+      setData({});
+      setError(error.message)
+    }
+    setLoading(false);
+  };
+  //return fetchData;
+  //}, [params]);
+
+  return {
+    data,
+    loading,
+    error,
+    post
+  };
+};
 const logoutHandlerData = () => storage.remove('token')
-export { useAuthenticationHandlerData, logoutHandlerData }
+export { useAuthenticationHandlerData, logoutHandlerData, useForgotPasswordHandlerData, useCheckResetPasswordHandlerData, useResetPasswordHandlerData }

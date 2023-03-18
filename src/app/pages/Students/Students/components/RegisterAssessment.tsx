@@ -15,7 +15,8 @@ export const RegisterAssessment = ({ show, handleClose, refresh, staff, assessme
         <>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Modal heading
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <FormEditAssessment 

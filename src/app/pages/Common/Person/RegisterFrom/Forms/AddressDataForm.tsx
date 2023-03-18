@@ -1,18 +1,14 @@
-import React, { useEffect, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { saveData, savePerson } from '../rootSlice'
+import React from 'react'
+
 import { Col, FloatingLabel, Form, Row } from 'react-bootstrap'
 import { BasicControls, Controls } from '../../../../Components/Controls'
-//import { chooseBase } from './rootSlice'
-
 import { z } from "zod";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorMessage } from '../../../../Components/ErrorMessage'
-import { Api, services } from '../../../../../app/api/Api'
-import { toast } from 'react-toastify'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useSelector } from 'react-redux';
+
 const FormSchema = z.object({
     birthPlaceAddress: z.object({
         address: z.string().min(3),
@@ -27,39 +23,16 @@ const FormSchema = z.object({
         province: z.string().min(2)
     })
 });
-export const AddressDataForm = ({ staff }: any) => {
-    const navigate = useNavigate()
+export const AddressDataForm = ({ onSubmit, data }: any) => {
 
-    const { livingAddress, birthPlaceAddress } = staff?.person
+    const stored = useSelector((state: any) => state.address)
 
-    const { register, handleSubmit, formState: { errors } }: any = useForm({
-        defaultValues: { livingAddress, birthPlaceAddress },
-        resolver: zodResolver(FormSchema)
-    })
-
-    const onSubmit = async (form: any) => {
-        const { livingAddress:updatedlivingAddress, birthPlaceAddress:updatedbirthPlaceAddress } = form
-
-        const { response: { data: response, status } } =
-            await Api.put(
-                {
-                    service: services.common.address,
-                    data: { 
-                        livingAddress:{...livingAddress,...updatedlivingAddress}, 
-                        birthPlaceAddress:{...birthPlaceAddress,...updatedbirthPlaceAddress},
-                        personId: staff?.person.id }
-                })
-
-        if (status === 200) {
-            toast.success('Endereços actualizados com sucesso.');
-            navigate('/staffs/show/' + staff?.id);
-        }
-        else {
-            toast.error('Não foi possive salvar os endereços, por favor tente mais tarde');
-        }
-
-
-    }
+    const { register, handleSubmit, control,
+        formState: { errors }, }: any = useForm({
+            defaultValues: stored?.livingAddress ? stored : data?.person,
+            resolver: zodResolver(FormSchema)
+        })
+    const current = 5, total = 6;
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
             <Row>
@@ -149,7 +122,8 @@ export const AddressDataForm = ({ staff }: any) => {
                     </Form.Group>
                 </Col>
             </Row>
-            <BasicControls />
+
+            {data?.id ? <BasicControls /> : <Controls current={current} total={total} />}
         </form>
     )
 }

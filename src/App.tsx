@@ -49,6 +49,8 @@ import { UpdateClasse } from './app/pages/pedagogical/Classe/UpdateClasse';
 import { DetailsClasse } from './app/pages/pedagogical/Classe/DetailClasse/DetailsClasse';
 import { UpdateExistedStudent } from './app/pages/Students/Students/UpdateStudent/UpdateExistedStudent';
 import { UpdateExistedStaff } from './app/pages/Staff/Staff/UpdateStaff/UpdateExistedStaff';
+import { PasswordReset } from './app/pages/Auth/PasswordReset';
+import { ForgotPassword } from './app/pages/Auth/ForgotPassword';
 
 
 
@@ -141,7 +143,8 @@ function App() {
             <Route index element={<SingIn />} />
             <Route path="singin" element={<SingIn />} />
             <Route path="singon" element={<SingOn />} />
-
+            <Route path="password-reset/:code/:kid" element={<PasswordReset />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
