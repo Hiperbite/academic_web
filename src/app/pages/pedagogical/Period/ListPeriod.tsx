@@ -34,7 +34,7 @@ export const ListPeriod = () => {
 
           <Button
             variant="primary"
-            disabled={true}
+            disabled={false}
             onClick={() => !loading ? navigate("/pedagogical/class-rooms/new") : null}
           >
             {loading ? 'Loading…' : 'Registar'}

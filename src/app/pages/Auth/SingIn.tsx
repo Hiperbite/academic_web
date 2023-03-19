@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { useRef, useEffect, useState, useContext } from "react";
+import React, { useRef, useEffect, useState, useContext, useMemo } from "react";
 import { Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { LoadingContext } from "../../../App";
 import useAxiosFetch, { Api, services } from "../../app/api/Api";
 import { useLoginMutation } from "../../app/api/auth/authApiSlice";
 import { useAuthenticationHandlerData } from "../../app/api/auth/authentication";
@@ -15,14 +16,12 @@ export const SingIn = () => {
 
   const [user, setuser] = useState('')
   const [pwd, setPwd] = useState('')
-  const [res, setRes] = useState({})
-  const [err, setErr] = useState('')
-  const [success, setSuccess] = useState(false)
 
+  const { setLoading }: any = useContext(LoadingContext);
   const { post, data, loading, error } = useAuthenticationHandlerData();
 
   const navigate = useNavigate();
-
+  useMemo(() => setLoading(loading), [loading])
   useEffect(() => {
     if (data?.status === 200) { navigate('/') }
   }, [data])
@@ -39,11 +38,12 @@ export const SingIn = () => {
   return <div className="az-column-signup">
     <h1 className="az-logo">az<span>i</span>a</h1>
     <div className="az-signup-header">
-      <h2>Autenticar-se</h2>
-      <br/>
-      <br/>
+      <h2>Autenticar-se </h2>
+      <br />
+      <br />
+      ...{JSON.stringify(loading)}...
       <p>Se és um utilizador ja registado da nova, então preencha o formulário abáixo para acessar o sistema.</p>
-      
+
       <hr />
       <form >
         <div className="form-group">
@@ -79,7 +79,7 @@ export const SingIn = () => {
           onClick={handleSubmit}
           className="btn btn-primary btn-block"
         >Entrar</button>
-        
+
       </form>
     </div>{/*<!-- az-signup-header -->*/}
     <div className="az-signup-footer">

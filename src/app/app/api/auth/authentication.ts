@@ -91,12 +91,11 @@ const useRegisterClasseData = (): any => {
 const useAuthenticationHandlerData = (): any => {
   const [data, setData] = useState({});
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const post = async (params: any, opts?: any) => {
-
+    setLoading(true)
     try {
-      debugger
       const data = await Api.post({
         service: services.common.auth.singIn
         , data: params

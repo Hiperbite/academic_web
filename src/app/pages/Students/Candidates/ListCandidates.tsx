@@ -9,11 +9,8 @@ import { ListTableStudents } from '../components/ListTableStudents';
 export const ListCandidates = () => {
 
   const navigate = useNavigate();
-  const [params, setParams] = useState({ pageSize: 4, page: 1, filter: 'withNotEnrollment' });
-  const {
-    data,
-    loading,
-  } = useGetStudentsData(params);
+  const [params, setParams] = useState({ pageSize: 6, page: 1, filter: 'withNotEnrollment' });
+  const { data, loading } = useGetStudentsData(params);
 
 
   return (
@@ -36,7 +33,7 @@ export const ListCandidates = () => {
           </Button>
         </Col>
       </Row>
-      <ListTableStudents setParams={setParams} params={params} data={data} />
+      <ListTableStudents setParams={setParams} candidates={true} params={params} data={data} />
     </div>
   )
 }

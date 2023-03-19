@@ -10,7 +10,8 @@ import { AuthProvider } from './app/app/provider/AuthProvider';
 import { Provider } from 'react-redux';
 import { store } from './app/app/store';
 
-axios.defaults.baseURL = "http://localhost:7100/api/v1/";  /*'https://4000-omkurir-server-ul2zrczd9mb.ws-eu54.gitpod.io/api/v2'*///process.env.REACT_APP_BASE_URL_API;
+axios.defaults.baseURL = "http://localhost:7100/api/v1/";  //'https://api.academic.nova.app.hiperbite.com/api/v1/'/////process.env.REACT_APP_BASE_URL_API;
+//axios.defaults.baseURL = /*"http://localhost:7100/api/v1/";  /**/'https://api.academic.nova.app.hiperbite.com/api/v1/'/////process.env.REACT_APP_BASE_URL_API;
 
 //let locale = navigator.language;
 

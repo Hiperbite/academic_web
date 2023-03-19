@@ -1,9 +1,10 @@
 import { selectCurrentToken, selectCurrentUser } from './auth/authSlice';
 import axios from "axios";
-import { useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from 'react-redux';
 import storage from '../storage';
+import { LoadingContext } from '../../../App';
 export const getHeaders = () => {
     const token = storage.get('token');
 
@@ -17,12 +18,11 @@ export const getHeaders = () => {
     return headers;
 };
 (() => {
-    axios.defaults.baseURL = "http://localhost:7100/api/v1/";  /*'https://4000-omkurir-server-ul2zrczd9mb.ws-eu54.gitpod.io/api/v2'*///process.env.REACT_APP_BASE_URL_API;
+    axios.defaults.baseURL = /*"http://localhost:7100/api/v1/";  */'https://api.academic.nova.app.hiperbite.com/api/v1/'/**///process.env.REACT_APP_BASE_URL_API;
 
     axios.defaults.headers.common["apikey"] = process.env.REACT_APP_BASE_API_KEY ?? '3265';
 
 })()
-
 
 export const services = {
     common: {
@@ -67,6 +67,8 @@ export const services = {
 }
 
 const post = async ({ service, data }: any) => {
+
+
     try {
 
         const response = await axios.post(service, data, { headers: getHeaders() });

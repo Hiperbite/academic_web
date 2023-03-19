@@ -111,7 +111,7 @@ export const ClassForm = () => {
                   {...register("periodId")}
                 >
                   <option value={undefined}>-</option>
-                  {academicPeriods?.map(({ id, code }: any) => <option value={id}>{code}</option>)}
+                  {academicPeriods?.map(({ id, code, descriptions }: any) => <option value={id}>{code} - {descriptions}</option>)}
                 </Form.Select>
               </FloatingLabel>
               {errors.periodId && <ErrorMessage message={errors.periodId?.message} />}

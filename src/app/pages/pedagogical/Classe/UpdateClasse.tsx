@@ -51,7 +51,7 @@ const FormSchema = z.object({
   isActive: z.boolean(),
   semester: numericString(z.number().positive().max(10)),
   grade: numericString(z.number().positive().max(10)),
-  academicPeriodId: z.string().min(3),
+  periodId: z.string().min(3),
   courseId: z.string().min(3),
 
 });
@@ -114,13 +114,13 @@ export const ClassForm = ({ classe }: any) => {
                 controlId="floatingInput"
                 label="Periodo">
                 <Form.Select aria-label="Default select example"
-                  {...register("academicPeriodId")}
+                  {...register("periodId")}
                 >
                   <option value={undefined}>-</option>
-                  {academicPeriods?.map(({ id, code }: any) => <option value={id}>{code}</option>)}
+                  {academicPeriods?.map(({ id, code, descriptions }: any) => <option value={id}>{code} - {descriptions} </option>)}
                 </Form.Select>
               </FloatingLabel>
-              {errors.academicPeriodId && <ErrorMessage message={errors.academicPeriodId?.message} />}
+              {errors.periodId && <ErrorMessage message={errors.periodId?.message} />}
             </Form.Group>
 
           </Col>

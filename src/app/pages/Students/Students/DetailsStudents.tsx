@@ -23,7 +23,7 @@ export const DetailsStudents = () => {
     loading,
   } = useGetStudentData(params, { studentEnrollmentShow });
 
-  const tabsTitles = ['Detalhes', 'Documentos', 'Situação academica', 'Histórico', 'Conclusão do curso',''].slice(0,student?.code ? -1 : 2)
+  const tabsTitles = ['Detalhes', 'Documentos', 'Classificação', 'Histrico', 'Conclusão do curso',''].slice(0,student?.code ? -1 : 2)
   const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, HistoryStudents, AssessmentStudents, History][tab]
   return (
     <div className="az-content-body">
@@ -36,9 +36,6 @@ export const DetailsStudents = () => {
             {student?.enrollment
               ? <Badge bg="primary"> Estudante matriculado </Badge>
               : <Badge bg="warning" text="dark">Candidato</Badge>}
-            {!student?.enrollment?.isActive
-              ? null:  <Badge bg="danger">Matricula cancelada</Badge>
-              }
             {!student?.isActive
               ? <Badge pill bg="danger">Suspenco</Badge>
             : null}

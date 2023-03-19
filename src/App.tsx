@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import './App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import { Main } from './app/layout/Main';
@@ -51,12 +51,17 @@ import { UpdateExistedStudent } from './app/pages/Students/Students/UpdateStuden
 import { UpdateExistedStaff } from './app/pages/Staff/Staff/UpdateStaff/UpdateExistedStaff';
 import { PasswordReset } from './app/pages/Auth/PasswordReset';
 import { ForgotPassword } from './app/pages/Auth/ForgotPassword';
+import { Snipper } from './app/pages/Components/Snipper/Snipper';
 
-
+export const LoadingContext:any = createContext('');
 
 function App() {
+
+const [loading, setLoading] = useState(false)
+
   return (
-    <>
+    <><Snipper loading={loading}/>
+    <LoadingContext.Provider value={{loading, setLoading}}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<RequireAuth />}>
@@ -117,7 +122,7 @@ function App() {
               <Route path="/pedagogical/periods" element={<Page type={"pedagogical"} />}>
                 <Route index element={<ListPeriod />} />
                 <Route path="list" element={<ListPeriod />} />
-                <Route path="new" element={<NewClassRoom />} />
+                <Route path="new" element={<UpdatePeriod />} />
                 <Route path="update/:id" element={<UpdatePeriod />} />
                 <Route path=":id" element={<DetailsPeriod />} />
               </Route>
@@ -162,6 +167,7 @@ function App() {
         pauseOnHover
         theme="colored"
       />
+      </LoadingContext.Provider>
     </>
   );
 }

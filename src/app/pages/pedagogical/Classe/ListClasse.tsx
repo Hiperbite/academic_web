@@ -51,9 +51,9 @@ export const ListClasse = () => {
           <thead>
             <tr>
               <th>No</th>
-              <th>Descricao</th>
-              <th>Turno</th>
+              <th>Curso</th>
               <th>Ano</th>
+              <th>Turno</th>
               <th>Sala</th>
               <th colSpan={2}>Vagas</th>
             </tr>
@@ -61,9 +61,9 @@ export const ListClasse = () => {
           <tbody>
             {data?.data?.map((classe: any) => <tr onClick={() => navigate("/pedagogical/classe/" + classe?.id)}>
               <th scope="row">{classe.code}</th>
-              <td>{classe?.descriptions}</td>
-              <td>{classe?.academicPeriod?.code ?? '-'}</td>
+              <td>{classe?.course?.name}</td>
               <td>{classe?.grade ? `${classe?.grade} º` : '-'}</td>
+              <td>{classe?.period?.descriptions ?? '-'}</td>
               <td>{classe?.classeRoom?.code ?? '-'}
                 {classe?.classeRoom?.isActive ? '' : 'x'}
               </td>
@@ -71,7 +71,6 @@ export const ListClasse = () => {
                 {classe?.activeEnrollments?.length ?? '-'}/
                 {classe?.classeRoom?.size ?? '-'}</td>
               <td>
-
                 <ProgressBar now={persent(classe)} label={`${persent(classe)}%`} />
               </td>
             </tr>)}

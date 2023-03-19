@@ -192,7 +192,7 @@ export const Box = ({ item, setItem, hasRecourse, type, assessmentTypes, assessm
             style={stylesIfHasResource}
             onClick={() => handlerShowAssessmentForm({ typeId: type?.id, semester, item, ...assessment })}
             title={type?.name + ' - ' + type?.value}
-        >{assessment?.value ?? '-'}</td>
+        >{assessment?.value ?? '-'} </td>
     )
 }
 

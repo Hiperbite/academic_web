@@ -50,14 +50,11 @@ export const TabAssessmentClasse = ({ classe }: any) => {
     const handlerShowAssessmentForm = ({
         id,
         value,
-        item,
         semester,
-        staffId,
         classeId,
         typeId,
         enrollmentId,
         disciplineId,
-        isActive
 
     }: any) => {
         setInitialAssessment({
@@ -65,8 +62,7 @@ export const TabAssessmentClasse = ({ classe }: any) => {
             value,
             semester,
             enrollmentId,
-            staffId: staffId ?? item?.staffId,
-            classeId,//: classeId ?? student?.enrollment?.classe?.id,
+            classeId:classe?.id,//: classeId ?? student?.enrollment?.classe?.id,
             disciplineId,//: item?.disciplineId,
             typeId
         })
@@ -96,7 +92,7 @@ export const TabAssessmentClasse = ({ classe }: any) => {
                 <Col>
                     <Nav variant="pills">
                         <Nav.Item>
-                            <Nav.Link eventKey={`index-${0}`}>...</Nav.Link>
+                            <Nav.Link eventKey={`index-${100}`}>...</Nav.Link>
                         </Nav.Item>
 
                     </Nav>
@@ -104,7 +100,7 @@ export const TabAssessmentClasse = ({ classe }: any) => {
             </Row>
                 <table className="table  mg-b-0">
                     <thead>
-                        <tr>
+                        <tr>classeId
                             <th>No</th>
                             <th>Nome</th>
                         </tr>
@@ -126,7 +122,7 @@ export const TabAssessmentClasse = ({ classe }: any) => {
                             <Nav variant="pills">
                                 {disciplines?.map(({ name }: any, i: number) =>
                                     <Nav.Item>
-                                        <Nav.Link eventKey={`index-${i}`}>{name}</Nav.Link>
+                                        <Nav.Link key={`key-${i}`} eventKey={`index-${i}`}>{name}</Nav.Link>
                                     </Nav.Item>
                                 )}
                             </Nav>
@@ -162,11 +158,6 @@ const AssessmentDiscipline = ({ classe, discipline,params, enrollments, assessme
         const { response: { data: enrollments } } = await Api.get({ service: services.common.assessments, params: { pageSize: 100, page: 1, 'where[classeId]': classe?.id, 'where[disciplineId]': discipline?.id } })
         setAssessments(enrollments?.data)
     }, [params])
-    const getAssessmentValue = ({ enrollment, type }: any) => {
-        debugger
-        const ass = assessments?.filter((ass: any) => ass?.enrollmentId === enrollment?.id && ass?.typeId === type?.id)[0]
-        return ass?.value
-    }
 
     return (
         <table className="table  mg-b-0">
@@ -179,8 +170,9 @@ const AssessmentDiscipline = ({ classe, discipline,params, enrollments, assessme
                 </tr>
             </thead>
             <tbody>
-                {enrollments?.map((enrollment: any) =>
-                    <AssessmentLine assessments={assessments?.filter((a: any) => a?.enrollmentId === enrollment?.id && a?.disciplineId===discipline?.id)} enrollment={enrollment} assessmentTypes={assessmentTypes} handlerShowAssessmentForm={(e:any)=>handlerShowAssessmentForm({...e, disciplineId:discipline?.id})} item={item} setItem={setItem} />
+                {enrollments?.map((enrollment: any) =><>
+                    <AssessmentLine semester={classe?.semester} assessments={assessments?.filter((a: any) => a?.enrollmentId === enrollment?.id)} enrollment={enrollment} assessmentTypes={assessmentTypes} handlerShowAssessmentForm={(e:any)=>handlerShowAssessmentForm({...e, disciplineId:discipline?.id})} item={item} setItem={setItem} />
+                    </>
                 )}
             </tbody>
         </table>
@@ -193,7 +185,7 @@ const AssessmentLine = ({ item, setItem, assessmentTypes, enrollment, assessment
     const [average, setAverage] = useState<any>()
     const [hasRecourse, setRecourse] = useState<any>()
     useMemo(() => {
-        let ass = assessments?.filter((ass: any) => ass?.enrollmentId === enrollment?.id)
+        let ass = assessments
 
         setRecourse(ass?.filter((a: any) => a.type?.code === 'RC').length > 0)
         if (hasRecourse)
@@ -202,6 +194,7 @@ const AssessmentLine = ({ item, setItem, assessmentTypes, enrollment, assessment
         ass = ass?.map((a: any) => a?.value * (Number(a?.type?.value.split('%')[0]) / 100))
         const av = ass?.reduce((a: number, b: number) => a + b, 0)
         setAverage(av)
+        
     }, [assessments])
 
     return (
@@ -223,18 +216,19 @@ const AssessmentLine = ({ item, setItem, assessmentTypes, enrollment, assessment
 
 export const Box = ({ item, hasRecourse, type, assessments, semester, enrollment, handlerShowAssessmentForm }: any) => {
     const [assessment, setAssessment] = useState<any>()
+    
 
     const stylesIfHasResource = hasRecourse && type?.code === 'EX' ? {
         textDecoration: 'line-through',
         color: "#999"
     } : {}
     useMemo(() => {
-        setAssessment(assessments?.filter((ass: any) => ass?.enrollmentId === enrollment?.id && ass?.typeId === type?.id)[0])
-    }, [assessments, type.id])
+        setAssessment(assessments?.filter((ass: any) => ass?.typeId === type?.id)[0])
+    }, [assessments, type])
     return (
         <td
             style={stylesIfHasResource}
-            onClick={() => handlerShowAssessmentForm({ typeId: type?.id, semester, item,...item, ...assessment })}
+            onClick={() => handlerShowAssessmentForm({ typeId: type?.id, semester, item, ...assessment, enrollmentId:enrollment?.id })}
             title={type?.name + ' - ' + type?.value}
         >{assessment?.value ?? '-'}</td>
     )

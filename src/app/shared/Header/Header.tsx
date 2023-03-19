@@ -35,13 +35,13 @@ export const Header = () => {
     return <div className="az-header">
         <div className="container">
             <div className="az-header-left">
-                <Link to="/" className="az-logo"><span></span> azia
+                <Link to="/" className="az-logo"><span></span> nova
                 </Link>
                 <Link to="/" className="az-header-menu-icon d-lg-none"><span></span></Link>
             </div>{/* az-header-left */}
             <div className="az-header-menu">
                 <div className="az-header-menu-header">
-                    <Link to="/" className="az-logo"><span></span> azia</Link>
+                    <Link to="/" className="az-logo"><span></span> nova</Link>
                     <Link to="/" className="close">&times;</Link>
                 </div>{/* az-header-menu-header */}
                 <ul className="nav">

@@ -86,6 +86,7 @@ const FormEditAssessment = ({ handleClose, assessment, refresh, staff, disciplin
     }
 
     const onSubmit = async (form: any) => {
+        debugger
         setLoading(true)
         let { response: { data: response, status } } = await Api[form?.id ? 'put' : 'post']({ service: services.common.assessments, id: form?.id, data: form })
 

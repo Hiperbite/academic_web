@@ -4,7 +4,7 @@ import Moment from 'react-moment'
 import { useNavigate } from 'react-router-dom'
 import Paginate from '../../Components/Paginate'
 
-export const ListTableStudents = ({ data, setParams, params }: any) => {
+export const ListTableStudents = ({ data, setParams, params, candidates=false }: any) => {
 
   const navigate = useNavigate();
   const updateParams = (opts: any) => {
@@ -19,8 +19,9 @@ export const ListTableStudents = ({ data, setParams, params }: any) => {
             <th>No</th>
             <th>Name</th>
             <th>Sexo</th>
+            {!candidates ? <>
             <th>Turma</th>
-            <th>Ano</th>
+            <th>Ano</th></> : <th>Curso desejado</th>}
             <th>Data</th>
           </tr>
         </thead>
@@ -29,8 +30,10 @@ export const ListTableStudents = ({ data, setParams, params }: any) => {
             <th scope="row">{student?.code ?? student?.entryCode}</th>
             <td>{student?.person?.fullName}</td>
             <td>{student?.person?.gender}</td>
+            {!candidates ? <>
             <td>{student?.enrollment?.classe?.code}</td>
             <td>{student?.enrollment?.classe?.grade} º</td>
+            </>: <td>{student?.desiredCourse?.name ?? '-'}</td>}
             <td>
               <Moment format="DD/MM/YYYY">
                 {student.createdAt}
