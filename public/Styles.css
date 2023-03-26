@@ -2567,6 +2567,14 @@ select {
     border-radius: 0 !important;
 }
 
+.btn-sm {
+    min-height: 30px !important
+}
+
+input.form-control-sm {
+    height: 10px
+}
+
 .btn.btn-primary {
     background: linear-gradient(to bottom right, #5b47fb, #9086dc);
     color: #FFF;
@@ -53557,6 +53565,12 @@ idth: 100vw;
 .
 }
 idth: 100vw;
+.dth: 100vw;
+.dth: 100vw;
+.dth: 100vw;
+.dth: 100vw;
+.dth: 100vw;
+.dth: 100vw;
 .dth: 100vw;
 .dth: 100vw;
 .dth: 100vw;

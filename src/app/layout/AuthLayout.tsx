@@ -16,6 +16,7 @@ export const AuthLayout = () => {
           </div>
         </div>{/*<!-- az-column-signup-left -->*/}
         <Outlet/>
+        
       </div>
 
     </>)

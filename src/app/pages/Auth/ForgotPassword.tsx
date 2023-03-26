@@ -62,7 +62,7 @@ export const ForgotPassword = () => {
 
         </div>{/*<!-- az-signup-header -->*/}
         <div className="az-signup-footer">
-            <p> {"<"} Voltar para a página de <Link to="/auth/singin">Autenticação</Link></p>
+            <p> {"<"} Voltar para a página de <Link to="/auth/signin">Autenticação</Link></p>
         </div>{/*<!-- az-signin-footer -->*/}
         <Modal show={data?.status === 200} fullscreen={true} onHide={() => navigate('/auth/singin')}>
             <Modal.Header closeButton>
@@ -82,7 +82,7 @@ export const ForgotPassword = () => {
                         <br />
                         <h1>Solicitação de redefinição feita com sucesso</h1>
                         <h4>Você já pode fechar esta janela</h4>
-                        <Button variant="secondary" onClick={() => navigate('/auth/singin')}><i className="fa fa-chevron-left"></i> Voltar</Button>
+                        <Button variant="secondary" onClick={() => navigate('/auth/signin')}><i className="fa fa-chevron-left"></i> Voltar</Button>
                     </Col>
                 </Row>
             </Modal.Body>

@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { Col, Image, Row } from "react-bootstrap";
 import { Link, Outlet } from "react-router-dom"
 import storage from "../app/storage";
-import { UserProfile } from "../pages/User/UserProfile";
+import { UserProfile } from "../pages/Main/User/UserProfile";
 import "./Page.scss"
 const menuItems: any = {
     pedagogical: [
@@ -90,11 +90,11 @@ export const Menu = ({ menu }: any) => {
     const classNames = ["nav-link active", "nav-link"];
     return (
         <div className="component-item">
-            {currentMenuItem?.map(({ text, childs, to }: any) => <>
+            {currentMenuItem?.map(({ text, childs, to }: any, key:number) => <>
                 <label>{text}</label>
                 <nav className="nav flex-column">
                     {childs === undefined ? null : childs.map((menuItem: any) =>
-                        <Link
+                        <Link key={`${key}`}
                             to={`${to}/${menuItem?.to}`}
                             className={classNames[activeMenu?.to === menuItem?.to ? 0 : 1]}
                             onClick={() => setActiveMenu(menuItem)}
