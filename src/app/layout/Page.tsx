@@ -67,16 +67,18 @@ const menuItems: any = {
     ],
     me: [
         {
-            text: "Pessoal", to: "/me", childs: [
+            text: "", to: "/me", childs: [
                 { to: '', text: 'Inicio' },
-                { to: 'contacts', text: 'Contactos' },
-                { to: 'settings', text: 'Privacidade' },
+                { to: 'time-tables', text: 'Horarios' },
+                { to: 'classification', text: 'Notas' },
+                { to: 'history', text: 'Historico' },
+                { to: 'settings', text: 'Definições' },
                 { to: 'activities', text: 'Actividades' },
             ]
         }
     ]
 };
-export const Menu = ({ menu }: any) => {
+export const Menu = ({ menu, data }: any) => {
 
     const [activeMenu, setActiveMenu] = useState<any>()
 
@@ -94,7 +96,7 @@ export const Menu = ({ menu }: any) => {
                 <label>{text}</label>
                 <nav className="nav flex-column">
                     {childs === undefined ? null : childs.map((menuItem: any) =>
-                        <Link key={`${key}`}
+                        <Link key={`${key}`} state={ data }
                             to={`${to}/${menuItem?.to}`}
                             className={classNames[activeMenu?.to === menuItem?.to ? 0 : 1]}
                             onClick={() => setActiveMenu(menuItem)}

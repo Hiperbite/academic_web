@@ -1,4 +1,6 @@
+
 import moment from "moment";
+import React from "react";
 import { useCallback, useMemo, useState } from "react";
 import { Button, ButtonGroup, Card, Col, Row } from "react-bootstrap";
 import Moment from "react-moment";
@@ -7,7 +9,7 @@ import { toast } from "react-toastify";
 import { Api, services } from "../../../../../../app/api/Api";
 import { ScheduleClassRegister } from "../../components/ScheduleClassRegister";
 
-const weekDays = [
+export const weekDays = [
     'Segunda-feira',
     'Terça-feira',
     'Quarta-feira',
@@ -16,31 +18,39 @@ const weekDays = [
     'Sábado',
     //  'Domingo'
 ];
-export const TabScheduleClass = ({ classe }: any) => {
+export type ScheduleType =
+    "COMPACT" |
+    "LIST" |
+    "TODAY" |
+    "BOXED" |
+    "TABLE"
+export const ScheduleClass = ({ classe, type }: { classe: any, type: ScheduleType }) => {
 
     const [show, setShow] = useState(false);
-    const [tab, setTab] = useState(0);
     const [timeTables, setTimeTables] = useState<any>();
     const [item, setItem] = useState<any>();
     const [loading, setLoading] = useState<any>();
     const [curricularPlans, setCurricularPlan] = useState<any>();
 
-    const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const [params, setParams] = useState({ pageSize: 100, page: 1, 'where[classeId]': classe?.id });
 
 
     useMemo(async () => {
-        debugger
-        const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: classe?.course?.id, params:{} })
+        setParams({ pageSize: 100, page: 1, 'where[classeId]': classe?.id })
+    }, [classe])
+
+
+    useMemo(async () => {
+        const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: classe?.course?.id, params: {} })
         setCurricularPlan(response)
     }, [params])
 
     useMemo(async () => {
 
         setLoading(true)
-
+        debugger
         const { response: { data: response, status } } = await Api.get({ service: services.academic.timeTables, params })
 
         if (status === 200) {
@@ -51,7 +61,7 @@ export const TabScheduleClass = ({ classe }: any) => {
 
         setLoading(false)
 
-    }, [params])
+    }, [params, classe])
 
     const getProfessor = (disciplineId: string) =>
         curricularPlans?.items?.filter((plan: any) =>
@@ -59,11 +69,6 @@ export const TabScheduleClass = ({ classe }: any) => {
             plan?.disciplineId === disciplineId
         )[0]?.professor
 
-
-    const Tabs = [ListTab, TableTab][tab]
-    const updateParams = useCallback((opts: any) => {
-        setParams({ ...params, ...opts });
-    }, [])
     const groups = timeTables?.reduce(function (groups: any, item: any) {
         const val = item.weekDay
         groups[val] = groups[val] || []
@@ -72,41 +77,53 @@ export const TabScheduleClass = ({ classe }: any) => {
         return groups
     }, {})
 
-    return (<>
-        <div className="az-content-body pd-lg-l-40 d-flex flex-column">
-            {classe?.course?.curricularPlanId}
-            <div className='row'>
-                <div className='col-md-6'>
-                    <h2 className="az-content-title">Horario</h2>
-                </div>
-                <div className='col-md-6 text-right'>
-                    <ButtonGroup className="me-2" aria-label="First group">
-                        <Button variant="secondary" active={tab === 0} onClick={() => setTab(0)}>
-                            <i className="fa fa-bars"></i>
-                        </Button>{' '}
-                        <Button variant="secondary" active={tab === 1} onClick={() => setTab(1)}>
-                            <i className="fa fa-table"></i>
-                        </Button>{' '}
-                    </ButtonGroup>
-                    <Button
-                        variant="primary"
-                        disabled={loading}
-                        onClick={() => { setItem({}); handleShow() }}
-                    >
-                        {loading ? 'Loading…' : 'Registar'}
-                    </Button>
-                </div>
-            </div>
+    const Comp = {
+        "COMPACT": ListSchedule,
+        "LIST": ListSchedule,
+        "TODAY": TodaySchedule,
+        "BOXED": TableSchedule,
+        "TABLE": TableSchedule
+    }[type]
+    return <><Comp groups={groups} getProfessor={getProfessor} setItem={setItem} handleShow={handleShow} /></>
 
-            <hr className="mg-y-30" />
-            <Tabs groups={groups} getProfessor={getProfessor} setItem={setItem} handleShow={handleShow} />
-            <ScheduleClassRegister show={show} handleClose={handleClose} classe={classe} item={item} updateParams={updateParams} />
-        </div>
-    </>)
 }
 
 
-const ListTab = ({ groups, setItem, getProfessor, handleShow }: any) =>
+const TodaySchedule = ({ groups = [], getProfessor }: any) => {
+    const weekDay = new Date().getDay() - 1;
+    const timeTables = groups[weekDay];
+    return <>
+
+
+                {timeTables?.map((timeTable: any) =>
+               
+                        <div className="az-list-item">
+                            <div>
+                                <h6>
+                                    {timeTable?.discipline?.name}
+                                </h6>
+                                <span>{getProfessor(timeTable?.disciplineId)?.person?.fullName}</span>
+                                <span>{timeTable?.duration} minutos</span>
+                            </div>
+                            <div>
+                                <h6 className="tx-primary">
+                                    <Moment format="hh:mm">
+                                        {`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`}
+                                    </Moment>
+                                </h6>
+                                <h6 className="tx-primary">
+                                    <Moment format="hh:mm">
+                                        {moment(`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`).add(timeTable?.duration, 'minutes')}
+                                    </Moment>
+                                </h6>
+
+                            </div>
+                        </div>
+                )}
+                </>
+
+}
+const ListSchedule = ({ groups, setItem, getProfessor, handleShow }: any) =>
     <div className="table-responsive">
         <table className="table table-hover mg-b-0">
             <thead>
@@ -188,7 +205,7 @@ export const TodayScheduleClass = ({ groups, setItem, getProfessor, handleShow }
     </div>
 
 
-const TableTab = ({ groups, setItem, getProfessor, handleShow }: any) =>
+const TableSchedule = ({ groups, setItem, getProfessor, handleShow }: any) =>
     <Row>
         {Object.keys(groups ?? {})?.map((key: any) => <>{groups ?
             <Col>

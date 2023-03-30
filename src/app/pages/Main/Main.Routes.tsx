@@ -35,6 +35,9 @@ import { ListStudents } from "./Students/Students/ListStudents";
 import { RegisterNewStudent } from "./Students/Students/RegisteStudent/RegisteNewStudent";
 import { UpdateExistedStudent } from "./Students/Students/UpdateStudent/UpdateExistedStudent";
 import { Activities } from "./User/Activities";
+import { Classification } from "./User/Classification";
+import { StudentClasseSchedule } from "./User/components/Schedule/StudentClasseSchedule";
+import { UserStudentHistory } from "./User/components/UserStudentHistory/UserStudentHistory";
 import { Contacts } from "./User/Contacts";
 import { HomeUserProfile } from "./User/HomeUserProfile";
 import { Settings } from "./User/Settings";
@@ -47,7 +50,9 @@ export const mainRoutes = [
     path: "me/*", component: <Default type={"students"} />, childs: [
 
       { path: "profile", component: HomeUserProfile },
-      { path: "contacts", component: Contacts },
+      { path: "classification", component: Classification },
+      { path: "time-tables", component: StudentClasseSchedule },
+      { path: "history", component: UserStudentHistory },
       { path: "activities", component: Activities },
       { path: "settings", component: Settings },
     ]
@@ -98,7 +103,7 @@ export const mainRoutes = [
         ]
       },
       {
-        path: "periods", component: EmptyComponet, childs: [
+        path: "periods/*",childs: [
 
           { path: "", component: ListPeriod },
           { path: "list", component: ListPeriod },

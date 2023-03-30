@@ -11,11 +11,11 @@ const [loading, setLoading] = useState(false)
 
     const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[id]': student?.enrollment?.classe?.courseId });
     const [data, setData] = useState<any>()
-    //const [item, setItem] = useState<any>()
+    const [item, setItem] = useState<any>()
     useMemo(async () => {
         const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: student?.enrollment?.classe?.courseId, params })
         setData(response)
-    }, [])
+    }, [student])
 
     const updateParams = (opts: any) => {
         setParams({ ...params, ...opts });
@@ -49,7 +49,7 @@ const [loading, setLoading] = useState(false)
         });
         setAssessmentTypes(r?.data)
         setLoading(false)
-    }, [])
+    }, [student])
 
 
     useMemo(async () => {
@@ -116,7 +116,7 @@ const [loading, setLoading] = useState(false)
                                         <th>Resultado</th>
                                     </tr>
                                 </thead>
-                                {[1, 2, 3, 4, 5].map((year: number) => <Year handlerShowAssessmentForm={handlerShowAssessmentForm} assessments={assessments} assessmentTypes={assessmentTypes} items={data?.items} year={year} />)}
+                                {[1, 2, 3, 4, 5].map((year: number) => <Year setItem={setItem} handlerShowAssessmentForm={handlerShowAssessmentForm} assessments={assessments} assessmentTypes={assessmentTypes} items={data?.items} year={year} />)}
                             </table>
                         </div>
                     </div>

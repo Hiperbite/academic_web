@@ -4,12 +4,12 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
 import { useGetStudentsData } from '../../../../app/api/students/students';
-import { ListTableStudents } from '../components/ListTableStudents';
+import { ListTableStudentCandidates } from "./ListTableStudentCandidates";
 
 export const ListCandidates = () => {
 
   const navigate = useNavigate();
-  const [params, setParams] = useState({ pageSize: 6, page: 1, filter: 'withNotEnrollment' });
+  const [params, setParams] = useState({ pageSize: 6, page: 1,where:{}, filter: 'withNotEnrollment' });
   const { data, loading } = useGetStudentsData(params);
 
 
@@ -33,7 +33,7 @@ export const ListCandidates = () => {
           </Button>
         </Col>
       </Row>
-      <ListTableStudents loading={loading} setParams={setParams} candidates={true} params={params} data={data} />
+      <ListTableStudentCandidates loading={loading} setParams={setParams} candidates={true} params={params} data={data} />
     </div>
   )
 }

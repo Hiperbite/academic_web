@@ -33,11 +33,13 @@ export const Avatar = ({ setRefresh, avatar }: any) => {
         }
     }
     return (<>
-        <label htmlFor="profilePic">
-            <img className="thumb-post rounded-circle img-thumbnail" style={{ backgroundImage: `url(${imgData})` }} />
-        </label>
+            <div className="image">
+                <img src={imgData} className="img img-responsive full-width" />
+            </div>
         {avatar !== imgData ? <Button onClick={handleSave}>Salvar</Button> : null}
-        <input id="profilePic" accept=".png,.jpg,.jpeg" className="hidden" type="file" onChange={onChangePicture} />
+
+
+        <input id="profilePic" accept=".png,.jpg,.jpeg" type="file" onChange={onChangePicture} />
     </>
 
     );

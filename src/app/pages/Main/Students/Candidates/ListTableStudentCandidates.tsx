@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { Button, Col, Collapse, Form, Popover, Row, Table } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Button, Col, Form, Row, Table } from 'react-bootstrap'
 import { Controller, useForm } from 'react-hook-form'
 import Moment from 'react-moment'
 import { useNavigate } from 'react-router-dom'
@@ -10,18 +10,16 @@ import { DebounceInput } from 'react-debounce-input'
 
 
 import _ from 'lodash'
-import useAxiosFetch, { services } from '../../../../app/api/Api'
-export const ListTableStudentEnrollment = ({ data, isShowFilter, loading, setParams, params, candidates = false }: any) => {
+import useAxiosFetch, { services } from '../../../app/api/Api'
+export const ListTableStudentCandidates = ({ data, loading, setParams, params, candidates = false }: any) => {
 
   const navigate = useNavigate();
   const updateParams = (opts: any) => {
     setParams({ ...params, ...opts });
   }
   return (<div>
-
-    <Filter isShowFilter updateParams={updateParams} loading={loading} />
-
     <hr className="mg-y-30" />
+    <Filter updateParams={updateParams} loading={loading} />
     <div className="table-responsive">
       <Table striped hover>
         <thead>
@@ -29,23 +27,24 @@ export const ListTableStudentEnrollment = ({ data, isShowFilter, loading, setPar
             <th>No</th>
             <th>Name</th>
             <th>Sexo</th>
-            <th>Turma</th>
-            <th>Ano</th>
+            {!candidates ? <>
+              <th>Turma</th>
+              <th>Ano</th></> : <th>Curso desejado</th>}
             <th>Data</th>
           </tr>
         </thead>
         <tbody>
-          {data?.data?.map((enrollment: any) => <tr onClick={() => navigate("/students/show/" + enrollment?.student?.id)}>
-            <th scope="row">{enrollment?.student?.code ?? enrollment?.student?.entryCode}</th>
-            <td>{enrollment?.student?.person?.fullName}</td>
-            <td>{enrollment?.student?.person?.gender}</td>
-
-            <td>{enrollment?.classe?.code}</td>
-            <td>{enrollment?.classe?.grade} º</td>
-
+          {data?.data?.map((student: any) => <tr onClick={() => navigate("/students/show/" + student?.id)}>
+            <th scope="row">{student?.code ?? student?.entryCode}</th>
+            <td>{student?.person?.fullName}</td>
+            <td>{student?.person?.gender}</td>
+            {!candidates ? <>
+              <td>{student?.enrollment?.classe?.code}</td>
+              <td>{student?.enrollment?.classe?.grade} º</td>
+            </> : <td>{student?.desiredCourse?.name ?? '-'}</td>}
             <td>
               <Moment format="DD/MM/YYYY">
-                {enrollment?.student.createdAt}
+                {student.createdAt}
               </Moment></td>
           </tr>)}
         </tbody>
@@ -63,12 +62,11 @@ const Filter = ({ updateParams, params: pp, loading }: any) => {
 
   const [params, setParams] = useState({ pageSize: 100, page: 1 });
 
-  const { data: classes } = useAxiosFetch(services.academic.class, params)
-  const { data: periods } = useAxiosFetch(services.academic.period, params)
-
+  const { data: courses, loading:l}:any = useAxiosFetch(services.academic.course, params)
+  
   const { register, control, watch, handleSubmit,
     formState: { errors }, } = useForm({})
-  let filter: any = _.pick(watch(), 'code', 'year', 'classeId', 'name', 'periodId')
+  let filter: any = _.pick(watch(), 'entryCode', 'createdAt', 'desiredCourseId', 'name', 'gender')
 
   const onSubmit = (form: any) => null;
   useEffect(() => {
@@ -84,7 +82,7 @@ const Filter = ({ updateParams, params: pp, loading }: any) => {
     <form onSubmit={handleSubmit(onSubmit)} >
       <Row style={{ padding: "5px 0", boxShadow: "0 0 5px #ddd" }}>
         <Col md={2}>
-          <Controller control={control}  {...register("code")}
+          <Controller control={control}  {...register("entryCode")}
             render={({
               field: { onChange, value, name, ref },
               fieldState: { invalid, isTouched, isDirty, error },
@@ -92,7 +90,7 @@ const Filter = ({ updateParams, params: pp, loading }: any) => {
             }) =>
               <DebounceInput
                 className="form-control form-control-sm"
-                placeholder="Numero de estudante"
+                placeholder="Numero de candidatura"
                 minLength={3}
                 value={value}
                 debounceTimeout={500}
@@ -117,26 +115,20 @@ const Filter = ({ updateParams, params: pp, loading }: any) => {
           />
         </Col>
         <Col md={2}>
-          <Form.Select size="sm" aria-label="Default select example" {...register("classeId")} >
-            <option value={"*"}>[ Turma ]</option>
-            {classes?.data?.map(({ id, code }: any) => <option value={id}>{code}</option>)}
-
+          <Form.Select size="sm" aria-label="Default select example" {...register("gender")} >
+            <option value={"*"} >[ Sexo ]</option>
+            {[['Masculino','M'],['Feminino','F']].map(([gen, code]: any) => <option value={`${code}`}>{gen}</option>)}
           </Form.Select>
         </Col>
         <Col md={2}>
-          <Form.Select size="sm" aria-label="Default select example" {...register("periodId")} >
-            <option value={"*"} >Periodo</option>
-            {periods?.map(({ id, code, descriptions }: any) => <option value={id}>{code} - {descriptions}</option>)}
+          <Form.Select size="sm" aria-label="Default select example" {...register("desiredCourseId")} >
+            <option value={"*"} >[ Curso inscrito ]</option>
+            {courses?.data?.map(({ id, code, name }: any) => <option value={id}>{code} - {name}</option>)}
           </Form.Select>
         </Col>
 
         <Col md={2}>
-          <Form.Select size="sm" aria-label="Default select example" {...register("year")} >
-            <option style={{ color: "#aaa" }}>Ano</option>
-            {[1, 2, 3, 4, 5, 6].map((y: any) => <option value={y}>{y}º</option>)}
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </Form.Select>
+          <Form.Control placeholder='[ Data de inscrição ]' size="sm" type="date" aria-label="Default select example" {...register("createdAt")} />
         </Col>
 
       </Row>

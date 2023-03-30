@@ -1,8 +1,17 @@
-.thumb-post {
-    object-fit: cover !important;
-    /* Do not scale the image */
-    object-position: center !important;
-    /* Center the image within the element */
-    height: 170px !important;
-    width: 360px !important;
+.image {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 100%;
+    border-radius: 5px;
+    background-color: #FFF;
+    border: solid 5px #eee;
+}
+
+.image img {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
 }

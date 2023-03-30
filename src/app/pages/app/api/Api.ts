@@ -18,7 +18,7 @@ export const getHeaders = () => {
     return headers;
 };
 (() => {
-    axios.defaults.baseURL = /*"http://localhost:7100/api/v1/";  */'https://api.academic.nova.app.hiperbite.com/api/v1/'/**///process.env.REACT_APP_BASE_URL_API;
+    axios.defaults.baseURL ="http://localhost:7100/api/v1/";   /**  /* /'https://api.academic.nova.app.hiperbite.com/api/v1/'/**///process.env.REACT_APP_BASE_URL_API;
 
     axios.defaults.headers.common["apikey"] = process.env.REACT_APP_BASE_API_KEY ?? '3265';
 
@@ -30,6 +30,9 @@ export const services = {
             singIn: 'auth',
             forgotPassword: '/users/forgotpassword',
             resetPassword: '/users/resetpassword',
+        },
+        user: {
+            history: '/users/histories'
         },
         track: "tracks",
         contacts: "/commons/contacts",
@@ -83,7 +86,7 @@ const post = async ({ service, data }: any) => {
 }
 
 const get = async ({ service, id, params }: any) => {
-debugger
+    debugger
     let url = service
     if (id) {
         url = `${url}/${id}`
@@ -107,7 +110,7 @@ debugger
     }
 }
 
-const drop = async ({ service, id}: any) => {
+const drop = async ({ service, id }: any) => {
 
     let url = service
     if (id) {
@@ -127,7 +130,7 @@ const drop = async ({ service, id}: any) => {
 
 const put = async ({ service, id, data }: any) => {
 
-    let url = `${service}/${data?.id??id}`
+    let url = `${service}/${data?.id ?? id}`
 
     try {
         const response = await axios.put(url, data, { headers: getHeaders() });

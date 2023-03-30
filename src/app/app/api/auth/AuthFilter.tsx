@@ -8,8 +8,8 @@ import { selectCurrentToken } from './authSlice'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-export const RequireAuth = ({ }: any) => {
-    debugger
+export const AuthFilter = ({roles }: any) => {
+    
     const location = useLocation()
     const requireAuth = ['/auth'].filter((route: string) => location.pathname.indexOf(route) > -1).length === 0
 
@@ -24,7 +24,7 @@ export const RequireAuth = ({ }: any) => {
             : <Navigate to="/auth" state={{ from: location }} replace />)
 
 }
-export const RequireAuthorization = ({ permission }: any) => {
+export const AuthFilterorization = ({ permission }: any) => {
 
 
     const token = storage.get('user').permissions.filter(([perm, level]: any) => permission === perm);
