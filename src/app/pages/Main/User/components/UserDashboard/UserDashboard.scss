@@ -1,0 +1,22 @@
+#UserDashboard {
+    .card {
+        padding: 20px 15px;
+        margin-bottom: 10px;
+        span {
+            font-size: 10px;
+        }
+    }
+}
+
+.az-content-body.pd-lg-l-40.d-flex.flex-column {
+    //background-color: dodgerblue;
+}
+
+.blur-card {
+    background: #ECF1F524;
+    mix-blend-mode: normal;
+    backdrop-filter: blur(15px);
+    ;
+    box-shadow: 0px 20px 53px -30px rgba(95, 102, 173, 0.566816);
+    border-radius: 10px;
+}

@@ -20,6 +20,21 @@ export const RequireAuth = () => {
             : <Navigate to="/auth" state={{ from: location }} replace />)
 
 }
+
+export const allowed = (role: string, level = 1) => {
+    const { permissions } = storage.get('user')
+
+    return permissions[role] >= level || permissions['ADMIN'] >= level
+}
+export const AllowedFor = ({ role, level = 1, showLocked, children }: any) => {
+    if (role) { } else { return children }
+
+    const allow = allowed(role, level)
+
+    return (allow ? children : <LockedComponent showLocked={showLocked} />)
+
+}
+const LockedComponent = ({ showLocked = false }: any) => showLocked ? <div className='text-center text-secondary'><i className='fa fa-lock'></i> Sem acesso</div> : <></>
 export const RequireAuthorization = ({ permission }: any) => {
 
 

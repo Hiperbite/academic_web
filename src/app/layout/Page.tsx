@@ -2,22 +2,23 @@ import { useEffect, useState, useMemo } from "react";
 import { Col, Image, Row } from "react-bootstrap";
 import { Link, Outlet } from "react-router-dom"
 import storage from "../app/storage";
+import { AllowedFor } from "../pages/app/api/auth/RequireAuth";
 import { UserProfile } from "../pages/Main/User/UserProfile";
 import "./Page.scss"
 const menuItems: any = {
     pedagogical: [
         {
             text: "Menu Pedagogico", to: "/pedagogical", childs: [
-                { to: 'classe', text: 'Turmas' },
-                { to: 'class-rooms', text: 'Salas' },
-                { to: 'periods', text: 'Periodo' },
+                { to: 'classe', text: 'Turmas', allowedFor: 'CLASS', level: 1 },
+                { to: 'class-rooms', text: 'Salas', allowedFor: 'TABLES', level: 1 },
+                { to: 'periods', text: 'Periodo', allowedFor: 'TABLES', level: 1 },
             
             ]
         },
         {
             text: "...", to: "/pedagogical", childs: [
-                { to: 'disciplines', text: 'Disciplinas' },
-                { to: 'courses', text: 'Cursos' },
+                { to: 'disciplines', text: 'Disciplinas', allowedFor: 'TABLES', level: 1  },
+                { to: 'courses', text: 'Cursos', allowedFor: 'TABLES', level: 1  },
             ]
         }
 
@@ -73,7 +74,6 @@ const menuItems: any = {
                 { to: 'classification', text: 'Notas' },
                 { to: 'history', text: 'Historico' },
                 { to: 'settings', text: 'Definições' },
-                { to: 'activities', text: 'Actividades' },
             ]
         }
     ]
@@ -96,11 +96,12 @@ export const Menu = ({ menu, data }: any) => {
                 <label>{text}</label>
                 <nav className="nav flex-column">
                     {childs === undefined ? null : childs.map((menuItem: any) =>
-                        <Link key={`${key}`} state={ data }
+                        <AllowedFor role={menuItem.allowedFor} level={menuItem.level}><Link key={`${key}`} state={ data }
                             to={`${to}/${menuItem?.to}`}
                             className={classNames[activeMenu?.to === menuItem?.to ? 0 : 1]}
                             onClick={() => setActiveMenu(menuItem)}
                         >{menuItem?.text}</Link>
+                        </AllowedFor>
                     )}
                 </nav>
             </>)

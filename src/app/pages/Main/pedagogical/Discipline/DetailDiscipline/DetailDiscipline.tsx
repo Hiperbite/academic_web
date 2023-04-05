@@ -1,25 +1,17 @@
 import Moment from 'react-moment';
 import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Api, services } from '../../../../app/api/Api';
 import { Disabled } from './tabs/Disabled';
 import { TabHistory } from './tabs/TabHistory';
 import { TabClasseList } from './tabs/TabClasseList';
+import { AllowedFor } from '../../../../app/api/auth/RequireAuth';
+import { useApi } from '../../../../../app/api/apiSlice';
+import { services } from '../../../../../app/api/services';
 
 export const DetailDiscipline = () => {
   const { id } = useParams()
-
   const [tab, setTab] = useState(0);
-  const [discipline, setDiscipline] = useState<any>()
-  const [loading, setLoading] = useState<boolean>(false)
-
-  useMemo(async () => {
-    setLoading(true)
-    const { response: { data: response } } = await Api.get({ service: services.academic.discipline, id })
-    setDiscipline(response)
-    setLoading(false)
-  }, [])
-
+  const { data: discipline, loading } = useApi({ service: services.academic.discipline.getAll, id })
   const tabsTitles = ['Cursos', 'Histórico']
   const Tabs = [TabClasseList, History][tab]
 
@@ -34,16 +26,10 @@ export const DetailDiscipline = () => {
         <div>
           <h4 className="az-dashboard-title">Disciplina</h4>
           <h2 className="">{discipline?.code} - {discipline?.name}</h2>
-          <p  style={{maxWidth:"600px"}} className="az-dashboard-text">{discipline?.descriptions}</p>
+          <p style={{ maxWidth: "600px" }} className="az-dashboard-text">{discipline?.descriptions}</p>
         </div>
         <div className="az-content-header-right">
 
-          <div className="media">
-            <div className="media-body text-right">
-              <label>Cursos</label>
-              <h6>{discipline?.classes?.length ?? "-"}</h6>
-            </div>
-          </div>
           <div className="media">
             <div className="media-body text-right">
               <label>Data de registo</label>
@@ -76,7 +62,9 @@ export const DetailDiscipline = () => {
         </nav>
 
         <nav className="nav">
-          <Link className="nav-link" to={`/pedagogical/disciplines/update/${discipline?.id}`}><i className="fa fa-edit"></i></Link>
+          <AllowedFor role={'TABLES'} level={2}>
+            <Link className="nav-link" to={`/pedagogical/disciplines/update/${discipline?.id}`}><i className="fa fa-edit"></i></Link>
+          </AllowedFor>
           <a className="nav-link" href="#"><i className="fa fa-print"></i></a>
           <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
           <a className="nav-link" href="#"><i className="fa fa-ellipsis-h"></i></a>

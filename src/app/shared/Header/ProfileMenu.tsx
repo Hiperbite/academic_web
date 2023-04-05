@@ -19,9 +19,9 @@ export const ProfileMenu = () => {
     }
     return (
         <div className="dropdown az-profile-menu">
-            <a href='#' className="az-img-user" onClick={() => setOpen(!open)}>
+            <Link to={"#"} className="az-img-user" onClick={() => setOpen(!open)}>
                 <img src={me?.avatar} alt="" />
-            </a>
+            </Link>
 
             {open ?
                 <div className="dropdown-menu" style={{ 'display': 'block' }}>
@@ -37,7 +37,7 @@ export const ProfileMenu = () => {
                         <span>{me?.email}</span>
                     </div>{/* az-header-profile */}
 
-                    <Link to="/me" className="dropdown-item">
+                    <Link to="/me" className="dropdown-item"  state={{ me, classe:{} }} >
                         <i className="typcn typcn-user-outline"></i> Meu Perfil</Link>
                     <Link to="" className="dropdown-item">
                         <i className="typcn typcn-edit"></i> Edit Profile</Link>

@@ -5,9 +5,9 @@ import { Api, services } from "../../../../app/api/Api";
 import { Loading } from "../../../Components/Snipper/Spinner";
 import { RegisterAssessment } from "./components/RegisterAssessment";
 
-export const AssessmentStudents = ({ student }: any) => {
+export const AssessmentStudents = ({ student, years = [1, 2, 3, 4, 5], semesters = [0, 1] }: any) => {
 
-const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[id]': student?.enrollment?.classe?.courseId });
     const [data, setData] = useState<any>()
@@ -20,8 +20,6 @@ const [loading, setLoading] = useState(false)
     const updateParams = (opts: any) => {
         setParams({ ...params, ...opts });
     }
-
-
 
     const [disciplines, setDisciplines] = useState()
     const [assessmentTypes, setAssessmentTypes] = useState<any[]>()
@@ -89,52 +87,41 @@ const [loading, setLoading] = useState(false)
     }
 
     return (
-        <div className="col-lg-12">
+        <>
             <div className="card card-dashboard-pageviews">
                 <div className="card-header">
                     <h6 className="card-title">Exames, Provas e avaliações</h6>
-                    <p className="card-text">
-                    </p>
                 </div>
-
                 <Loading loading={loading} />
                 <div className="card-body">
-                    <div className="az-list-item">
-                        <div>
-                            <h6></h6>
-                            <span>
-                            </span>
-                        </div>
-                        <div className="table-responsive">
-                            <table className="table table-bordered mg-b-0">
-                                <thead>
-                                    <tr>
-                                        <th>Disciplina</th>
+                    <div className="table-responsive">
+                        <table className="table table-bordered mg-b-0">
+                            <thead>
+                                <tr>
+                                    <th>Disciplina</th>
 
-                                        {assessmentTypes?.map((type: any) => <th title={type?.name}>{type?.code}</th>)}
-                                        <th>Media</th>
-                                        <th>Resultado</th>
-                                    </tr>
-                                </thead>
-                                {[1, 2, 3, 4, 5].map((year: number) => <Year setItem={setItem} handlerShowAssessmentForm={handlerShowAssessmentForm} assessments={assessments} assessmentTypes={assessmentTypes} items={data?.items} year={year} />)}
-                            </table>
-                        </div>
+                                    {assessmentTypes?.map((type: any) => <th title={type?.name}>{type?.code}</th>)}
+                                    <th>Media</th>
+                                    <th>Resultado</th>
+                                </tr>
+                            </thead>
+                            {years.map((year: number) => <Year setItem={setItem} semesters={semesters} handlerShowAssessmentForm={handlerShowAssessmentForm} assessments={assessments} assessmentTypes={assessmentTypes} items={data?.items} year={year} />)}
+                        </table>
                     </div>
-
                 </div>
             </div>
             <RegisterAssessment show={showAssessmentForm} refresh={updateParams} assessmentTypes={assessmentTypes} disciplines={disciplines} handleClose={() => setAssessmentForm(false)} assessment={initialAssessment} />
-        </div>
+        </>
 
     )
 }
 
 
-const Year = ({ year, items, setItem, assessmentTypes, assessments, handlerShowAssessmentForm }: any) => {
+const Year = ({ year, semesters, items, setItem, assessmentTypes, assessments, handlerShowAssessmentForm }: any) => {
 
     return <><tbody><tr>
         <th scope="row" colSpan={5 + assessmentTypes?.length} style={{ textAlign: "center" }}><h5>{year}º Ano</h5></th>
-    </tr>{[0, 1].map((i: number) =>
+    </tr>{semesters.map((i: number) =>
         <Semester handlerShowAssessmentForm={handlerShowAssessmentForm} items={items} setItem={setItem} assessments={assessments} assessmentTypes={assessmentTypes} semester={i + (year * 2 - 1)} />
     )}</tbody></>
 }
@@ -158,9 +145,9 @@ const AssessmentLine = ({ item, setItem, assessmentTypes, assessments, semester,
         let ass = assessments?.filter((a: any) => a?.disciplineId === item?.disciplineId)
 
         setRecourse(ass?.filter((a: any) => a.type?.code === 'RC').length > 0)
-        if(hasRecourse)
-            ass = ass?.filter((a: any) =>a.type?.code !== 'EX')
-        ass =ass?.map((a: any) => a?.value * (Number(a?.type?.value.split('%')[0]) / 100))
+        if (hasRecourse)
+            ass = ass?.filter((a: any) => a.type?.code !== 'EX')
+        ass = ass?.map((a: any) => a?.value * (Number(a?.type?.value.split('%')[0]) / 100))
         const av = ass?.reduce((a: number, b: number) => a + b, 0)
         setAverage(av)
     }, [assessments, item?.disciplineId])
@@ -171,7 +158,7 @@ const AssessmentLine = ({ item, setItem, assessmentTypes, assessments, semester,
             {assessmentTypes?.map((type: any) => <Box hasRecourse={hasRecourse} type={type} assessments={assessments} semester={semester} assessmentTypes={assessmentTypes} handlerShowAssessmentForm={handlerShowAssessmentForm} item={item} setItem={setItem} />)}
             <td className={average >= 10 ? "text-success" : "text-danger"}><b>{average?.toFixed(2)}</b></td>
             <td >
-                
+
                 {average >= 10
                     ? <Badge bg="success" className="text-white">Aprovado</Badge>
                     : <Badge bg="danger" className="text-white">Reprovado</Badge>
@@ -184,7 +171,7 @@ const AssessmentLine = ({ item, setItem, assessmentTypes, assessments, semester,
 export const Box = ({ item, setItem, hasRecourse, type, assessmentTypes, assessments, semester, handlerShowAssessmentForm }: any) => {
     const [assessment, setAssessment] = useState<any>()
 
-    const stylesIfHasResource = hasRecourse && type?.code==='EX' ? {
+    const stylesIfHasResource = hasRecourse && type?.code === 'EX' ? {
         textDecoration: 'line-through',
         color: "#999"
     } : {}

@@ -3,6 +3,7 @@ import { Button, ProgressBar } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import useAxiosFetch, { Api } from "../../../app/api/Api";
 import { services } from "../../../app/api/Api";
+import { allowed, AllowedFor } from "../../../app/api/auth/RequireAuth";
 import Paginate from "../../Components/Paginate";
 
 
@@ -38,13 +39,15 @@ export const Discipline = () => {
           <h2 className="az-content-title">Disciplinas acadêmicas</h2>
         </div>
         <div className='col-md-6 text-right'>
-          <Button
-            variant="primary"
-            disabled={loading}
-            onClick={() => !loading ? navigate("/pedagogical/disciplines/new") : null}
-          >
-            {loading ? 'Loading…' : 'Registar'}
-          </Button>
+          <AllowedFor roles={'TABLES'} level={2}>
+            <Button
+              variant="primary"
+              disabled={loading}
+              onClick={() => !loading ? navigate("/pedagogical/disciplines/new") : null}
+            >
+              {loading ? 'Loading…' : 'Registar'}
+            </Button>
+          </AllowedFor>
         </div>
       </div>
 
@@ -61,7 +64,7 @@ export const Discipline = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.data?.map((period: any) => <tr onClick={() => navigate("/pedagogical/disciplines/" + period?.id)}>
+            {data?.data?.map((period: any) => <tr onClick={() => allowed('TABLES') ? navigate("/pedagogical/disciplines/" + period?.id) : null}>
               <th scope="row">{period.code}</th>
               <td>{period?.name}</td>
               <td style={{ maxWidth: "200px" }}>{period?.descriptions}</td>

@@ -6,17 +6,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { useGetStudentsData } from '../../../../app/api/students/students';
 import { ListTableStudents } from '../components/ListTableStudents';
 import { Loading } from '../../../Components/Snipper/Spinner';
-import useAxiosFetch, { services } from '../../../../app/api/Api';
-import { ListTableStudentEnrollment } from '../components/ListTableStudentEnrollment';
+import useAxiosFetch from '../../../../app/api/Api';
+import { ListStudentEnrollment } from '../components/ListStudentEnrollment';
+import { useApi } from '../../../../app/api/apiSlice';
+import { services } from '../../../../app/api/services';
 
 
 export const ListStudents = () => {
 
   const navigate = useNavigate();
   const [isShowFilter, showFilter] = useState<boolean>(false)
-  const [params, setParams] = useState({ pageSize: 6, page: 1,scope:'', filter: 'withEnrollment', 'where[current]': true  });
+  const [params, setParams] = useState({ pageSize: 6, page: 1,scope:'students', filter: 'withEnrollment', 'where[current]': true  });
     
-  const { data, loading, isError } = useAxiosFetch(services.student.enrollment, params)
+  const { data, loading, error } = useApi({service:services.student.enrollment.getAll, params})
 
   const updateParams = (opts: any) => {
     setParams({ ...params, ...opts });
@@ -50,7 +52,7 @@ export const ListStudents = () => {
           </Button>
         </Col>
       </Row>
-      <ListTableStudentEnrollment loading={loading} isShowFilter={isShowFilter} setParams={setParams} params={params} data={data} />
+      <ListStudentEnrollment loading={loading} isShowFilter={isShowFilter} setParams={setParams} params={params} data={data} />
     </div>
   )
 }

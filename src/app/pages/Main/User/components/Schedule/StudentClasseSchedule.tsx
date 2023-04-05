@@ -22,9 +22,7 @@ export const StudentClasseSchedule = () => {
     </Row>
     <Card>
       <Card.Body>
-
         {classe ? <ScheduleClass type={type} classe={classe} /> : null}
-
       </Card.Body>
     </Card>
 

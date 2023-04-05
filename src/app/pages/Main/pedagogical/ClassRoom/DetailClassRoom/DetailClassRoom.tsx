@@ -7,6 +7,7 @@ import { TabScheduleClass } from './tabs/TabScheduleClass';
 import { Disabled } from './tabs/Disabled';
 import { TabHistory } from '../../Period/DetailPeriod/tabs/TabHistory';
 import { TabClasseList } from './tabs/TabClasseList';
+import { AllowedFor } from '../../../../app/api/auth/RequireAuth';
 
 export const DetailsClassRoom = () => {
   const { id } = useParams()
@@ -69,7 +70,9 @@ export const DetailsClassRoom = () => {
         </nav>
 
         <nav className="nav">
-          <Link className="nav-link" to={`/pedagogical/class-rooms/update/${classRoom?.id}`}><i className="fa fa-edit"></i></Link>
+          <AllowedFor role={'TABLES'} level={3}>
+            <Link className="nav-link" to={`/pedagogical/class-rooms/update/${classRoom?.id}`}><i className="fa fa-edit"></i></Link>
+          </AllowedFor>
           <a className="nav-link" href="#"><i className="fa fa-share"></i></a>
           <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
           <a className="nav-link" href="#"><i className="fa fa-ellipsis-h"></i></a>

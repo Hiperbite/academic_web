@@ -1,0 +1,14 @@
+#Settings {
+    .nav-tabs {
+        border: none;
+    }
+    .nav-link.active {
+        border: none;
+        color: #fff;
+        background: #1d51b5;
+        border-radius: 5px;
+    }
+    .nav-link {
+        border: none !important;
+    }
+}

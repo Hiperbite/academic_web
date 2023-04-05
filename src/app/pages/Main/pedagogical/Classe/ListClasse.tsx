@@ -3,6 +3,7 @@ import { Button, ProgressBar } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import useAxiosFetch from "../../../../app/api/Api";
 import { services } from "../../../../app/api/Api";
+import { AllowedFor } from "../../../app/api/auth/RequireAuth";
 import Paginate from "../../../Components/Paginate";
 
 
@@ -33,14 +34,15 @@ export const ListClasse = () => {
           <h2 className="az-content-title">Turmas</h2>
         </div>
         <div className='col-md-6 text-right'>
-
-          <Button
-            variant="primary"
-            disabled={loading}
-            onClick={() => !loading ? navigate("/pedagogical/classe/new") : null}
-          >
-            {loading ? 'Loading…' : 'Registar'}
-          </Button>
+          <AllowedFor role={'CLASS'} level={2}>
+            <Button
+              variant="primary"
+              disabled={loading}
+              onClick={() => !loading ? navigate("/pedagogical/classe/new") : null}
+            >
+              {loading ? 'Loading…' : 'Registar'}
+            </Button>
+          </AllowedFor>
         </div>
       </div>
 

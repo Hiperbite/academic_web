@@ -93,34 +93,32 @@ const TodaySchedule = ({ groups = [], getProfessor }: any) => {
     const weekDay = new Date().getDay() - 1;
     const timeTables = groups[weekDay];
     return <>
+        {timeTables?.map((timeTable: any) =>
 
+            <div className="az-list-item">
+                <div>
+                    <h6>
+                        {timeTable?.discipline?.name}
+                    </h6>
+                    <span>{getProfessor(timeTable?.disciplineId)?.person?.fullName}</span>
+                    <span>{timeTable?.duration} minutos</span>
+                </div>
+                <div>
+                    <h6 className="tx-primary">
+                        <Moment format="hh:mm">
+                            {`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`}
+                        </Moment>
+                    </h6>
+                    <h6 className="tx-primary">
+                        <Moment format="hh:mm">
+                            {moment(`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`).add(timeTable?.duration, 'minutes')}
+                        </Moment>
+                    </h6>
 
-                {timeTables?.map((timeTable: any) =>
-               
-                        <div className="az-list-item">
-                            <div>
-                                <h6>
-                                    {timeTable?.discipline?.name}
-                                </h6>
-                                <span>{getProfessor(timeTable?.disciplineId)?.person?.fullName}</span>
-                                <span>{timeTable?.duration} minutos</span>
-                            </div>
-                            <div>
-                                <h6 className="tx-primary">
-                                    <Moment format="hh:mm">
-                                        {`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`}
-                                    </Moment>
-                                </h6>
-                                <h6 className="tx-primary">
-                                    <Moment format="hh:mm">
-                                        {moment(`2000-01-01T${timeTable?.startTime ?? '07:00:00'}`).add(timeTable?.duration, 'minutes')}
-                                    </Moment>
-                                </h6>
-
-                            </div>
-                        </div>
-                )}
-                </>
+                </div>
+            </div>
+        )}
+    </>
 
 }
 const ListSchedule = ({ groups, setItem, getProfessor, handleShow }: any) =>

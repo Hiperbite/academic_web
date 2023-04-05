@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
-import { Badge, Button, Card, Col, Image, ListGroup, Modal, Row } from "react-bootstrap";
+import { useState } from "react";
+import { Badge, Button, Col, ListGroup, Modal, Row } from "react-bootstrap";
 import Moment from "react-moment";
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosFetch, { Api, services } from "../../../../../../app/api/Api";
+import { AllowedFor } from "../../../../../app/api/auth/RequireAuth";
 import { Autocomplete } from "../../../../../Components/Autocomplete";
 import Paginate from "../../../../../Components/Paginate";
+import { ListTableStudentEnrollment } from "../../../../Students/Students/components/ListTableStudentEnrollment";
 
 export const TabStudentClasseList = ({ classe }: any) => {
 
@@ -14,7 +16,7 @@ export const TabStudentClasseList = ({ classe }: any) => {
     const handleShow = () => setShow(true);
 
     const navigate = useNavigate();
-    const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[classeId]': classe?.id, 'where[current]': 1 });
+    const [params, setParams] = useState({ pageSize: 6, scope: 'students', page: 1, 'where[classeId]': classe?.id, 'where[current]': 1 });
     const { data, loading, isError } = useAxiosFetch(services.student.enrollment, params)
 
     const updateParams = (opts: any) => {
@@ -29,59 +31,21 @@ export const TabStudentClasseList = ({ classe }: any) => {
                     <h2 className="az-content-title">Estudantes</h2>
                 </div>
                 <div className='col-md-6 text-right'>
-                    <Button
-                        variant="primary"
-                        disabled={loading}
-                        onClick={handleShow}
-                    >
-                        {loading ? 'Loading…' : 'Registar'}
-                    </Button>
+                    <AllowedFor role={'CLASS'} level={3}>
+                        <Button
+                            variant="primary"
+                            disabled={loading}
+                            onClick={handleShow}
+                        >
+                            {loading ? 'Loading…' : 'Registar Estudante'}
+                        </Button>
+                    </AllowedFor>
                 </div>
             </div>
 
-            <hr className="mg-y-30" />
             <div className="table-responsive">
-                <table className="table table-striped table-hover mg-b-0">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nome</th>
-                            <th>Sexo</th>
-                            <th>Idade</th>
-                            <th></th>
-                            <th className="text-right">Data</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data?.data?.map((enrollment: any) => <tr onClick={() => navigate("/students/show/" + enrollment?.student?.id)}>
-                            <th scope="row">{enrollment?.student?.code}</th>
-                            <td>
-                                {enrollment?.student?.person?.fullName}
-                            </td>
-                            <td>
-                                {enrollment?.student?.person?.gender}
-                            </td>
-                            <td>
-                                {enrollment?.student?.person?.yearsOld} anos
-                            </td>
-                            <td>
-                                {enrollment?.student?.isActive
-                                    ? <Badge pill bg="success">Activo</Badge>
-                                    : <Badge pill bg="danger">Suspenco</Badge>}
-                            </td>
 
-                            <td className="text-right">
-
-                                <Moment format="DD/MM/YYYY">
-                                    {enrollment?.createdAt}
-                                </Moment>
-                            </td>
-                            <td>
-
-                            </td>
-                        </tr>)}
-                    </tbody>
-                </table>
+                {data?.data ? <ListTableStudentEnrollment enrollments={data?.data} /> : null}
             </div>
             <Paginate pages={data?.pages} total={data?.total} updateParams={updateParams} params={data} />
             <EnrollmentConfirmations show={show} handleClose={handleClose} classe={classe} updateParams={updateParams} />
@@ -144,8 +108,8 @@ const EnrollmentConfirmations = ({ show, handleClose, classe, updateParams }: an
                                         : <Badge pill bg="danger">Suspenco</Badge>}
 
                                     {student?.code
-                                    ? <Badge pill bg="primary">Estudante</Badge>
-                                    : <Badge pill bg="warning">Candidato</Badge>}
+                                        ? <Badge pill bg="primary">Estudante</Badge>
+                                        : <Badge pill bg="warning">Candidato</Badge>}
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     <Row>
@@ -173,11 +137,11 @@ const EnrollmentConfirmations = ({ show, handleClose, classe, updateParams }: an
 
                                 </ListGroup.Item>
                                 <ListGroup.Item>
-                                <Link to={`/students/show/${student?.id}`} className={"badge rounded-pill bg-secondary"}>Ver mais</Link>
+                                    <Link to={`/students/show/${student?.id}`} className={"badge rounded-pill bg-secondary"}>Ver mais</Link>
                                 </ListGroup.Item>
                             </ListGroup>
 
-                            
+
                         </Col>
                     </Row> :
                     <Autocomplete options={data?.data} onChange={onChange} />

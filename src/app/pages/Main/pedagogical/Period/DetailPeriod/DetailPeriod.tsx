@@ -1,20 +1,22 @@
 import Moment from 'react-moment';
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import useAxiosFetch, { services } from '../../../../app/api/Api';
 import { Disabled } from './tabs/Disabled';
 import { TabClasseList } from './tabs/TabClasseList';
 import { TabHistory } from './tabs/TabHistory';
+import { AllowedFor } from '../../../../app/api/auth/RequireAuth';
+import { useApi } from '../../../../../app/api/apiSlice';
+import { services } from '../../../../../app/api/services';
 
 export const DetailsPeriod = () => {
   const { id } = useParams()
 
   const [tab, setTab] = useState(0);
 
-  const { data: period, loading } = useAxiosFetch(services.academic.period + "/" + id)
+  const { data: period, loading } = useApi({ service: services.academic.period.getAll, id })
 
   const tabsTitles = ['Turmas', 'Histórico']
-  const Tabs = [TabClasseList,History][tab]
+  const Tabs = [TabClasseList, History][tab]
 
   return (
     <div className="az-content-body">
@@ -25,7 +27,7 @@ export const DetailsPeriod = () => {
         </div>
         <div className="az-content-header-right">
 
-        <div className="media">
+          <div className="media">
             <div className="media-body text-right">
               <label>Turmas</label>
               <h6>{period?.classes?.length ?? "-"}</h6>
@@ -77,21 +79,23 @@ export const DetailsPeriod = () => {
         </nav>
 
         <nav className="nav">
-          <Link className="nav-link" to={`/pedagogical/periods/update/${period?.id}`}><i className="fa fa-edit"></i> Editar</Link>
-          <a className="nav-link" href="#"><i className="fa fa-file-pdf"></i> Exportar em PDF</a>
-          <a className="nav-link" href="#"><i className="fa fa-envelope"></i>Partilhar por Email</a>
+          <AllowedFor role={'TABLES'} level={3}>
+            <Link className="nav-link" to={`/pedagogical/periods/update/${period?.id}`}><i className="fa fa-edit"></i></Link>
+          </AllowedFor>
+          <a className="nav-link" href="#"><i className="fa fa-share"></i> </a>
+          <a className="nav-link" href="#"><i className="fa fa-envelope"></i> </a>
           <a className="nav-link" href="#"><i className="fa fa-ellipsis-h"></i></a>
         </nav>
       </div>
 
       <div className="row row-sm mg-b-20">
-        {loading ? null : period?.isActive  ? <Tabs period={period}/>:<Disabled text={"Turma desactivada"}/>}
+        {loading ? null : period?.isActive ? <Tabs period={period} /> : <Disabled text={"Turma desactivada"} />}
       </div>
     </div>
   )
 }
 
-const History=({period}:any)=>{
+const History = ({ period }: any) => {
 
   return <TabHistory modelName={'AcademicPeriod'} objectId={period.id} />
 }

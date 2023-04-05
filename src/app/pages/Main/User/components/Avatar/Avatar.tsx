@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { useState } from "react";
-import { Button, Image } from "react-bootstrap";
+import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -32,14 +31,17 @@ export const Avatar = ({ setRefresh, avatar }: any) => {
             navigate(0)
         }
     }
+    useEffect(() => {
+        const fetch = () => handleSave()
+        fetch();
+    }, [imgData])
     return (<>
-            <div className="image">
+        <div className="image">
+            <label htmlFor="profilePic">
                 <img src={imgData} className="img img-responsive full-width" />
-            </div>
-        {avatar !== imgData ? <Button onClick={handleSave}>Salvar</Button> : null}
-
-
-        <input id="profilePic" accept=".png,.jpg,.jpeg" type="file" onChange={onChangePicture} />
+            </label>
+        </div>
+        <input id="profilePic" accept=".png,.jpg,.jpeg" type="file" className="hidden" onChange={onChangePicture} />
     </>
 
     );

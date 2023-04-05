@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-
+import './UserProfile.scss'
 import { Link, Outlet } from 'react-router-dom'
 import { Api, services } from '../../app/api/Api'
 import { Menu } from '../../../layout/Page'
@@ -28,31 +28,21 @@ export const UserProfile = () => {
           <Menu menu={"me"} data={{ me, classe }} />
         </div>
         <div className="az-content-body pd-lg-l-40 d-flex flex-column">
-
           <Row>
             <Col>
               <Outlet context={[me, classe, refresh, setRefresh]} />
-              {me?.person?.student?.id}
-              <pre>{JSON.stringify(me, null, 1)}</pre>
             </Col>
             <Col md={3}>
-
-              <Card>
-                <Card.Body>
-                  Horario
-                </Card.Body>
-              </Card>
-              <hr />
               <Row>
                 <Card className="card-dashboard-pageviews">
                   <Card.Header>
                     <Row>
-                    <Col>
-                    <h6 className="card-title">{weekDays[(new Date()).getDay()-1]}</h6>
-                    </Col>
-                    <Col className='text-right'>
-                      <Link to="./time-tables" state={{classe}}><i className='fa fa-expand'></i></Link>
-                    </Col>
+                      <Col>
+                        <h6 className="card-title">{weekDays[(new Date()).getDay() - 1]}</h6>
+                      </Col>
+                      <Col className='text-right'>
+                        <Link to="./time-tables" state={{ classe }}><i className='fa fa-expand'></i></Link>
+                      </Col>
                     </Row>
                   </Card.Header>
                   <Card.Body>

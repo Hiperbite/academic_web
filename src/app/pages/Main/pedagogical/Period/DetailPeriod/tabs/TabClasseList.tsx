@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { Button, Card, ListGroup, Modal, ProgressBar } from "react-bootstrap";
 import Moment from "react-moment";
 import { useNavigate } from "react-router-dom";
-import useAxiosFetch, { Api, services } from "../../../../../../app/api/Api";
+
+import { useApi } from "../../../../../../app/api/apiSlice";
+import { services } from "../../../../../../app/api/services";
+import { Api } from "../../../../../app/api/Api";
+import { allowed } from "../../../../../app/api/auth/RequireAuth";
 import { Autocomplete } from "../../../../../Components/Autocomplete";
 import Paginate from "../../../../../Components/Paginate";
 
@@ -14,21 +18,19 @@ export const TabClasseList = ({ period }: any) => {
     const handleShow = () => setShow(true);
 
     const navigate = useNavigate();
-    const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[academicPeriodId]': period?.id });
+    const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[periodId]': period?.id });
 
-    const { data, loading, isError } = useAxiosFetch(services.academic.class, params)
+    const { data, loading } = useApi({ service: services.academic.class.getAll, params })
 
     const updateParams = (opts: any) => {
-      setParams({ ...params, ...opts });
+        setParams({ ...params, ...opts });
     }
     const persent = (classe: any) => ((classe?.enrollmentConfirmations?.length ?? 1) / (classe?.classeRoom?.size ?? 1)) * 100;
-    
+
 
     return (<>
         <div className="az-content-body pd-lg-l-40 d-flex flex-column">
             <h2 className="az-content-title">Turmas</h2>
-
-
             <hr className="mg-y-30" />
             <div className="table-responsive">
                 <table className="table table-striped mg-b-0">
@@ -37,15 +39,16 @@ export const TabClasseList = ({ period }: any) => {
                             <th>No</th>
                             <th>Descricao</th>
                             <th>Sala</th>
+                            <th colSpan={3}>vagas</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data?.data?.map((classe: any) => <tr onClick={() => navigate("/pedagogical/classe/" + classe?.id)}>
+                        {data?.data?.map((classe: any) => <tr onClick={() => allowed('CLASS', 1) ? navigate("/pedagogical/classe/" + classe?.id) : null}>
                             <th scope="row">{classe.code}</th>
                             <td>{classe?.descriptions}</td>
                             <td>{classe?.classeRoom?.code ?? '-'}</td>
                             <td>
-                                {classe?.enrollmentConfirmations?.length ?? '-'}/
+                                {classe?.enrollments?.length ?? '-'}/
                                 {classe?.classeRoom?.size ?? '-'}</td>
                             <td>
 
@@ -57,10 +60,7 @@ export const TabClasseList = ({ period }: any) => {
             </div>
             <nav aria-label="Page navigation">
                 <div className="row">
-                    <div className="col-md-6">
-                        {data?.page}/{data?.pages} - {data?.total} registos
-                    </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12">
                         <Paginate pages={data?.pages} updateParams={updateParams} params={params} />
                     </div>
                 </div>

@@ -18,7 +18,7 @@ export const getHeaders = () => {
     return headers;
 };
 (() => {
-    axios.defaults.baseURL = /*"http://localhost:7100/api/v1/";  */'https://api.academic.nova.app.hiperbite.com/api/v1/'/**///process.env.REACT_APP_BASE_URL_API;
+    axios.defaults.baseURL = "http://localhost:7100/api/v1/";  /** /'https://api.academic.nova.app.hiperbite.com/api/v1/'/**///process.env.REACT_APP_BASE_URL_API;
 
     axios.defaults.headers.common["apikey"] = process.env.REACT_APP_BASE_API_KEY ?? '3265';
 
@@ -76,6 +76,7 @@ const post = async ({ service, data }: any) => {
         toast.success('Registo feito com sucesso');
         return { response }
     } catch (e: any) {
+        debugger
         console.log(`😱 Axios request failed: ${e}`);
         toast.error('😱 Erro: ' + JSON.stringify(e?.response?.data));
         return e;
@@ -83,7 +84,7 @@ const post = async ({ service, data }: any) => {
 }
 
 const get = async ({ service, id, params }: any) => {
-debugger
+
     let url = service
     if (id) {
         url = `${url}/${id}`
@@ -101,6 +102,7 @@ debugger
         console.log('👉 Returned data:', response);
         return { response }
     } catch (e: any) {
+        debugger
         console.log(`😱 Axios request failed: ${e}`);
         toast.error('😱 Erro: ' + JSON.stringify(e?.response?.data));
         return e;
@@ -174,7 +176,7 @@ export default function useAxiosFetch(url: string, params?: any, method?: string
             return;
         }
         const fetch = async () => {
-debugger
+
             dispatch({ type: "INIT" })
             try {
                 const query = new URLSearchParams(params).toString();

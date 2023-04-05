@@ -8,8 +8,7 @@ import { selectCurrentToken } from './authSlice'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-export const RequireAuth = ({ }: any) => {
-    debugger
+export const RequireAuth = (props: any) => {
     const location = useLocation()
     const requireAuth = ['/auth'].filter((route: string) => location.pathname.indexOf(route) > -1).length === 0
 

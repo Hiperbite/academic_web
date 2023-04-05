@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { selectCurrentUser } from "../../app/api/auth/authSlice";
+import { AllowedFor } from "../../pages/app/api/auth/RequireAuth";
 import { ProfileMenu } from "./ProfileMenu";
 
 const menuItems = [
-    { to: '/home', text: 'Dashboard' },
-    { to: '/students', text: 'Estudantes', },
-    { to: '/staffs', text: 'Pessoal', },
-    { to: '/pedagogical', text: 'Pedagógico' },
-    { to: '#', text: 'Biblioteca', active: false },
-    { to: '#', text: 'Acervo Digital', active: false },
-    { to: '#', text: 'Definições', active: false },
+    { to: '/home', text: 'Dashboard'},
+    { to: '/students', text: 'Estudantes', allowedFor: 'STUDENTS', level: 1 },
+    { to: '/staffs', text: 'Pessoal', allowedFor: 'STAFF', level: 1 },
+    { to: '/pedagogical', text: 'Pedagógico', allowedFor: 'ACADEMIC', level: 1 },
+    { to: '#', text: 'Biblioteca', active: false, allowedFor: 'ADMIN', level: 4 },
+    { to: '#', text: 'Acervo Digital', active: false, allowedFor: 'ADMIN', level:4  },
+    { to: '#', text: 'Definições', active: false, allowedFor: 'ADMIN', level: 4 },
 
 ];
 export const Header = () => {
@@ -48,13 +49,14 @@ export const Header = () => {
                     {menuItems.map((menuItem: any) =>
 
                         <li className={classNames[activeMenu.to === menuItem.to ? 0 : 1]} >
-                            <Link
+                            <AllowedFor role={menuItem.allowedFor} level={menuItem.level}><Link
                                 onClick={() => setActiveMenu(menuItem)}
                                 to={menuItem.to}
                                 className="nav-link"
                             >
                                 {menuItem.active == false ? <i className="fa fa-exclamation"></i> : null} {menuItem.text}
                             </Link>
+                            </AllowedFor>
                         </li>
                     )}
                 </ul>

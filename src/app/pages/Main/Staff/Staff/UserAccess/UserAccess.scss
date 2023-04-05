@@ -1,0 +1,17 @@
+#UserAccess {
+    button.btn.btn-outline-primary {
+        border: solid 1px !important;
+    }
+    button.btn {
+        font-size: 12px;
+        border-radius: 5px !important;
+        margin: 3px;
+    }
+    .card-body {
+        .row {
+            .col {
+                padding: 15px;
+            }
+        }
+    }
+}

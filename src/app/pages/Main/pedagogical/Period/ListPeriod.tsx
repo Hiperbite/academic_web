@@ -3,6 +3,7 @@ import { Button, ProgressBar } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import useAxiosFetch from "../../../app/api/Api";
 import { services } from "../../../app/api/Api";
+import { allowed, AllowedFor } from "../../../app/api/auth/RequireAuth";
 import Paginate from "../../Components/Paginate";
 
 
@@ -31,14 +32,15 @@ export const ListPeriod = () => {
           <h2 className="az-content-title">Turnos</h2>
         </div>
         <div className='col-md-6 text-right'>
-
-          <Button
-            variant="primary"
-            disabled={false}
-            onClick={() => !loading ? navigate("/pedagogical/class-rooms/new") : null}
-          >
-            {loading ? 'Loading…' : 'Registar'}
-          </Button>
+          <AllowedFor role={'ADMIN'} level={5}>
+            <Button
+              variant="primary"
+              disabled={false}
+              onClick={() => !loading ? navigate("/pedagogical/class-rooms/new") : null}
+            >
+              {loading ? 'Loading…' : 'Registar'}
+            </Button>
+          </AllowedFor>
         </div>
       </div>
 
@@ -55,7 +57,7 @@ export const ListPeriod = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.map((period: any) => <tr onClick={() => navigate("/pedagogical/periods/" + period?.id)}>
+            {data?.map((period: any) => <tr onClick={() => allowed('TABLES') ? navigate("/pedagogical/periods/" + period?.id) : null}>
               <th scope="row">{period.code}</th>
               <td>{period?.descriptions}</td>
               <td>{period?.classes.length}</td>

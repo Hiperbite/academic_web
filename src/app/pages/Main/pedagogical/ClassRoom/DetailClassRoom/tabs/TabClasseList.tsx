@@ -3,6 +3,7 @@ import { ProgressBar, Table } from "react-bootstrap";
 import Moment from "react-moment";
 import { useNavigate } from "react-router-dom";
 import useAxiosFetch, { services } from "../../../../../../app/api/Api";
+import { allowed } from "../../../../../app/api/auth/RequireAuth";
 import Paginate from "../../../../../Components/Paginate";
 
 export const TabClasseList = ({ classRoom }: any) => {
@@ -34,7 +35,7 @@ export const TabClasseList = ({ classRoom }: any) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data?.data?.map((classe: any) => <tr onClick={() => navigate("/pedagogical/classe/" + classe?.id)}>
+                        {data?.data?.map((classe: any) => <tr onClick={() => allowed('CLASS') ? navigate("/pedagogical/classe/" + classe?.id) : null}>
                             <th scope="row">{classe.code}</th>
                             <td>{classe?.descriptions}</td>
                             <td>{classe?.period?.descriptions ?? '-'}</td>

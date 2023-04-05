@@ -5,6 +5,7 @@ import Moment from "react-moment";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Api, services } from "../../../../../../app/api/Api";
+import { allowed, AllowedFor } from "../../../../../app/api/auth/RequireAuth";
 import { ScheduleClassRegister } from "../../components/ScheduleClassRegister";
 
 const weekDays = [
@@ -26,14 +27,14 @@ export const TabScheduleClass = ({ classe }: any) => {
     const [curricularPlans, setCurricularPlan] = useState<any>();
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => allowed('CLASS', 3) ? setShow(true) : null;
 
     const [params, setParams] = useState({ pageSize: 100, page: 1, 'where[classeId]': classe?.id });
 
 
     useMemo(async () => {
         debugger
-        const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: classe?.course?.id, params:{} })
+        const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: classe?.course?.id, params: {} })
         setCurricularPlan(response)
     }, [params])
 
@@ -88,13 +89,16 @@ export const TabScheduleClass = ({ classe }: any) => {
                             <i className="fa fa-table"></i>
                         </Button>{' '}
                     </ButtonGroup>
-                    <Button
-                        variant="primary"
-                        disabled={loading}
-                        onClick={() => { setItem({}); handleShow() }}
-                    >
-                        {loading ? 'Loading…' : 'Registar'}
-                    </Button>
+
+                    <AllowedFor role={'CLASS'} level={3}>
+                        <Button
+                            variant="primary"
+                            disabled={loading}
+                            onClick={() => { setItem({}); handleShow() }}
+                        >
+                            {loading ? 'Loading…' : 'Registar'}
+                        </Button>
+                    </AllowedFor>
                 </div>
             </div>
 

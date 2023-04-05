@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom'
 import { Api, services } from '../../../../app/api/Api'
 import './UserStudentHistory.scss'
 export const UserStudentHistory = () => {
-  const [histories, setHistories] = useState<any[]>()
+  const [histories, setHistories] = useState<any[]>([])
 
 
   const location = useLocation();

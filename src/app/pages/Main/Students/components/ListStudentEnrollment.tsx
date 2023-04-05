@@ -8,50 +8,24 @@ import { Loading, Spinner } from '../../../Components/Snipper/Spinner'
 
 import { DebounceInput } from 'react-debounce-input'
 
-
 import _ from 'lodash'
 import useAxiosFetch, { services } from '../../../../app/api/Api'
-export const ListTableStudentEnrollment = ({ data, isShowFilter, loading, setParams, params, candidates = false }: any) => {
+import { ListTableStudentEnrollment } from '../Students/components/ListTableStudentEnrollment'
+export const ListStudentEnrollment = ({ data, isShowFilter, loading, setParams, params, candidates = false }: any) => {
 
   const navigate = useNavigate();
   const updateParams = (opts: any) => {
     setParams({ ...params, ...opts });
   }
   return (<div>
-
-    <Filter isShowFilter updateParams={updateParams} loading={loading} />
-
-    <hr className="mg-y-30" />
-    <div className="table-responsive">
-      <Table striped hover>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Sexo</th>
-            <th>Turma</th>
-            <th>Ano</th>
-            <th>Data</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.data?.map((enrollment: any) => <tr onClick={() => navigate("/students/show/" + enrollment?.student?.id)}>
-            <th scope="row">{enrollment?.student?.code ?? enrollment?.student?.entryCode}</th>
-            <td>{enrollment?.student?.person?.fullName}</td>
-            <td>{enrollment?.student?.person?.gender}</td>
-
-            <td>{enrollment?.classe?.code}</td>
-            <td>{enrollment?.classe?.grade} º</td>
-
-            <td>
-              <Moment format="DD/MM/YYYY">
-                {enrollment?.student.createdAt}
-              </Moment></td>
-          </tr>)}
-        </tbody>
-      </Table>
+   
+      <Filter isShowFilter updateParams={updateParams} loading={loading} />
       <Loading loading={loading} />
+    <div className="table-responsive">
+
+      {data?.data ? <ListTableStudentEnrollment enrollments={data?.data} /> : null}
     </div>
+
     <Paginate pages={data?.pages} total={data?.total} updateParams={updateParams} params={params} />
   </div>
   )
