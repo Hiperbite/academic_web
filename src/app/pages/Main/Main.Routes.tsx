@@ -38,12 +38,10 @@ import { Activities } from "./User/Activities";
 import { Classification } from "./User/Classification";
 import { StudentClasseSchedule } from "./User/components/Schedule/StudentClasseSchedule";
 import { UserStudentHistory } from "./User/components/UserStudentHistory/UserStudentHistory";
-import { Contacts } from "./User/Contacts";
 import { HomeUserProfile } from "./User/components/HomeUserProfile/HomeUserProfile";
 import { Settings } from "./User/components/Settings/Settings";
 import { UserDashboard } from "./User/components/UserDashboard/UserDashboard";
 
-const EmptyComponet = () => <>9898<hr /><Outlet /></>
 export const mainRoutes = [
   { path: "", component: Dashboard },
   { path: "home", component: Dashboard },
@@ -105,7 +103,7 @@ export const mainRoutes = [
         ]
       },
       {
-        path: "periods/*",childs: [
+        path: "periods/*", childs: [
 
           { path: "", component: ListPeriod },
           { path: "list", component: ListPeriod },
@@ -115,7 +113,7 @@ export const mainRoutes = [
         ]
       },
       {
-        path: "disciplines/*",  childs: [
+        path: "disciplines/*", childs: [
 
           { path: "", component: Discipline },
           { path: "list", component: Discipline },
@@ -137,7 +135,7 @@ export const mainRoutes = [
 
     ]
   },
-      { path: "*", component: NotFound },
+  { path: "*", component: NotFound },
 
 ];
 

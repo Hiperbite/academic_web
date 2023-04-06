@@ -16,11 +16,13 @@ const resizeFile = (file: any) => new Promise(resolve => {
 export const Avatar = ({ setRefresh, avatar }: any) => {
     const navigate = useNavigate()
     const [imgData, setImgData] = useState(avatar ?? "/logo192.png");
+    const [uploading, setUploading] = useState(false);
     const onChangePicture = async (e: any) => {
         const file = e.target.files[0];
         if (file) {
             const image: any = await resizeFile(file);
             setImgData(image);
+            setUploading(true)
         }
     };
     const handleSave = async () => {
@@ -32,9 +34,9 @@ export const Avatar = ({ setRefresh, avatar }: any) => {
         }
     }
     useEffect(() => {
-        const fetch = () => handleSave()
-        fetch();
-    }, [imgData])
+        if (uploading)
+            handleSave()
+    }, [uploading])
     return (<>
         <div className="image">
             <label htmlFor="profilePic">

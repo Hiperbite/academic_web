@@ -2541,7 +2541,7 @@ a.nav-link[href="/"] {
 
 .card,
 .form-floating {
-    box-shadow: 0 0 15px #ddd;
+    box-shadow: 0 0 5px #ddd;
     border: none !important;
 }
 
@@ -2551,9 +2551,7 @@ a.nav-link[href="/"] {
 }
 
 .card:hover {
-    box-shadow: 0 0 35px #ccc;
-    margin-top: -5px;
-    margin-bottom: 20px !important;
+    box-shadow: 0 0 15px #ccc;
 }
 
 .react-date-picker__wrapper {

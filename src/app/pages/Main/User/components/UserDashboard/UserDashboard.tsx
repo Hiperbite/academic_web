@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
-import { services } from '../../../../../app/api/Api'
-import { Api } from '../../../../app/api/Api'
+import { useApi } from '../../../../../app/api/apiSlice'
+import { services } from '../../../../../app/api/services'
+import storage from '../../../../app/storage'
 import { Calendar } from '../Calendar/Calendar'
-import { TimeLineA } from '../Gadgets/TimeLineA'
 import { ClassColleges } from './ClassColleges'
 import './UserDashboard.scss'
 export const UserDashboard = () => {
   const location = useLocation()
   const [enrollment, setEnrollment] = useState<any>()
-  useEffect(() => {
-    const fetchData = async () => {
-      const { response: { data: { data: response } } } = await Api.get({ service: services.student.enrollment, params: { 'where[studentId]': me?.person?.students[0]?.id, 'where[current]': true } })
-      setEnrollment(response[0])
-    }
-    fetchData()
-  }, [])
-  const { me } = location.state;
+  const { me } = location.state ?? { me: storage.get('user') };
+  const { data: { data: student =[]}, error } = useApi({ service: services.student.students.getAll, params: { scope: 'enrollment', pageSize: 1, 'where[personId]': me?.personId } })
+  useMemo(() => {
+    if (student.length > 0)
+      setEnrollment(student[0]?.enrollment)
+  }, [student])
+  
+
   return (
     <>
-
       <Row id="UserDashboard">
         <Col md={6}>
 
@@ -74,8 +73,8 @@ export const UserDashboard = () => {
           </Row>
         </Col>
       </Row>
-      {enrollment ? <ClassColleges classe={enrollment?.classe} />: null}
-     
+      {enrollment?.classe ? <ClassColleges classe={enrollment?.classe} /> : null}
+
     </>
   )
 }

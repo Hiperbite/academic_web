@@ -15,7 +15,7 @@ export const ClassColleges = ({ classe }: any) => {
                         <h6 className="card-title">Colegas da mesma turma</h6>
                     </div>{/* card-header */}
                     <div className="card-body">
-                        {data?.data?.map((enrollment: any) => <div className="az-list-item">
+                        {data?.map((enrollment: any) => <div className="az-list-item">
                             <div>
                                 <i className='fa fa-user'></i>
                             </div>

@@ -85,7 +85,13 @@ export const services = {
                 method: 'GET'
             }
         },
-        students: 'students'
+        students: {
+            getAll:
+            {
+                endpoint: 'students',
+                method: 'GET'
+            }
+        },
     },
     staff: {
         enrollmentConfirmations: 'students/enrollment-confirmations',

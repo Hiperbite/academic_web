@@ -113,7 +113,7 @@ export const useApi = ({ service, id, obj, params }: ApiParamsType) => {
 
             if (params) {
                 const query = new URLSearchParams(params).toString();
-                url = `${url}/?${query}`;
+                url = `${url}?${query}`;
             }
             debugger
             try {
