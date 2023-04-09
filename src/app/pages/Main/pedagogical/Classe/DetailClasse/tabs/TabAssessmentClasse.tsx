@@ -20,11 +20,11 @@ export const TabAssessmentClasse = ({ classe }: any) => {
     const [params, setParams] = useState({ _token: Math.random() });
 
 
-    const { data: { data: enrollments } } = useApi({ service: services.student.enrollment.getAll, params: { pageSize: 100, page: 1, scope: 'students', 'where[classeId]': classe?.id, 'where[current]': 1 } })
+    const { data: { data: enrollments } ={}} = useApi({ service: services.student.enrollment.getAll, params: { pageSize: 100, page: 1, scope: 'students', 'where[classeId]': classe?.id, 'where[current]': 1 } })
 
     const { data: curricularPlans } = useApi({ service: services.academic.curricularPlan.getOne, id: classe?.course?.id, params: {} })
 
-    const { data: { data: assessmentTypes = [] } } = useApi({ service: services.common.assessmentTypes.getAll, params: { pageSize: 100, page: 1, 'where[isActive]': true } })
+    const { data: { data: assessmentTypes  }= {} } = useApi({ service: services.common.assessmentTypes.getAll, params: { pageSize: 100, page: 1, 'where[isActive]': true } })
 
     useMemo(async () => {
         const arr = classe?.timeTables?.map((x: any) => x.discipline);
@@ -110,7 +110,7 @@ export const TabAssessmentClasse = ({ classe }: any) => {
                                 <Tab.Content>
                                     {disciplines?.map((discipline: any, i: number) =>
                                         <Tab.Pane eventKey={`index-${i}`}>
-                                            <AssessmentDiscipline classe={classe} params={params} assessmentTypes={assessmentTypes} discipline={discipline} enrollments={enrollments} handlerShowAssessmentForm={handlerShowAssessmentForm} />
+                                            <AssessmentDiscipline classe={classe} params={params} assessmentTypes={assessmentTypes??[]} discipline={discipline} enrollments={enrollments} handlerShowAssessmentForm={handlerShowAssessmentForm} />
                                         </Tab.Pane>
                                     )}
                                 </Tab.Content>
@@ -129,14 +129,15 @@ const AssessmentDiscipline = ({ classe, discipline, params, enrollments, assessm
 
     const [item, setItem] = useState<any>({ ...discipline });
 
-    const { data: { data: assessments = [] } } = useApi({ service: services.common.assessments.getAll, params: { ...params, pageSize: 100, page: 1, 'where[classeId]': classe?.id, 'where[disciplineId]': discipline?.id } })
+    const { data: { data: assessments } = {} } = useApi({ service: services.common.assessments.getAll, params: { ...params, pageSize: 100, page: 1, 'where[classeId]': classe?.id, 'where[disciplineId]': discipline?.id } })
 
     return (
         <table className="table  mg-b-0">
             <thead>
                 <tr>
-                    {assessmentTypes.map((assessment: any) =>
-                        <th>{assessment?.code}</th>)}
+                    {assessmentTypes.filter((x:any)=>['PR1','PR2'].includes(x.code)).map((assessment: any) =><th>{assessment?.code}</th>)}
+                    <th>Media</th>
+                    {assessmentTypes.filter((x:any)=>!['PR1','PR2'].includes(x.code)).map((assessment: any) =><th>{assessment?.code}</th>)}
                     <th>Media</th>
                     <th>Resultado</th>
                 </tr>

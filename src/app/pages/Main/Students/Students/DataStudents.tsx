@@ -1,6 +1,7 @@
 import { Card, Col, Image, Row } from "react-bootstrap"
 import Moment from "react-moment"
 import { Link } from "react-router-dom"
+import { Avatar } from "../../User/components/Avatar/Avatar"
 
 export const DataStudents = ({ student }: any) => {
     return (<Row>
@@ -129,7 +130,9 @@ export const DataStudents = ({ student }: any) => {
             </Card>
         </Col>
         <Col>
-            <Image thumbnail src={student?.person?.user?.avatar ?? '/logo192.png'} />
+            {student?.person?.user ?
+                <Avatar avatar={student?.person?.user?.avatar} user={student?.person?.user} />
+                : null}
         </Col>
     </Row>
     )

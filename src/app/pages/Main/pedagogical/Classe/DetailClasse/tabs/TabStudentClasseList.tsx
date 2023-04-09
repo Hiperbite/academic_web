@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Badge, Button, Col, ListGroup, Modal, Row } from "react-bootstrap";
+import { Alert, Badge, Button, Col, ListGroup, Modal, Row } from "react-bootstrap";
 import Moment from "react-moment";
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosFetch, { Api, services } from "../../../../../../app/api/Api";
@@ -7,6 +7,7 @@ import { AllowedFor } from "../../../../../app/api/auth/RequireAuth";
 import { Autocomplete } from "../../../../../Components/Autocomplete";
 import Paginate from "../../../../../Components/Paginate";
 import { ListTableStudentEnrollment } from "../../../../Students/Students/components/ListTableStudentEnrollment";
+import { Avatar } from "../../../../User/components/Avatar/Avatar";
 
 export const TabStudentClasseList = ({ classe }: any) => {
 
@@ -88,24 +89,27 @@ const EnrollmentConfirmations = ({ show, handleClose, classe, updateParams }: an
             </Modal.Header>
             <Modal.Body>
                 {student ?
-                    <Row><Row><Col>
-                        <button onClick={() => setStudent(null)} type="button" className="btn-close pull-right" aria-label="Close"></button>
-                    </Col></Row>
+                    <Row>
+                        <Row>
+                            <Col>
+                                <button onClick={() => setStudent(null)} type="button" className="btn-close pull-right" aria-label="Close"></button>
+                            </Col>
+                        </Row>
 
-                        <Col md={4} className="img-thumbnail image" style={{ minHeight: "300px", backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover", backgroundImage: `url(${student?.person?.user?.avatar ?? '/logo192.png'})` }}>
-
+                        <Col sm={4}>
+                            <Avatar avatar={student?.person?.user?.avatar} canUpdate={false} />
                         </Col>
                         <Col>
                             <ListGroup className="list-group-flush">
                                 <ListGroup.Item>
 
-                                    <h4>{student?.code ?? student?.entryCode}</h4>
+                                    <h4>#{student?.code ?? student?.entryCode}</h4>
                                     <h3>{student?.person?.fullName}</h3>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     {student?.isActive
                                         ? <Badge pill bg="success">Activo</Badge>
-                                        : <Badge pill bg="danger">Suspenco</Badge>}
+                                        : <Badge pill bg="danger">Suspenso</Badge>}
 
                                     {student?.code
                                         ? <Badge pill bg="primary">Estudante</Badge>
@@ -134,9 +138,9 @@ const EnrollmentConfirmations = ({ show, handleClose, classe, updateParams }: an
                                             <span style={spanStyles}>Sexo</span>
                                             {student?.person?.gender}</Col>
                                     </Row>
-
                                 </ListGroup.Item>
                                 <ListGroup.Item>
+                                    {student?.code ?<Alert > Este Estudante ja se encontra Matriculado em uma outra Turma, clique me ver mais para ter mais informação</Alert>: null} 
                                     <Link to={`/students/show/${student?.id}`} className={"badge rounded-pill bg-secondary"}>Ver mais</Link>
                                 </ListGroup.Item>
                             </ListGroup>

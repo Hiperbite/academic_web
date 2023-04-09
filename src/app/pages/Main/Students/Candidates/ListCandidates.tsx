@@ -4,12 +4,13 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
 import { useGetStudentsData } from '../../../../app/api/students/students';
+import { AllowedFor } from "../../../app/api/auth/RequireAuth";
 import { ListTableStudentCandidates } from "./ListTableStudentCandidates";
 
 export const ListCandidates = () => {
 
   const navigate = useNavigate();
-  const [params, setParams] = useState({ pageSize: 6, page: 1,where:{}, filter: 'withNotEnrollment' });
+  const [params, setParams] = useState({ pageSize: 6, page: 1, where: {}, filter: 'withNotEnrollment' });
   const { data, loading } = useGetStudentsData(params);
 
 
@@ -20,17 +21,21 @@ export const ListCandidates = () => {
         <span>Candidatos</span>
         <span>Listagem</span>
       </div>
-      <h2 className="az-content-title">Candidatos Inscritos</h2>
+
       <Row>
-        <Col></Col>
+        <Col>
+          <h2 className="az-content-title">Candidatos Inscritos</h2>
+        </Col>
         <Col className='text-right'>
-          <Button
-            variant="primary"
-            disabled={loading}
-            onClick={() => !loading ? navigate("/students/new/step1") : null}
-          >
-            {loading ? 'Loading…' : 'Registar'}
-          </Button>
+          <AllowedFor role={'STUDENTS'} level={2}>
+            <Button
+              variant="primary"
+              disabled={loading}
+              onClick={() => !loading ? navigate("/students/new/step1") : null}
+            >
+              {loading ? 'Loading…' : 'Registar'}
+            </Button>
+          </AllowedFor>
         </Col>
       </Row>
       <ListTableStudentCandidates loading={loading} setParams={setParams} candidates={true} params={params} data={data} />

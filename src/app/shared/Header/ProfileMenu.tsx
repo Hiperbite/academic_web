@@ -33,11 +33,11 @@ export const ProfileMenu = () => {
                             <img src={me?.avatar} alt="" />
                         </div>{/* az-img-user */}
                         <h6>{me?.person?.firstName} {me?.person?.lastName}</h6>
-                        
+
                         <span>{me?.email}</span>
                     </div>{/* az-header-profile */}
 
-                    <Link to="/me" className="dropdown-item"  state={{ me, classe:{} }} >
+                    <Link to="/me" className="dropdown-item" state={{ me, classe: {} }} >
                         <i className="typcn typcn-user-outline"></i> Meu Perfil</Link>
                     <Link to="" className="dropdown-item">
                         <i className="typcn typcn-edit"></i> Edit Profile</Link>
@@ -48,7 +48,7 @@ export const ProfileMenu = () => {
                     <Link to="" className="dropdown-item" onClick={handleLogOut}>
                         <i className="typcn typcn-power-outline"></i> Sign Out</Link>
                 </div>
- : null}
+                : null}
         </div>
     )
 }

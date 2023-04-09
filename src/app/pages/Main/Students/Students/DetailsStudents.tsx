@@ -12,6 +12,8 @@ import { DetailsOptionsShow } from "./components/DetailsOptionsShow";
 import { StudentEnrollment } from "./components/StudentEnrollment";
 import { EventsStudents } from "./EventsStudents";
 import { TabHistory } from "../../pedagogical/Period/DetailPeriod/tabs/TabHistory";
+import { UserAccess } from "../../Staff/Staff/UserAccess/UserAccess";
+import { Documents } from "./Documents/Documents";
 
 export const DetailsStudents = () => {
   const { id } = useParams()
@@ -23,13 +25,15 @@ export const DetailsStudents = () => {
     loading,
   } = useGetStudentData(params, { studentEnrollmentShow });
 
-  const tabsTitles = ['Detalhes', 'Documentos', 'Classificação', 'Histrico', 'Conclusão do curso',''].slice(0,student?.code ? -1 : 2)
-  const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, HistoryStudents, AssessmentStudents, History][tab]
+  const tabsTitles = student?.code
+    ? ['Detalhes', 'Documentos', 'Classificação', 'Histrico', 'Conclusão do curso', 'Acessos']
+    : ['Detalhes', 'Documentos',]
+  const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, HistoryStudents, AssessmentStudents, UserAccess,Documents][tab]
   return (
     <div className="az-content-body">
       <div className="az-dashboard-one-title">
         <div>
-          
+
           <h2 className="az-dashboard-title"># {student?.code ? student?.code : student?.entryCode}</h2>
           <h1>{student?.person?.fullName}</h1>
           <p className="az-dashboard-text">
@@ -38,12 +42,12 @@ export const DetailsStudents = () => {
               : <Badge bg="warning" text="dark">Candidato</Badge>}
             {!student?.isActive
               ? <Badge pill bg="danger">Suspenco</Badge>
-            : null}
+              : null}
           </p>
         </div>
         <div className="az-content-header-right">
           {student?.code ? <>
-          
+
             <div className="media">
               <div className="media-body text-right">
                 <label>Ano</label>
@@ -106,8 +110,14 @@ export const DetailsStudents = () => {
           <Link className="nav-link" to={''} onClick={() => setTab(5)}><i className="fa fa-history"></i></Link>
           <a className="nav-link" href="#"><i className="fa fa-print"></i></a>
           <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
-          <a className="nav-link" href="#" ><i className="fa fa-ellipsis-h"></i></a>
-          <a className="nav-link" href="#" ><i className="fa fa-ellipsis-h"></i></a>
+          <div className="dropdown">
+            <a className="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown" aria-expanded="false"></a>
+            <ul className="dropdown-menu">
+              <li><Link className="dropdown-item" to={' '} onClick={()=>setTab(6)}>Documetos</Link></li>
+              <li><Link className="dropdown-item" to="#">Another action</Link></li>
+              <li><a className="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
         </nav>
       </div>
 

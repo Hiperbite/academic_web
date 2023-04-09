@@ -12,7 +12,7 @@ export const HomeUserProfile = () => {
   const me = m ?? JSON.parse(localStorage.getItem('user') ?? '');
   return (
     <>
-      <Card>
+      <Card className='blur-card'>
         <Card.Header>
           <Row>
             <Col></Col>

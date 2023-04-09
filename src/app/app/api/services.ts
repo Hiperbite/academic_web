@@ -8,6 +8,7 @@ export const services = {
             resetPassword: '/users/resetpassword',
         },
         users: {
+            history: { endpoint: '/users/histories', method: "GET" },
             getAll: {},
             getOne: { endpoint: 'users', method: "GET" },
             update: { endpoint: 'users', method: "PUT" },
@@ -73,7 +74,13 @@ export const services = {
                 method: 'GET'
             }
         },
-        curricularPlanItem: "commons/plan-items",
+        curricularPlanItem: {
+            getAll:
+            {
+                endpoint: "commons/plan-items",
+                method: 'GET'
+            },
+        }
 
     },
     student: {
@@ -96,6 +103,8 @@ export const services = {
     staff: {
         enrollmentConfirmations: 'students/enrollment-confirmations',
         enrollment: 'students/enrollments',
-        staff: 'staffs'
+        staff: {
+            update: { endpoint: 'staffs', method: 'PUT' }
+        }
     }
 }

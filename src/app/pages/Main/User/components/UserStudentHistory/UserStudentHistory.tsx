@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Badge, Card, Col, Row } from 'react-bootstrap'
 import Moment from 'react-moment'
 import { useLocation } from 'react-router-dom'
-import { Api, services } from '../../../../app/api/Api'
+import { useApi } from '../../../../../app/api/apiSlice'
+import { services } from '../../../../../app/api/services'
 import './UserStudentHistory.scss'
 export const UserStudentHistory = () => {
-  const [histories, setHistories] = useState<any[]>([])
+
 
 
   const location = useLocation();
@@ -13,18 +14,17 @@ export const UserStudentHistory = () => {
 
   const { me, refresh } = location.state;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { response: { data } } = await Api.get({ service: services.common.user.history, id: me?.id })
-      setHistories(data)
-    }
-    fetchData();
-  }, [me?.id])
+  const { data: histories } = useApi({ service: services.common.users.history, id: me?.id })
+
+  const { data: { data: enrollments } = {} } = useApi({ service: services.student.enrollment.getAll, params: { 'where[studentId]': me?.person?.student?.id } })
+
   return (
     <div id='UserStudentHistory'>
+      .{JSON.stringify(enrollments?.length)}.
+      {enrollments?.map(({classe}:any)=><Card>{classe?.code}</Card>)}
       <div className="timeline">
         <div className="outer">
-          {histories?.map(({descriptions, date, type}: any) =>
+          {histories?.map(({ descriptions, date, type }: any) =>
             <Card>
               <div className="info">
                 <Row>
@@ -39,7 +39,7 @@ export const UserStudentHistory = () => {
                   </Col>
                 </Row>
                 <p>
-                  <Moment format='dddd [as] HH:mm:ss'>{date}</Moment><br/>
+                  <Moment format='dddd [as] HH:mm:ss'>{date}</Moment><br />
                   <Moment format='DD [de] MMMM [de] YYYY'>{date}</Moment>
                 </p>
               </div>

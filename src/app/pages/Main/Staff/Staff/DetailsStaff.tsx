@@ -11,6 +11,7 @@ import { StaffEnrollment } from './components/StaffEnrollment';
 import { StaffDiscipline } from './StaffDiscipline';
 import { TabHistory } from '../../pedagogical/Period/DetailPeriod/tabs/TabHistory';
 import { UserAccess } from './UserAccess/UserAccess';
+import { ClassStaff } from './ClassStaff';
 
 export const DetailsStaff = () => {
   const { id } = useParams()
@@ -23,7 +24,7 @@ export const DetailsStaff = () => {
   } = useGetStaffData(params, { staffEnrollmentShow });
 
   const tabsTitles = ['Detalhes', 'Documentos',    'Disciplinas',   'Turmas',     'Historicos', 'Acessos']
-  const Tabs =       [DataStaff,   DocumentStaffs, StaffDiscipline, HistoryStaffs, History,     UserAccess][tab]
+  const Tabs =       [DataStaff,   DocumentStaffs, StaffDiscipline, ClassStaff, History,     UserAccess][tab]
   return (
     <div className="az-content-body">
       <div className="az-dashboard-one-title">

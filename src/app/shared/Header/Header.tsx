@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { selectCurrentUser } from "../../app/api/auth/authSlice";
+import storage from "../../app/storage";
 import { AllowedFor } from "../../pages/app/api/auth/RequireAuth";
 import { ProfileMenu } from "./ProfileMenu";
 
 const menuItems = [
-    { to: '/home', text: 'Dashboard'},
+    { to: '/home', text: 'Dashboard' },
     { to: '/students', text: 'Estudantes', allowedFor: 'STUDENTS', level: 1 },
     { to: '/staffs', text: 'Pessoal', allowedFor: 'STAFF', level: 1 },
     { to: '/pedagogical', text: 'Pedagógico', allowedFor: 'ACADEMIC', level: 1 },
     { to: '#', text: 'Biblioteca', active: false, allowedFor: 'ADMIN', level: 4 },
-    { to: '#', text: 'Acervo Digital', active: false, allowedFor: 'ADMIN', level:4  },
+    { to: '#', text: 'Acervo Digital', active: false, allowedFor: 'ADMIN', level: 4 },
     { to: '#', text: 'Definições', active: false, allowedFor: 'ADMIN', level: 4 },
 
 ];
@@ -19,19 +20,24 @@ export const Header = () => {
 
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        navigate("/");
-    };
-
     const [activeMenu, setActiveMenu] = useState(
         menuItems.filter((x: any) => window.location.href.indexOf(x.to) > -1)[0] ??
         menuItems[0]
     )
-    const _handleClick = (menuItem: any) => {
-        setActiveMenu(menuItem);
+
+    if (storage.get('user') === null)
+        return <Navigate to="/" replace />;
+
+    const { role } = storage.get('user')
+    if (role === "ROLES_STUDENT") {
+        const ii = window.location.pathname;
+        const pp = ii.indexOf('/me');
+        if (pp !== 0) {
+            return <Navigate to="/me" replace />;
+        }
+        return null;
     }
 
-    const user = useSelector(selectCurrentUser);
     const classNames = ["nav-item active", "nav-item"];
     return <div className="az-header">
         <div className="container">
@@ -54,7 +60,7 @@ export const Header = () => {
                                 to={menuItem.to}
                                 className="nav-link"
                             >
-                                {menuItem.active == false ? <i className="fa fa-exclamation"></i> : null} {menuItem.text}
+                                {menuItem.active === false ? <i className="fa fa-exclamation"></i> : null} {menuItem.text}
                             </Link>
                             </AllowedFor>
                         </li>

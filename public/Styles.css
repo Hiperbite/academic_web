@@ -2551,7 +2551,7 @@ a.nav-link[href="/"] {
 }
 
 .card:hover {
-    box-shadow: 0 0 15px #ccc;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
 .react-date-picker__wrapper {
@@ -4868,6 +4868,7 @@ input[type="button"].btn-block {
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 3px;
+    margin-bottom: 15px;
 }
 
 .card>hr {

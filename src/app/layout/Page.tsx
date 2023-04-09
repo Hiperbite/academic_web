@@ -12,13 +12,13 @@ const menuItems: any = {
                 { to: 'classe', text: 'Turmas', allowedFor: 'CLASS', level: 1 },
                 { to: 'class-rooms', text: 'Salas', allowedFor: 'TABLES', level: 1 },
                 { to: 'periods', text: 'Periodo', allowedFor: 'TABLES', level: 1 },
-            
+
             ]
         },
         {
             text: "...", to: "/pedagogical", childs: [
-                { to: 'disciplines', text: 'Disciplinas', allowedFor: 'TABLES', level: 1  },
-                { to: 'courses', text: 'Cursos', allowedFor: 'TABLES', level: 1  },
+                { to: 'disciplines', text: 'Disciplinas', allowedFor: 'TABLES', level: 1 },
+                { to: 'courses', text: 'Cursos', allowedFor: 'TABLES', level: 1 },
             ]
         }
 
@@ -92,11 +92,11 @@ export const Menu = ({ menu, data }: any) => {
     const classNames = ["nav-link active", "nav-link"];
     return (
         <div className="component-item">
-            {currentMenuItem?.map(({ text, childs, to }: any, key:number) => <>
+            {currentMenuItem?.map(({ text, childs, to }: any, key: number) => <>
                 <label>{text}</label>
                 <nav className="nav flex-column">
                     {childs === undefined ? null : childs.map((menuItem: any) =>
-                        <AllowedFor role={menuItem.allowedFor} level={menuItem.level}><Link key={`${key}`} state={ data }
+                        <AllowedFor role={menuItem.allowedFor} level={menuItem.level}><Link key={`${key}`} state={data}
                             to={`${to}/${menuItem?.to}`}
                             className={classNames[activeMenu?.to === menuItem?.to ? 0 : 1]}
                             onClick={() => setActiveMenu(menuItem)}
@@ -125,18 +125,5 @@ export const Page = ({ type }: any) => {
         </div>
     )
 }
-export const Default = ({ type }: any) => {
-
-    return (
-        <>
-            <UserProfile />
-        </>
-    )
-}
-export const Blank = () => {
-
-    return (
-        <Outlet />
-
-    )
-}
+export const Default = ({ type }: any) => <UserProfile />
+export const Blank = () => <Outlet />

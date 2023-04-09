@@ -9,7 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import { Spinner } from './app/pages/Components/Snipper/Spinner';
 import { Pages } from './app/pages/Pages';
-
+import 'moment/locale/pt';
 
 export const LoadingContext:any = createContext('');
 

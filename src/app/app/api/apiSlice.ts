@@ -87,7 +87,7 @@ type ApiParamsType = {
 }
 export const useApi = ({ service, id, obj, params }: ApiParamsType) => {
 
-    const [data, setData] = useState<any>({})
+    const [data, setData] = useState<any>()
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<any>()
     const { endpoint, method = 'GET' }: any = service;
@@ -142,10 +142,10 @@ export const useApi = ({ service, id, obj, params }: ApiParamsType) => {
         }, put: async ({ id, form }: any) => {
             debugger
             setLoading(true)
-            let url = `${endpoint}/${obj?.id ?? id}`
+            let url = `${endpoint}/${obj?.id ?? form?.id ?? id}`
 
             try {
-                const { data: response } = await axios.put(url, obj, { headers });
+                const { data: response } = await axios.put(url, { ...obj, ...form }, { headers });
                 setData(response)
                 setError(null)
             } catch ({ response: { data } }: any) {
@@ -162,7 +162,7 @@ export const useApi = ({ service, id, obj, params }: ApiParamsType) => {
         if (method === "GET") {
             resolve({ id, params })
         }
-    }, [JSON.stringify(params)])
+    }, [JSON.stringify(params), id])
 
     return {
         data, loading, error, resolve

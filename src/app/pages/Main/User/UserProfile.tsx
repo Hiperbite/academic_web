@@ -16,12 +16,12 @@ export const UserProfile = () => {
 
     const { response: { data: response } } = await Api.get({ service: '/users', id: e?.id })
     setMe(response)
-    const { response: { data: { data: enrollments } } } = await Api.get({ service: services.student.enrollment, params: { 'where[current]': true, 'where[studentId]': response?.person?.student?.id } })
-    const classy = enrollments[0].classe
+    const { response: { data: { data: [enrollment] } } } = await Api.get({ service: services.student.enrollment, params: { scope : 'full','where[current]': true, 'where[studentId]': response?.person?.student?.id } })
+    const classy = enrollment?.classe
     setClasse(classy)
   }, [refresh])
   return (<>
-    <UserProfileHeader me={me} setRefresh={setRefresh} />
+    <UserProfileHeader me={me} setRefresh={setRefresh} classe={classe} />
     <div className="az-content pd-y-20 pd-lg-y-30 pd-xl-y-40">
       <div className="container">
         <div className="az-content-left az-content-left-components">

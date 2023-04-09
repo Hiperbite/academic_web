@@ -4,39 +4,33 @@ import { Button, Card, Col, FloatingLabel, Form, ListGroup, Modal, Row } from "r
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { z } from "zod"
-import { Api, services } from "../../../../app/api/Api"
+import { useApi } from "../../../../app/api/apiSlice"
+import { services } from "../../../../app/api/services"
 import { numericString } from "../../../../helpers/form.helpers"
 import { ModalControls } from "../../../Components/Controls"
 import { ErrorMessage } from "../../../Components/ErrorMessage"
 
 export const StaffDiscipline = ({ staff, refresh }: any) => {
-    const [loading, setLoading] = useState<boolean>(false)
-    const [data, setData] = useState<any>([])
 
+    const [params, setParams] = useState({})
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const { data: { data } = {}, loading } = useApi({ service: services.academic.curricularPlanItem.getAll, params: { 'where[professorId]': staff?.id } })
 
 
-    const [params, setParams] = useState<any>({ 'where[professorId]': staff?.id })
-    useMemo(async () => {
-        setLoading(true)
-        const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlanItem, params })
-        setData(response)
-        setLoading(false)
-    }, [params])
 
     return (
         <Row>
             <Col md={8}>
+
                 <h4 className="card-title">Disciplinas</h4>
                 <p className="card-text"></p>
 
-                {data?.data?.sort((x: any, y: any) => x?.semester > y?.semester ? 1 : -1).map((item: any) =>
+                {data?.sort((x: any, y: any) => x?.semester > y?.semester ? 1 : -1).map((item: any) =>
                     <><Card>
                         <Card.Body>
-
                             <Row className="az-list-item">
                                 <Col md={8}>
                                     <span>{item?.discipline?.code}<h6>{item?.discipline?.name}</h6></span>
@@ -117,10 +111,11 @@ const FormSchema = z.object({
 
 const FormEditDiscipline = ({ handleClose, discipline, refresh, staff }: any) => {
 
-    const [data, setData] = useState<any>()
-    const [disciplines, setDisciplines] = useState<any>()
+
     const [professors, setProfessors] = useState<any[]>()
     const [loading, setLoading] = useState<boolean>(false)
+
+    const { data: { data: disciplines } = {} } = useApi({ service: services.academic.discipline.getAll, params: { pageSize: 100 } });
 
     const defaultValues = { discipline }
     const { register, handleSubmit, reset,
@@ -129,11 +124,8 @@ const FormEditDiscipline = ({ handleClose, discipline, refresh, staff }: any) =>
         })
 
     useMemo(async () => {
-        const { response: { data: response, status } } = await Api.get({ service: services.academic.discipline, params: { pageSize: 100 } });
-        setDisciplines(response?.data)
-
         reset(defaultValues)
-    }, [])
+    }, [discipline])
 
     const handleDelete = async () => {
         setLoading(true)
@@ -153,21 +145,16 @@ const FormEditDiscipline = ({ handleClose, discipline, refresh, staff }: any) =>
 
         setLoading(false)*/
     }
-
+    const { data, resolve } = useApi({ service: services.staff.staff.update, id: staff?.id })
     const onSubmit = async (form: any) => {
+        debugger
         setLoading(true)
         const disciplines: any = { add: [form.discipline] }
         alert(JSON.stringify(disciplines))
-        let { response: { data: response, status } } = await Api.put({ service: services.staff.staff, id: staff?.id, data: { disciplines } })
 
-        if (status === 200) {
-            setData(response)
-            handleClose()
-            toast.success("Disciplina registado com sucesso!")
-        } else {
-            toast.error("Erro ao registar aa Disciplina, por favor tente mais tarde")
-        }
-        refresh({ xor: response?.id })
+        resolve({ id: staff?.id, form: { disciplines } })
+
+        refresh({ xor: Math.random() })
 
         setLoading(false)
 

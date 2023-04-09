@@ -19,29 +19,21 @@ export const Pages = () => {
 }
 
 
-const NewRoute = ({ path, routes, layout, requireAuth = false }: any) => {
-
-  return <Routes>
-
-    <Route path="" element={<RequireAuth />}>
-      <Route path={path} element={layout}>{renderRoutes(routes)}</Route>
-    </Route>
-  </Routes>
-
-    ;
-}
+const NewRoute = ({ path, routes, layout, requireAuth = false }: any) => <Routes>
+  <Route path="" element={<RequireAuth />}>
+    <Route path={path} element={layout}>{renderRoutes(routes)}</Route>
+  </Route>
+</Routes>
+  ;
 
 
-export const renderRoutes = (routes: any[]) => routes.map(({ path, roles, component = <><Outlet /></>, childs }: any, index) => {
 
-  if (childs)
-
-    return <Route path={path} element={component} >
+export const renderRoutes = (routes: any[]) => routes.map(({ path, roles, component = <><Outlet /></>, childs }: any, index) =>
+  (childs)
+    ? <Route path={path} element={component} >
       {renderRoutes(childs)}
     </Route>
-  else
-    return  <Route path="" element={<AuthFilter roles={roles} />}>
-              <Route path={path} Component={component} key={index} />
-            </Route>
-}
+    : <Route path="" element={<AuthFilter roles={roles} />}>
+      <Route path={path} Component={component} key={index} />
+    </Route>
 );

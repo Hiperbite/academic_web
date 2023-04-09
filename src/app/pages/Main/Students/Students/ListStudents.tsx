@@ -16,7 +16,7 @@ export const ListStudents = () => {
 
   const navigate = useNavigate();
   const [isShowFilter, showFilter] = useState<boolean>(false)
-  const [params, setParams] = useState({ pageSize: 6, page: 1,scope:'students', filter: 'withEnrollment', 'where[current]': true  });
+  const [params, setParams] = useState({ pageSize: 6, page: 1, filter: 'withEnrollment', 'where[current]': true  });
     
   const { data, loading, error } = useApi({service:services.student.enrollment.getAll, params})
 

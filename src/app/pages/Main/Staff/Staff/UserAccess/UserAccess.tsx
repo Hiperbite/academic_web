@@ -4,6 +4,7 @@ import { Badge, Button, Col, Row } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { useApi } from '../../../../../app/api/apiSlice'
 import { services } from '../../../../../app/api/services';
+import { allowed, AllowedFor } from '../../../../app/api/auth/RequireAuth';
 import './UserAccess.scss'
 const permissionsLabels =
     ["STUDENTS"
@@ -16,8 +17,12 @@ const permissionsLabels =
         , "ACADEMIC"
     ]
 
-export const UserAccess = ({ staff }: any) => {
-    const [user, setUser] = useState(staff?.person?.user ?? {});
+export const UserAccess = ({ staff = {}, student = {} }: any) => {
+
+    const [person, setPerson] = useState(staff?.person ?? student?.person);
+    const [user, setUser] = useState(person?.user ?? {});
+
+    const { isActive } = (staff ?? student)
 
     const navigate = useNavigate()
     const permissions = user?.permissions
@@ -50,22 +55,37 @@ export const UserAccess = ({ staff }: any) => {
                         <Col md={4}>E-mail:</Col><Col><b>{user?.email}</b></Col>
                     </Row>
                     <Row>
-                        <Col md={4}>Password:</Col><Col><b>***************</b> <ForgotPasswordCommand user={user} /></Col>
+                        <Col md={4}>Password:</Col><Col><b>***************</b>
+
+                            <AllowedFor role={'ADMIN'} level={3}>
+                                <ForgotPasswordCommand user={user} />
+                            </AllowedFor>
+                        </Col>
                     </Row>
                     <hr />
                     <Row>
                         <Col md={4}>Tipo utilizador:</Col><Col><b>{user?.role}</b></Col>
                     </Row>
+                    {user?.role !== "ROLES_STUDENT" ?
+                        <><hr />
+                            <Row>
+                                <Col md={4}>Permissões:</Col><Col>
+                                    {permissionsLabels?.map((label: string) => <PermissionBox setPermissions={setPermissions} permissions={permissions} label={label} />)}
+                                </Col>
+                            </Row>
+                            <AllowedFor role={'ADMIN'} level={3}>
+                                <Row>
+                                    <Col md={4}></Col><Col className='text-right'><Button variant='success' onClick={resolve}><i className='fa fa-save'></i> Salvar</Button></Col>
+                                </Row>
+                            </AllowedFor>
+                        </> : null}
                     <hr />
                     <Row>
-                        <Col md={4}>Permissões:</Col><Col>
-                            {permissionsLabels?.map((label: string) => <PermissionBox setPermissions={setPermissions} permissions={permissions} label={label} />)}
+                        <Col md={4}>Activar conta:</Col><Col>
+                            <Disable label={person?.fullName} state={user?.isActive && isActive} />
                         </Col>
                     </Row>
                     <hr />
-                    <Row>
-                        <Col md={4}></Col><Col className='text-right'><Button variant='success' onClick={resolve}><i className='fa fa-save'></i> Salvar</Button></Col>
-                    </Row>
 
                 </div>
             </div>
@@ -91,8 +111,16 @@ const PermissionBox = ({ label, setPermissions, permissions }: any) => {
     let current: any = Object.keys(permissions).filter((k: string) => k === label)[0]
     const value = permissions[current] ?? 0;
     current = value > 0 ? current : null
-    return <Button onClick={() => setPermissions({ ...permissions, ...{ [label]: value === 4 ? 0 : (value + 1) } })} variant={current ? "primary" : 'outline-primary'}>
+    return <Button onClick={() => allowed('ADMIN', 3) ? setPermissions({ ...permissions, ...{ [label]: value === 4 ? 0 : (value + 1) } }) : null} variant={current ? "primary" : 'outline-primary'}>
         {label} {current ? <Badge bg="light" text='dark'>{value}</Badge> : null}
-        <span className="visually-hidden">unread messages</span>
+
+    </Button>
+}
+const Disable = ({ label, state = true }: any) => {
+
+
+    return <Button variant={state ? "danger" : 'success'}>
+        <i className='fa fa-trash'></i>  {' '} {state ? 'Desactivar ' : 'Activar '}o acceso a conta do {label}
+
     </Button>
 }

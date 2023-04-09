@@ -2,9 +2,12 @@ import { useMemo, useState } from "react";
 import { Badge } from "react-bootstrap";
 import Moment from "react-moment";
 import { Api, services } from "../../../../app/api/Api";
+import { allowed } from "../../../app/api/auth/RequireAuth";
 import { Loading } from "../../../Components/Snipper/Spinner";
 import { RegisterAssessment } from "./components/RegisterAssessment";
 
+
+const captions = ['Reprovado', 'Despensado', 'Exame', 'Recurso', 'Aprovado', '']
 export const AssessmentStudents = ({ student, years = [1, 2, 3, 4, 5], semesters = [0, 1] }: any) => {
 
     const [loading, setLoading] = useState(false)
@@ -24,6 +27,7 @@ export const AssessmentStudents = ({ student, years = [1, 2, 3, 4, 5], semesters
     const [disciplines, setDisciplines] = useState()
     const [assessmentTypes, setAssessmentTypes] = useState<any[]>()
     const [assessments, setAssessments] = useState<any[]>()
+    const [assessmentResults, setAssessmentResults] = useState<any[]>([])
     const [assessment, setAssessment] = useState<any[]>()
     const [initialAssessment, setInitialAssessment] = useState<any>()
     const [showAssessmentForm, setAssessmentForm] = useState<boolean>()
@@ -59,6 +63,7 @@ export const AssessmentStudents = ({ student, years = [1, 2, 3, 4, 5], semesters
             }
         });
         setAssessments(res?.data);
+        setAssessmentResults(res?.ass);
     }, [params])
     const handlerShowAssessmentForm = ({
         id,
@@ -99,13 +104,16 @@ export const AssessmentStudents = ({ student, years = [1, 2, 3, 4, 5], semesters
                             <thead>
                                 <tr>
                                     <th>Disciplina</th>
-
-                                    {assessmentTypes?.map((type: any) => <th title={type?.name}>{type?.code}</th>)}
+                                    <th>PR1</th>
+                                    <th>PR2</th>
                                     <th>Media</th>
+                                    <th>EX</th>
+                                    <th>Media</th>
+                                    <th>RC</th>
                                     <th>Resultado</th>
                                 </tr>
                             </thead>
-                            {years.map((year: number) => <Year setItem={setItem} semesters={semesters} handlerShowAssessmentForm={handlerShowAssessmentForm} assessments={assessments} assessmentTypes={assessmentTypes} items={data?.items} year={year} />)}
+                            {years.map((year: number) => <Year setItem={setItem} semesters={semesters} handlerShowAssessmentForm={handlerShowAssessmentForm} assessments={assessments} results={assessmentResults} assessmentTypes={assessmentTypes} items={data?.items} year={year} />)}
                         </table>
                     </div>
                 </div>
@@ -117,15 +125,15 @@ export const AssessmentStudents = ({ student, years = [1, 2, 3, 4, 5], semesters
 }
 
 
-const Year = ({ year, semesters, items, setItem, assessmentTypes, assessments, handlerShowAssessmentForm }: any) => {
+const Year = ({ year, semesters, items, setItem, assessmentTypes, assessments, handlerShowAssessmentForm, results }: any) => {
 
     return <><tbody><tr>
         <th scope="row" colSpan={5 + assessmentTypes?.length} style={{ textAlign: "center" }}><h5>{year}º Ano</h5></th>
     </tr>{semesters.map((i: number) =>
-        <Semester handlerShowAssessmentForm={handlerShowAssessmentForm} items={items} setItem={setItem} assessments={assessments} assessmentTypes={assessmentTypes} semester={i + (year * 2 - 1)} />
+        <Semester handlerShowAssessmentForm={handlerShowAssessmentForm} items={items} setItem={setItem} results={results} assessments={assessments} assessmentTypes={assessmentTypes} semester={i + (year * 2 - 1)} />
     )}</tbody></>
 }
-const Semester = ({ semester, items, setItem, assessmentTypes, assessments, handlerShowAssessmentForm }: any) => {
+const Semester = ({ semester, items, setItem, assessmentTypes, assessments, handlerShowAssessmentForm, results }: any) => {
     const myItems = items?.filter((item: any, i: number) => item?.semester === semester)
 
 
@@ -133,42 +141,40 @@ const Semester = ({ semester, items, setItem, assessmentTypes, assessments, hand
         <tr>
             <td scope="row" className="text-left" colSpan={3 + assessmentTypes?.length}><b>{semester}º  Semestre</b></td>
         </tr>
-        {myItems?.map((item: any, i: number) => <AssessmentLine assessments={assessments} semester={semester} assessmentTypes={assessmentTypes} handlerShowAssessmentForm={handlerShowAssessmentForm} item={item} setItem={setItem} />)}
+        {myItems?.map((item: any, i: number) => <AssessmentLine results={results} assessments={assessments} semester={semester} assessmentTypes={assessmentTypes} handlerShowAssessmentForm={handlerShowAssessmentForm} item={item} setItem={setItem} />)}
     </>
 }
 
-const AssessmentLine = ({ item, setItem, assessmentTypes, assessments, semester, handlerShowAssessmentForm }: any) => {
+const AssessmentLine = ({ results, item, setItem, assessmentTypes, assessments, semester, handlerShowAssessmentForm }: any) => {
 
     const [average, setAverage] = useState<any>()
     const [hasRecourse, setRecourse] = useState<any>()
+    const [result, setResult] = useState<any>({})
     useMemo(() => {
-        let ass = assessments?.filter((a: any) => a?.disciplineId === item?.disciplineId)
+        setResult(results?.filter((r: any) => r?.key?.id === item?.disciplineId)[0] ?? {})
+    }, [results])
 
-        setRecourse(ass?.filter((a: any) => a.type?.code === 'RC').length > 0)
-        if (hasRecourse)
-            ass = ass?.filter((a: any) => a.type?.code !== 'EX')
-        ass = ass?.map((a: any) => a?.value * (Number(a?.type?.value.split('%')[0]) / 100))
-        const av = ass?.reduce((a: number, b: number) => a + b, 0)
-        setAverage(av)
-    }, [assessments, item?.disciplineId])
+    const captions = ['danger', 'success', 'warning', 'warning', 'success', '']
     return (
         <tr onClick={() => setItem(item)}>
-            <td >{item?.discipline?.code} - {item?.discipline?.name}</td>
-
-            {assessmentTypes?.map((type: any) => <Box hasRecourse={hasRecourse} type={type} assessments={assessments} semester={semester} assessmentTypes={assessmentTypes} handlerShowAssessmentForm={handlerShowAssessmentForm} item={item} setItem={setItem} />)}
-            <td className={average >= 10 ? "text-success" : "text-danger"}><b>{average?.toFixed(2)}</b></td>
-            <td >
-
-                {average >= 10
-                    ? <Badge bg="success" className="text-white">Aprovado</Badge>
-                    : <Badge bg="danger" className="text-white">Reprovado</Badge>
-                }
+            <td >{item?.discipline?.code} - {item?.discipline?.name}
+            
             </td>
+
+            {assessmentTypes?.filter((x: any) => ['PR1', 'PR2'].includes(x.code)).map((type: any) =>
+                <Box hasRecourse={hasRecourse} value={result[type.code]} type={type} assessments={assessments} semester={semester} assessmentTypes={assessmentTypes} handlerShowAssessmentForm={handlerShowAssessmentForm} item={item} setItem={setItem} />)}
+            <th>{result['PRM']?.toFixed(2)}</th>
+            {assessmentTypes?.filter((x: any) => ['EX'].includes(x.code)).map((type: any) =>
+                <Box result={result} value={result[type.code]} hasRecourse={hasRecourse} type={type} assessments={assessments} semester={semester} assessmentTypes={assessmentTypes} handlerShowAssessmentForm={handlerShowAssessmentForm} item={item} setItem={setItem} />)}
+            <td className={result['EXM'] >= 10 ? "text-success" : "text-danger"}><b>{result['EXM']?.toFixed(2)??'-'}</b></td>
+            {assessmentTypes?.filter((x: any) => ['RC'].includes(x.code)).map((type: any) =>
+                <Box result={result} value={result[type.code]} hasRecourse={hasRecourse} type={type} assessments={assessments} semester={semester} assessmentTypes={assessmentTypes} handlerShowAssessmentForm={handlerShowAssessmentForm} item={item} setItem={setItem} />)}
+            <td><Badge bg={captions[result['FINAL']]} className="text-white">{result['RESULT']}</Badge></td>
         </tr>
     )
 }
 
-export const Box = ({ item, setItem, hasRecourse, type, assessmentTypes, assessments, semester, handlerShowAssessmentForm }: any) => {
+export const Box = ({ item, value, setItem, hasRecourse, type, assessmentTypes, assessments, semester, handlerShowAssessmentForm }: any) => {
     const [assessment, setAssessment] = useState<any>()
 
     const stylesIfHasResource = hasRecourse && type?.code === 'EX' ? {
@@ -181,9 +187,9 @@ export const Box = ({ item, setItem, hasRecourse, type, assessmentTypes, assessm
     return (
         <td
             style={stylesIfHasResource}
-            onClick={() => handlerShowAssessmentForm({ typeId: type?.id, semester, item, ...assessment })}
+            onClick={() => allowed('CLASSIFICATION', 3) ? handlerShowAssessmentForm({ typeId: type?.id, semester, item, ...assessment }) : null}
             title={type?.name + ' - ' + type?.value}
-        >{assessment?.value ?? '-'} </td>
+        >{value ?? '-'} </td>
     )
 }
 
