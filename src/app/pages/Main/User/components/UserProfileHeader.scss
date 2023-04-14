@@ -1,0 +1,19 @@
+#UserProfileHeader {
+    padding: 15px;
+    .gadgets {
+        margin-bottom: -50px;
+        //margin-top: -10px;
+        padding: 5px 30px;
+        border: solid 2px rgba(255, 255, 255, 0.5);
+        .row .col {
+            border-right: "solid 1px #FFF";
+        }
+    }
+}
+
+.is-sticky {
+    background: black !important;
+    box-shadow: 0 2px 24px 0 rgb(0 0 0 / 15%);
+    animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
+    //position: fixed !important;
+}
