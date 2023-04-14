@@ -18,8 +18,27 @@ export const services = {
         documents: "/commons/documents",
         persons: "/commons/persons",
         address: "/commons/address",
-        careers: "/commons/careers",
-        categories: "/commons/categories",
+        careers: {
+            getAll:
+            {
+                endpoint: "/commons/careers",
+                method: 'GET'
+            }
+        },
+        academicDegrees: {
+            getAll:
+            {
+                endpoint: "/commons/academic-degrees",
+                method: 'GET'
+            }
+        },
+        categories: {
+            getAll:
+            {
+                endpoint: "/commons/categories",
+                method: 'GET'
+            }
+        },
         assessmentTypes: {
             getAll:
             {
@@ -61,7 +80,13 @@ export const services = {
             }
         },
         timeTables: "commons/time-tables",
-        course: "commons/courses",
+        course: {
+            getAll:
+            {
+                endpoint: "commons/courses",
+                method: 'GET'
+            }
+        },
         curricularPlan: {
             getAll:
             {

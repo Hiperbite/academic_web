@@ -24,9 +24,8 @@ export const RegisterNewStaff = () => {
         <span>Candidatos</span>
         <span>Registar</span>
       </div>
-      <h2 className="az-content-title">Pessoal</h2>
+      <h2 className="az-content-title">Inscrever novo Pessoal</h2>
 
-      <h1>Inscrever novo</h1>
       <hr className="mg-y-30" />
 
       <div className="card-body">

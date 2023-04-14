@@ -8,8 +8,11 @@ const rootSlice = createSlice({
         contacts: [{}],
         person: {},
         address: {},
+        step: 1
     },
     reducers: {
+
+        saveStep: (state: any, action: any) => { state.step = action.payload },
         saveData: (state: any, action: any) => {
             state.data = action.payload
         },
@@ -23,4 +26,4 @@ const rootSlice = createSlice({
 
 export const reducer = rootSlice.reducer;
 
-export const { saveData, saveContacts, saveDocuments, savePerson, saveAddress } = rootSlice.actions
+export const { saveStep, saveData, saveContacts, saveDocuments, savePerson, saveAddress } = rootSlice.actions

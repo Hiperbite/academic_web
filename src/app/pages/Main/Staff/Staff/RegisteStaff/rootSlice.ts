@@ -8,19 +8,19 @@ const rootSlice = createSlice({
         contacts: [{}],
         person: {},
         address: {},
+        step: 1
     },
     reducers: {
-        saveData: (state: any, action: any) => {
-            state.data = action.payload
-        },
-        saveContacts: (state: any, action: any) => { state.contacts = action.payload },
-        saveDocuments: (state: any, action: any) => { state.documents = action.payload },
-        saveAddress: (state: any, action: any) => { state.address = action.payload },
-        savePerson: (state: any, action: any) => { state.person = action.payload },
-        chooseCheese: (state: any, action: any) => { state.cheese = action.payload },
+        saveStep: (state: any, action: any) => { state.step = action.payload },
+        saveData: (state: any, action: any) => { state.data = action.payload; },
+        saveContacts: (state: any, action: any) => { state.contacts = action.payload; },
+        saveDocuments: (state: any, action: any) => { state.documents = action.payload; },
+        saveAddress: (state: any, action: any) => { state.address = action.payload; },
+        savePerson: (state: any, action: any) => { state.person = action.payload; },
+        chooseCheese: (state: any, action: any) => { state.cheese = action.payload; },
     }
 })
 
 export const reducer = rootSlice.reducer;
 
-export const { saveData, saveContacts, saveDocuments, savePerson, saveAddress } = rootSlice.actions
+export const { saveStep, saveData, saveContacts, saveDocuments, savePerson, saveAddress } = rootSlice.actions

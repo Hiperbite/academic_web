@@ -19,7 +19,6 @@ export const RegisterNewStudent = () => {
             <hr className="mg-y-30" />
             <RegisterStudent />
           </Col>
-          <Col xs lg={4}></Col>
         </Row>
 
       </div>

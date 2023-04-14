@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 
@@ -59,25 +59,27 @@ export const Controls = ({ current, total, onSubmit = null }: any) => {
     const navigate = useNavigate();
     return (<>
         <hr />
-        <div className='row'>
-            <div className='col-md-4 text-left'>
+        <Row>
+            <Col>
                 <Button variant="secondary" type="button" onClick={() => navigate('/students/list')}>Cancelar</Button>
-            </div>
-            <div className='col-md-4'>
+            </Col>
+            <Col></Col>
+            <Col className='text-right'>
 
-                <Button variant="primary" type="button" disabled={current === 1} onClick={() => prevStep()}>
-                    Voltar
-                </Button>
+                {current===1 ? null :
+                    <Button variant="primary" type="button" disabled={current === 1} onClick={() => prevStep()}>
+                        <i className="fa fa-chevron-left"></i> Voltar
+                    </Button>}
                 {current === total ?
                     <Button variant="success" type="button" onClick={onSubmit}>
-                        Salvar
+                        Salvar <i className="fa fa-check"></i>
                     </Button> :
                     <Button variant="primary" type="submit">
-                        Proximo
+                        Proximo <i className="fa fa-chevron-right"></i>
                     </Button>
                 }
-            </div>
-            <div className='col-md-4'></div>
-        </div>
+            </Col>
+
+        </Row>
     </>)
 }

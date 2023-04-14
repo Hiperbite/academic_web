@@ -42,6 +42,7 @@ export const OtherStudentDataForm = ({ onSubmit, data }: any) => {
                             controlId="floatingInput"
                             label="Curso que pretende se candidatar">
                             <Form.Select aria-label="Default select example"{...register('desiredCourseId')} >
+                                <option value={undefined} disabled> - </option>
                                 {courses?.map(({ id, code, name }: any) => <option value={id}>{code} - {name}</option>)}
                             </Form.Select>
                         </FloatingLabel>

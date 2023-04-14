@@ -38,6 +38,7 @@ export const services = {
         address: "/commons/address",
         careers: "/commons/careers",
         categories: "/commons/categories",
+        academicDegrees:"/commons/academic-degrees",
         assessmentTypes: "/commons/assessment-types",
         assessments: "/commons/assessments"
     },

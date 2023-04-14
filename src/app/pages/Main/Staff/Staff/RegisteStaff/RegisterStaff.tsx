@@ -1,5 +1,6 @@
 import { Provider } from "react-redux"
 import { Route, Routes } from "react-router-dom"
+import { TimeLine } from "../../../../Common/Person/RegisterFrom/TimeLine"
 import { Result } from "./Forms/Result"
 import { Step1 } from "./Forms/Step1"
 import { Step2 } from "./Forms/Step2"
@@ -13,6 +14,7 @@ export const RegisterStudent = () => {
         <>
 
             <Provider store={store}>
+                <><TimeLine /></>
                 <Routes>
                     <Route index path="step1" element={<Step1 />} />
                     <Route path="step2" element={<Step2 />} />

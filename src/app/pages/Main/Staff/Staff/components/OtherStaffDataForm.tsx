@@ -6,10 +6,11 @@ import { z } from "zod";
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from "react-toastify";
-import { Api, services } from "../../../../../app/api/Api";
 import { ErrorMessage } from "../../../../Components/ErrorMessage";
 import { BasicControls, Controls } from "../../../../Components/Controls";
 import { useSelector } from "react-redux";
+import { useApi } from "../../../../../app/api/apiSlice";
+import { services } from "../../../../../app/api/services";
 
 const roles =
     [
@@ -22,24 +23,17 @@ const roles =
 const FormSchema = z.object({
     categoryId: z.string().min(3),
     careerId: z.string().min(3),
+    academicDegreeId: z.string().min(3),
     roles: z.array(z.string().min(3)),
 });
 export const OtherStaffDataForm = ({ onSubmit, data }: any) => {
 
     const stored = useSelector((state: any) => state.data)
-    const [categories, setCategories] = useState<any[]>()
-    const [careers, setCareers] = useState<any[]>()
-    useMemo(async () => {
-        const { response: { data: response, status } } =
-            await Api.get({ service: services.common.categories, params: {} })
-        setCategories(response?.data ?? [])
-        const { response: { data: res, status: st } } =
-            await Api.get({ service: services.common.careers, params: {} })
-        setCareers(res?.data ?? [])
-        if (status !== 200) {
-            toast.error('Some wrong thing happened while collected the courses')
-        }
-    }, [])
+
+    const { data: { data: categories }={} } = useApi({ service: services.common.categories.getAll, params: {} })
+    const { data: { data: careers }={} } = useApi({ service: services.common.careers.getAll, params: {} })
+    const { data: { data: academicDegrees }={} } = useApi({ service: services.common.academicDegrees.getAll, params: {} })
+
     const { register, handleSubmit, control,
         formState: { errors }, }: any = useForm({
             defaultValues: stored ?? data?.data,
@@ -50,6 +44,22 @@ export const OtherStaffDataForm = ({ onSubmit, data }: any) => {
         <form onSubmit={handleSubmit(onSubmit)} >
             <Row>
                 <Col>
+                    <Row>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <FloatingLabel
+                                    controlId="floatingInput"
+                                    label="Careira">
+                                    <Form.Select aria-label="Default select example"{...register('academicDegreeId')} >
+                                        {academicDegrees?.map(({ id, code, name }: any) => <option value={id}>{code} - {name}</option>)}
+                                    </Form.Select>
+                                </FloatingLabel>
+                                {errors?.academicDegreeId &&
+                                    <ErrorMessage message={errors?.academicDegreeId?.message} />
+                                }
+                            </Form.Group>
+                        </Col>
+                    </Row>
                     <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -88,7 +98,7 @@ export const OtherStaffDataForm = ({ onSubmit, data }: any) => {
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Funcao">
-                            <Form.Select style={{height:'130px'}} multiple aria-label="Default select example"{...register('roles')} >
+                            <Form.Select style={{ height: '130px' }} multiple aria-label="Default select example"{...register('roles')} >
                                 {roles?.map((role: string) => <option value={role}>{role}</option>)}
                             </Form.Select>
                         </FloatingLabel>
