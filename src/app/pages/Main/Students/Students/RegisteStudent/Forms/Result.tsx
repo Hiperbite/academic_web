@@ -155,10 +155,10 @@ const Success = ({ data }: any) => {
   return (
     <div className='col-md-12 text-center'>
       <h4>
-        Estudante inscrito com sucesso sob Numero de Inscricao:
+        Estudante inscrito com sucesso sob Número de Inscrição:
       </h4>
       <h1>
-        {data.code}
+        {data?.entryCode}
       </h1>
       <Link to={`/students/show/${data.id}`}>Ver dados</Link>
     </div>
