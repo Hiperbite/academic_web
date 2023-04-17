@@ -5,9 +5,11 @@ import _axios from "axios";
 
 import axiosRetry from 'axios-retry'
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import storage from '../storage';
+import { services } from './services';
+import { LoadingContext } from '../../../App';
 
 const axios =
     (() => {
@@ -23,7 +25,6 @@ const axios =
             const randomMs = 1000 * Math.random();
             return seconds + randomMs;
         };
-
         /*
          axiosRetry(axios, {
              retries: 2,
@@ -32,6 +33,32 @@ const axios =
              retryCondition: axiosRetry.isRetryableError,
          });
          */
+        axios.interceptors.response.use((response) => response, async (error) => {
+            const { status } = error.response;
+            debugger
+            // whatever you want to do with the error
+            if (status === 403) {
+                const { href } = window.location
+
+                const refreshToken = storage.get('refreshToken');
+
+                try {
+                    const r = await axios.post(services.common.auth.refresh.endpoint, {}, { headers: { 'x-refresh': refreshToken } })
+                } catch (err: any) {
+                    debugger
+                    /* storage.remove('refreshToken')
+                     storage.remove('token')
+                     storage.remove('user')
+                     window.location.href='/'
+                     
+                     */
+                    const e = err
+
+                }
+            }
+
+            return error;
+        });
 
         return axios;
     })()
@@ -93,6 +120,10 @@ export const useApi = ({ service, id, obj, params }: ApiParamsType) => {
     const { endpoint, method = 'GET' }: any = service;
     const headers = getHeaders()
 
+    const { setLoading: setLoadingFromProvider }: any = useContext(LoadingContext);
+    useEffect(() => {
+        setLoadingFromProvider(loading)
+    }, [loading])
     const resolver: any = {
         post: async ({ form }: any) => {
             setLoading(true)

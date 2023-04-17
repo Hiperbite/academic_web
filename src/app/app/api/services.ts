@@ -6,6 +6,7 @@ export const services = {
             singIn: 'auth',
             forgotPassword: { endpoint: '/users/forgotpassword', method: "POST" },
             resetPassword: '/users/resetpassword',
+            refresh:{ endpoint: '/auth/refresh', method: "POST" },
         },
         users: {
             history: { endpoint: '/users/histories', method: "GET" },
