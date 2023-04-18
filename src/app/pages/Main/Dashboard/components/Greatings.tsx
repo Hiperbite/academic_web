@@ -9,7 +9,7 @@ export const Greatings = () => {
         <div>
             <h2 className="az-dashboard-title">Ola, seja benvindo {user?.person?.firstName} {user?.person?.lastName}!</h2>
             <p className="az-dashboard-text">
-                {wish} it is {date}
+                {wish} hoje é {date}
             </p>
         </div>
     )

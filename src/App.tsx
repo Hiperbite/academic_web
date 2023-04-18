@@ -24,7 +24,6 @@ function App() {
         <BrowserRouter>
           <Pages />
         </BrowserRouter>
-
         <ToastContainer
           position="top-left"
           autoClose={10000}

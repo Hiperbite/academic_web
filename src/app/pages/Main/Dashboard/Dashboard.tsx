@@ -1,10 +1,13 @@
 
 import React from "react";
 import Moment from "react-moment";
+import { useApi } from "../../../app/api/apiSlice";
+import { services } from "../../../app/api/services";
 import { Greatings } from "./components/Greatings";
 import { useDate } from "./components/useDate";
+import { StudentCountGadgets } from "./gadgets/StudentCountGadgets";
 export const Dashboard = () => {
-    
+    const { data: {studentsCount}={}} = useApi({ service: services.common.dashboards.common, params: {} })
     const { date, time, wish } = useDate()
     return (<div className="az-content az-content-dashboard">
         <div className="container">
@@ -17,9 +20,9 @@ export const Dashboard = () => {
                                 <label>End Date</label>
                                 <h6><Moment format="DD/MM/YYYY">
                                     {new Date()}
-                                    </Moment>
-                                    </h6>
-                                    <h3>{time}</h3>
+                                </Moment>
+                                </h6>
+                                <h3>{time}</h3>
                             </div>{/* media-body */}
                         </div>{/* media */}
                     </div>
@@ -82,19 +85,7 @@ export const Dashboard = () => {
                     </div>{/* col */}
                     <div className="col-lg-5 mg-t-20 mg-lg-t-0">
                         <div className="row row-sm">
-                            <div className="col-sm-6">
-                                <div className="card card-dashboard-two">
-                                    <div className="card-header">
-                                        <h6>33.50% <i className="icon ion-md-trending-up tx-success"></i> <small>18.02%</small></h6>
-                                        <p>Bounce Rate</p>
-                                    </div>{/* card-header */}
-                                    <div className="card-body">
-                                        <div className="chart-wrapper">
-                                            <div id="flotChart1" className="flot-chart"></div>
-                                        </div>{/* chart-wrapper */}
-                                    </div>{/* card-body */}
-                                </div>{/* card */}
-                            </div>{/* col */}
+                            <StudentCountGadgets data={studentsCount?.age} />
                             <div className="col-sm-6 mg-t-20 mg-sm-t-0">
                                 <div className="card card-dashboard-two">
                                     <div className="card-header">
@@ -114,6 +105,7 @@ export const Dashboard = () => {
                                         <p>All Sessions</p>
                                         <h6>16,869 <small className="tx-success"><i className="icon ion-md-arrow-up"></i> 2.87%</small></h6>
                                         <small>The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc.</small>
+                                        <pre>{JSON.stringify(studentsCount?.age, null, 1)}</pre>
                                     </div>{/* card-header */}
                                     <div className="card-body">
                                         <div className="chart"><canvas id="chartBar5"></canvas></div>

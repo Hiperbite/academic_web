@@ -6,13 +6,16 @@ export const services = {
             singIn: 'auth',
             forgotPassword: { endpoint: '/users/forgotpassword', method: "POST" },
             resetPassword: '/users/resetpassword',
-            refresh:{ endpoint: '/auth/refresh', method: "POST" },
+            refresh: { endpoint: '/auth/refresh', method: "POST" },
         },
         users: {
             history: { endpoint: '/users/histories', method: "GET" },
             getAll: {},
             getOne: { endpoint: 'users', method: "GET" },
             update: { endpoint: 'users', method: "PUT" },
+        },
+        dashboards: {
+            common: { endpoint: '/commons/dashboards/common' }
         },
         track: "tracks",
         contacts: "/commons/contacts",

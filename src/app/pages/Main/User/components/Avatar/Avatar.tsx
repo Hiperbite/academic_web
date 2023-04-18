@@ -43,6 +43,7 @@ export const Avatar = ({ refresh, avatar, canUpdate = true, user }: any) => {
         <div className="image">
             <label htmlFor="profilePic">
                 <img src={imgData} className="img img-responsive full-width" />
+                <i className="fa fa-upload"></i>
             </label>
         </div>
         {canUpdate ?

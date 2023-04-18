@@ -1,24 +1,20 @@
-import React, { useMemo, useState } from 'react'
-import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
-import { useLocation, useOutletContext } from 'react-router-dom';
-import { Api, services } from '../../app/api/Api'
+import React, { useState } from 'react'
+import { ButtonGroup, Col, Row } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
+import { useApi } from '../../../app/api/apiSlice';
+import { services } from '../../../app/api/services';
+
 import AssessmentStudents from '../Students/Students/AssessmentStudents'
 
 export const Classification = () => {
 
-  const [student, setStudent] = useState<any>()
   const [semester, setSemester] = useState<any>(0)
 
   const location = useLocation();
 
-
   const { me, refresh } = location.state;
+  const { data: student } = useApi({ service: services.student.students.getAll, id: me?.person?.student?.id, params: { refresh, id: me?.person?.student?.id } })
 
-  useMemo(async () => {
-    const { response: { data: students } } = await Api.get({ service: services.student.students, id: me?.person?.student?.id })
-    setStudent(students)
-
-  }, [me?.id, refresh])
   return (<>
     <Row>
       <Col><h3>Notas</h3></Col>
@@ -33,7 +29,7 @@ export const Classification = () => {
       </Col>
     </Row>
     {student ?
-      <AssessmentStudents student={student} years={isNaN(semester)?[1,2,3,4,5]:[1]} semesters={isNaN(semester)?[0,1]:[semester]} /> : null
+      <AssessmentStudents student={student} years={isNaN(semester) ? [1, 2, 3, 4, 5] : [1]} semesters={isNaN(semester) ? [0, 1] : [semester]} /> : null
     }
   </>
 

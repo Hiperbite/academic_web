@@ -2,18 +2,46 @@
     padding: 15px;
     .gadgets {
         margin-bottom: -50px;
-        //margin-top: -10px;
+        margin-top: -50px;
         padding: 5px 30px;
         border: solid 2px rgba(255, 255, 255, 0.5);
         .row .col {
-            border-right: "solid 1px #FFF";
+            border-right: solid 1px #FFF;
         }
+    }
+    .az-content.small {
+        display: none;
+    }
+    .az-content.big {
+        display: block;
     }
 }
 
+#UserProfileHeader.is-sticky {
+    margin-bottom: 650px;
+}
+
 .is-sticky {
+    #UserProfileHeader {
+        padding: 5px;
+    }
+    padding: 0;
+    width: 100%;
+    position: fixed;
+    z-index: 99999;
     background: black !important;
     box-shadow: 0 2px 24px 0 rgb(0 0 0 / 15%);
     animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
-    //position: fixed !important;
+    .use-data * {
+        font-size: 12px;
+    }
+    .greetings-data {
+        display: none;
+    }
+    .gadgets {
+        margin-top: 0px !important;
+        h4 {
+            font-size: 14px;
+        }
+    }
 }

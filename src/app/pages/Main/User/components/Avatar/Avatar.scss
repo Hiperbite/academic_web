@@ -8,6 +8,13 @@
     height: 0;
     width: 100%;
     padding-bottom: 100%;
+    i.fa {
+        position: absolute;
+        width: 100%;
+        font-size: 80px;
+        margin: 35%;
+        opacity: .2;
+    }
     img {
         position: absolute;
         max-width: 100%;
@@ -19,5 +26,11 @@
         /* or any custom size */
         height: 100%;
         object-fit: cover;
+    }
+}
+
+.image:hover {
+    i.fa {
+        opacity: .8;
     }
 }
