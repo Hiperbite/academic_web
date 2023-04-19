@@ -15,7 +15,8 @@ export const services = {
             update: { endpoint: 'users', method: "PUT" },
         },
         dashboards: {
-            common: { endpoint: '/commons/dashboards/common' }
+            common: { endpoint: '/commons/dashboards/common' },
+            registered: { endpoint: '/commons/dashboards/registered' }
         },
         track: "tracks",
         contacts: "/commons/contacts",

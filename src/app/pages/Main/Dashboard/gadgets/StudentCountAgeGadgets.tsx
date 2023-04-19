@@ -38,7 +38,7 @@ const chartMainData = {
         },
     ],
 };
-export const StudentCountGadgets = ({ data }: any) => {
+export const StudentCountAgeGadgets = ({ data }: any) => {
     const [charData, setcharData] = useState<any>({});
     const [great, setGreat] = useState<any>({});
     useMemo(() => {
@@ -52,10 +52,10 @@ export const StudentCountGadgets = ({ data }: any) => {
             <Card className="card-dashboard-two">
                 <Card.Header>
                     <h6>{great?.count} <i className="icon ion-md-trending-up tx-success"></i> <small>18.02%</small></h6>
-                    <p>{great?.age_range}</p>
+                    <p>Idades</p>
                 </Card.Header>
                 <Card.Body>
-                    <Pie data={charData} />
+                    {data ? <Pie data={charData} /> : null}
                 </Card.Body>
             </Card>
         </Col>

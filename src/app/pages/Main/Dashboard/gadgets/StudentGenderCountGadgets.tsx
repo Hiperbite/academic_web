@@ -7,16 +7,15 @@ import { Card, Col } from 'react-bootstrap'
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const labels: any = {
-    greatThan25: '>25',
-    lessThan18: '<18',
-    between21And25: '21 á 25',
-    between18And20: '18 á 20'
+    F: 'Feminino',
+    M: 'Masculino'
+    
 }
 const chartMainData = {
     labels: {},
     datasets: [
         {
-            label: 'Quantidade',
+            label: 'Sexo',
             data: {},
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -38,11 +37,11 @@ const chartMainData = {
         },
     ],
 };
-export const StudentCountGadgets = ({ data }: any) => {
+export const StudentCountGenderGadgets = ({ data }: any) => {
     const [charData, setcharData] = useState<any>({});
     const [great, setGreat] = useState<any>({});
     useMemo(() => {
-        chartMainData.labels = data?.map(({ age_range }: any) => labels[age_range ?? ''])
+        chartMainData.labels = data?.map(({ gender }: any) => labels[gender ?? ''])
         chartMainData.datasets[0].data = data?.map(({ count }: any) => count)
         setcharData(chartMainData)
         setGreat(data?.sort((x: any, y: any) => x.count > y.count ? -1 : 1)[0])
@@ -52,10 +51,10 @@ export const StudentCountGadgets = ({ data }: any) => {
             <Card className="card-dashboard-two">
                 <Card.Header>
                     <h6>{great?.count} <i className="icon ion-md-trending-up tx-success"></i> <small>18.02%</small></h6>
-                    <p>{great?.age_range}</p>
+                    <p>Sexo</p>
                 </Card.Header>
                 <Card.Body>
-                    <Pie data={charData} />
+                {data ? <Pie data={charData} /> : null}
                 </Card.Body>
             </Card>
         </Col>
