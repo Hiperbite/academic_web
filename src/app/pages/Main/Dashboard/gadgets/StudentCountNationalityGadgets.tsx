@@ -42,7 +42,7 @@ export const StudentCountNationalityGadgets = ({ data }: any) => {
     const [charData, setcharData] = useState<any>({});
     const [great, setGreat] = useState<any>({});
     useMemo(() => {
-        chartMainData.labels = data?.map(({ nationality }: any) => nationality )
+        chartMainData.labels = data?.map(({ nationality }: any) => nationality)
         chartMainData.datasets[0].data = data?.map(({ count }: any) => count)
         setcharData(chartMainData)
         setGreat(data?.sort((x: any, y: any) => x.count > y.count ? -1 : 1)[0])
@@ -55,7 +55,7 @@ export const StudentCountNationalityGadgets = ({ data }: any) => {
                     <p>Nacionalidade</p>
                 </Card.Header>
                 <Card.Body>
-                    <Pie data={charData} />
+                    {data ? <Pie data={charData} /> : null}
                 </Card.Body>
             </Card>
         </Col>

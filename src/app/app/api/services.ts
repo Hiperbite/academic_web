@@ -16,7 +16,8 @@ export const services = {
         },
         dashboards: {
             common: { endpoint: '/commons/dashboards/common' },
-            registered: { endpoint: '/commons/dashboards/registered' }
+            registered: { endpoint: '/commons/dashboards/registered' },
+            getStudentHonorRoll: { endpoint: '/commons/dashboards/get-student-honor-roll' }
         },
         track: "tracks",
         contacts: "/commons/contacts",

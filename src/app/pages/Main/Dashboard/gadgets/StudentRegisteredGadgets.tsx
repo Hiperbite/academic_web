@@ -85,7 +85,7 @@ export const StudentRegisteredGadgets = ({ data }: any) => {
                 </div>
                 <div className="btn-group">
                     <button className="btn active">Hoje</button>
-                    <button className="btn">Esta Semana</button>
+                    <button className="btn">Ontem</button>
                     <button className="btn">Este Mês</button>
                 </div>
             </Card.Header>
