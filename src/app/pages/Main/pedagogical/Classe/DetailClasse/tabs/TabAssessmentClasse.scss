@@ -1,0 +1,37 @@
+#TabAssessmentClasse {
+    table {
+        td,
+        th {
+            border: solid 1px #000 !important;
+        }
+    }
+    tr.line-value-container {
+        td:last-child {}
+        td:not(:last-child),
+        th {
+            text-align: right;
+            width: 150px !important;
+        }
+        td.box-value-container {
+            i.fa {
+                float: left;
+                right: 0;
+                opacity: 0;
+                color: #999;
+            }
+        }
+        td.disabled,
+        th.disabled {
+            color: #FFF !important;
+        }
+        td.box-value-container:hover {
+            i.fa {
+                opacity: 1;
+            }
+        }
+        td.box-value-container.negative {
+            text-decoration: line-through;
+            color: #999;
+        }
+    }
+}

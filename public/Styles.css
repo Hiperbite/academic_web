@@ -2573,6 +2573,22 @@ input.form-control-sm {
     height: 10px
 }
 
+.absolute-link i.fa {
+    color: #aaa
+}
+
+.absolute-link:hover i.fa {
+    color: #5b47fb
+}
+
+.dropdown a {
+    text-decoration: none
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
 .btn.btn-primary {
     background: linear-gradient(to bottom left, #5b47fb, #9086dc);
     color: #FFF;

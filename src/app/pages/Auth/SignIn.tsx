@@ -17,7 +17,6 @@ export const SignIn = () => {
   const navigate = useNavigate();
   useMemo(() => setLoading(loading), [loading])
   useEffect(() => {
-    debugger
     if (data?.status === 200) {
       if (data?.response?.user?.role === 'ROLES_STUDENT')
         navigate('/me')

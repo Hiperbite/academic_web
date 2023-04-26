@@ -28,8 +28,10 @@ export const ProgressiveLoadingBar = ({ loading }: any) => {
             ref.current.complete()
         }
     }, [loading])
-    return (
+    return (<>
         <LoadingBar color="#dde3f4" style={{ height: '5px' }} ref={ref} shadow={true} />
+        <LoadingBar color="#5b47fb" style={{ height: '5px' }} ref={ref} shadow={true} />
+        </>
     )
 }
 

@@ -31,6 +31,18 @@ export const services = {
                 method: 'GET'
             }
         },
+        notifications: {
+            getAll:
+            {
+                endpoint: "/commons/notifications",
+                method: 'GET'
+            },
+            update:
+            {
+                endpoint: "/commons/notifications",
+                method: 'PUT'
+            }
+        },
         academicDegrees: {
             getAll:
             {
@@ -135,7 +147,8 @@ export const services = {
         enrollmentConfirmations: 'students/enrollment-confirmations',
         enrollment: 'students/enrollments',
         staff: {
-            update: { endpoint: 'staffs', method: 'PUT' }
+            update: { endpoint: 'staffs', method: 'PUT' },
+            get: { endpoint: 'staffs', method: 'GET' }
         }
     }
 }

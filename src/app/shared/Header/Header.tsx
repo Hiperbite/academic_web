@@ -4,6 +4,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { selectCurrentUser } from "../../app/api/auth/authSlice";
 import storage from "../../app/storage";
 import { AllowedFor } from "../../pages/app/api/auth/RequireAuth";
+import { NotificationMenu } from "./NotificationMenu";
 import { ProfileMenu } from "./ProfileMenu";
 
 const menuItems = [
@@ -25,17 +26,20 @@ export const Header = () => {
         menuItems[0]
     )
 
-    if (storage.get('user') === null)
-        return <Navigate to="/" replace />;
+    const { pathname } = window.location;
+    if (pathname.indexOf('/auth')!== 0) {
+        debugger
+        if (storage.get('user') === null)
+            return <Navigate to="/auth" replace />;
 
-    const { role } = storage.get('user')
-    if (role === "ROLES_STUDENT") {
-        const ii = window.location.pathname;
-        const pp = ii.indexOf('/me');
-        if (pp !== 0) {
-            return <Navigate to="/me" replace />;
+        const { role } = storage.get('user')
+        if (role === "ROLES_STUDENT") {
+            const pp = pathname.indexOf('/me');
+            if (pp !== 0) {
+                return <Navigate to="/me" replace />;
+            }
+            return null;
         }
-        return null;
     }
 
     const classNames = ["nav-item active", "nav-item"];
@@ -73,47 +77,7 @@ export const Header = () => {
                 <div className="az-header-message">
                     <Link to="#"><i className="typcn typcn-messages"></i></Link>
                 </div>{/* az-header-message */}
-                <div className="dropdown az-header-notification">
-                    <Link to="" className="new"><i className="typcn typcn-bell"></i></Link>
-                    <div className="dropdown-menu">
-                        <div className="az-dropdown-header mg-b-20 d-sm-none">
-                            <Link to="" className="az-header-arrow"><i className="icon ion-md-arrow-back"></i></Link>
-                        </div>
-                        <h6 className="az-notification-title">Notifications</h6>
-                        <p className="az-notification-text">You have 2 unread notification</p>
-                        <div className="az-notification-list">
-                            <div className="media new">
-                                <div className="az-img-user"><img src="/logo192.png" alt="" /></div>
-                                <div className="media-body">
-                                    <p>Congratulate <strong>Socrates Itumay</strong> for work anniversaries</p>
-                                    <span>Mar 15 12:32pm</span>
-                                </div>{/* media-body */}
-                            </div>{/* media */}
-                            <div className="media new">
-                                <div className="az-img-user online"><img src="/logo192.png" alt="" /></div>
-                                <div className="media-body">
-                                    <p><strong>Joyce Chua</strong> just created a new blog post</p>
-                                    <span>Mar 13 04:16am</span>
-                                </div>{/* media-body */}
-                            </div>{/* media */}
-                            <div className="media">
-                                <div className="az-img-user"><img src="/logo192.png" alt="" /></div>
-                                <div className="media-body">
-                                    <p><strong>Althea Cabardo</strong> just created a new blog post</p>
-                                    <span>Mar 13 02:56am</span>
-                                </div>{/* media-body */}
-                            </div>{/* media */}
-                            <div className="media">
-                                <div className="az-img-user"><img src="../img/faces/face5.jpg" alt="" /></div>
-                                <div className="media-body">
-                                    <p><strong>Adrian Monino</strong> added new comment on your photo</p>
-                                    <span>Mar 12 10:40pm</span>
-                                </div>{/* media-body */}
-                            </div>{/* media */}
-                        </div>{/* az-notification-list */}
-                        <div className="dropdown-footer"><Link to="">View All Notifications</Link></div>
-                    </div>{/* dropdown-menu */}
-                </div>{/* az-header-notification */}
+                <NotificationMenu />
                 <ProfileMenu />
             </div>{/* az-header-right */}
         </div>{/* container */}

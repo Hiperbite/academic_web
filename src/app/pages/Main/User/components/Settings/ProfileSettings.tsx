@@ -1,7 +1,15 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import { logoutHandlerData } from '../../../../app/api/auth/authentication'
 
 export const ProfileSettings = () => {
+
+    const navigate=useNavigate();
+    const handleLogOut = () => {
+        logoutHandlerData()
+        navigate('/')
+    }
     return (<>
         <h3>Inicio</h3>
 
@@ -16,7 +24,8 @@ export const ProfileSettings = () => {
                 </div>
             </div>
             <div className="sc-31a65873-4 eaqkZG">
-                <Button variant='outline-danger'  size="lg" >Terminar sessão em todo o lado</Button>
+                <hr/>
+                <Button variant='outline-danger' onClick={handleLogOut}  size="lg" >Terminar sessão em todo o lado</Button>
             </div>
         </article>
 

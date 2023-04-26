@@ -105,7 +105,7 @@ export const apiSlice = createApi({
     endpoints: builder => ({})
 })
 
-export type ServiceType = any;//{ endpoint: string, method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" }
+export type ServiceType = any;//{ endpoint: string, method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" }
 type ApiParamsType = {
     service: ServiceType,
     params?: any,
@@ -170,7 +170,7 @@ export const useApi = ({ service, id, obj, params }: ApiParamsType) => {
                 setError(data)
             }
             setLoading(false)
-        }, put: async ({ id, form }: any) => {
+        }, put: async (form : any) => {
             debugger
             setLoading(true)
             let url = `${endpoint}/${obj?.id ?? form?.id ?? id}`

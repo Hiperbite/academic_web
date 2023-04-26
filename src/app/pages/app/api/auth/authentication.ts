@@ -205,11 +205,11 @@ const useResetPasswordHandlerData = (): any => {
   const post = async (params: any, opts?: any) => {
     const { id, passwordResetCode } = opts;
     try {
-      
+
       debugger
       const data = await Api.post({
         service: `${services.common.auth.resetPassword}/${id}/${passwordResetCode}`,
-        data:params
+        data: params
       })
       const { data: response, status } = data?.response;
       if (status !== 200) {
@@ -235,5 +235,10 @@ const useResetPasswordHandlerData = (): any => {
     post
   };
 };
-const logoutHandlerData = () => storage.remove('token')
+const logoutHandlerData = () => {
+  storage.remove('token')
+  storage.remove('user')
+  storage.remove('refreshToken')
+
+}
 export { useAuthenticationHandlerData, logoutHandlerData, useForgotPasswordHandlerData, useCheckResetPasswordHandlerData, useResetPasswordHandlerData }

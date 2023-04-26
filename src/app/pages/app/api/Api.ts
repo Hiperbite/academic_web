@@ -104,6 +104,11 @@ const get = async ({ service, id, params }: any) => {
         console.log('👉 Returned data:', response);
         return { response }
     } catch (e: any) {
+        if (e?.response?.status === 403) {
+            localStorage.removeItem('user')
+            localStorage.removeItem('token')
+          //  window.location.href = '/auth'
+        }
         console.log(`😱 Axios request failed: ${e}`);
         toast.error('😱 Erro: ' + JSON.stringify(e?.response?.data));
         return e;

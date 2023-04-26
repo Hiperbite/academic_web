@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import './UserProfile.scss'
 import { Link, Outlet } from 'react-router-dom'
 import { Api, services } from '../../app/api/Api'
@@ -6,15 +6,18 @@ import { Menu } from '../../../layout/Page'
 import { UserProfileHeader } from './components/UserProfileHeader'
 import { Card, Col, Row } from 'react-bootstrap'
 import { ScheduleClass, weekDays } from '../pedagogical/Classe/components/ScheduleClass/ScheduleClass'
+import { AuthContext } from '../../../../App'
 
 export const UserProfile = () => {
+    const { user }: any = useContext(AuthContext);
   const [me, setMe] = useState<any>()
   const [classe, setClasse] = useState<any>()
   const [refresh, setRefresh] = useState<any>()
   useMemo(async () => {
-    const e = JSON.parse(localStorage.getItem('user') ?? '');
+    
 
-    const { response: { data: response } } = await Api.get({ service: '/users', id: e?.id })
+
+    const { response: { data: response } } = await Api.get({ service: '/users', id: user?.id })
     setMe(response)
     const { response: { data: { data: [enrollment] } } } = await Api.get({ service: services.student.enrollment, params: { scope : 'full','where[current]': true, 'where[studentId]': response?.person?.student?.id } })
     const classy = enrollment?.classe

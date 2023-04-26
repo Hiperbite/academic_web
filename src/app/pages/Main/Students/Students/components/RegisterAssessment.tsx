@@ -48,8 +48,6 @@ const FormEditAssessment = ({ handleClose, assessment, refresh, staff, disciplin
 
     const [data, setData] = useState<any>()
     const [assessments, setAssessments] = useState<any>()
-    const [professors, setProfessors] = useState<any[]>()
-    const [loading, setLoading] = useState<boolean>(false)
 
     const defaultValues = assessment
     const { register, handleSubmit, reset,
@@ -67,27 +65,11 @@ const FormEditAssessment = ({ handleClose, assessment, refresh, staff, disciplin
     }, [])
 
     const handleDelete = async () => {
-        setLoading(true)
 
-        /*const { response: { data: response, status } } = await Api.drop({ service: services.academic.curricularPlanItem, id: item?.id })
-
-        if (status === 200) {
-            setData(response)
-            handleClose()
-
-            toast.success("Disciplina removida com sucesso!")
-        } else {
-            toast.error("Erro ao registar as Disciplina, por favor tente mais tarde")
-        }
-
-        updateParams({ xor: response?.id })
-
-        setLoading(false)*/
     }
 
     const onSubmit = async (form: any) => {
-        debugger
-        setLoading(true)
+        
         let { response: { data: response, status } } = await Api[form?.id ? 'put' : 'post']({ service: services.common.assessments, id: form?.id, data: form })
 
         if (status === 200) {
@@ -99,12 +81,12 @@ const FormEditAssessment = ({ handleClose, assessment, refresh, staff, disciplin
         }
         refresh({ xor: Math.random() })
 
-        setLoading(false)
-
+        
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
+            <>{JSON.stringify(assessment)}</>
             <Row>
                 <Col md={8}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">

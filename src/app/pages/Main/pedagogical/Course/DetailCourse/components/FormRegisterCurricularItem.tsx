@@ -62,6 +62,7 @@ export const FormRegisterCurricularItem = ({ updateParams, show, item, handleClo
 
     const onSubmit = async (form: any) => {
         setLoading(true)
+        debugger
         form.curricularPlanId = curricularPlan?.id
         form.id = item?.id
 

@@ -22,7 +22,9 @@ export const RequireAuth = () => {
 }
 
 export const allowed = (role: string, level = 1) => {
-    const { permissions } = storage.get('user')
+    const user = storage.get('user')
+    if (user) { } else { return false }
+    const { permissions } = user;
 
     return permissions[role] >= level || permissions['ADMIN'] >= level
 }
@@ -34,7 +36,7 @@ export const AllowedFor = ({ role, level = 1, showLocked, children }: any) => {
     return (allow ? children : <LockedComponent showLocked={showLocked} />)
 
 }
-const LockedComponent = ({ showLocked = false }: any) => showLocked ? <div className='text-center text-secondary'><i className='fa fa-lock'></i> Sem acesso</div> : <></>
+export const LockedComponent = ({ showLocked = false }: any) => showLocked ? <div className='text-center text-secondary'><i className='fa fa-lock'></i> Sem acesso</div> : <></>
 export const RequireAuthorization = ({ permission }: any) => {
 
 

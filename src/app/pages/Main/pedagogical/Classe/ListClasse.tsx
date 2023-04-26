@@ -1,19 +1,23 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button, ProgressBar } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
-import useAxiosFetch from "../../../../app/api/Api";
-import { services } from "../../../../app/api/Api";
+import { AuthContext } from "../../../../../App";
+import { useApi } from "../../../../app/api/apiSlice";
+import { services } from "../../../../app/api/services";
 import { AllowedFor } from "../../../app/api/auth/RequireAuth";
 import Paginate from "../../../Components/Paginate";
+import { ClassStaffGadgets } from "../../Dashboard/gadgets/ClassStaffGadgets";
 
 
 export const ListClasse = () => {
-  //const [data, setData] = useState({})
+
+  const { user }: any = useContext(AuthContext);
+  const { data: { data: staff } = {} } = useApi({ service: services.staff.staff.get, params: { 'where[personId]': user?.personId, pageSize: 1 } })
   const navigate = useNavigate();
   const [params, setParams] = useState({ pageSize: 6, page: 1 });
 
 
-  const { data, loading, isError } = useAxiosFetch(services.academic.class, params)
+  const { data, loading } = useApi({ service: services.academic.class.getAll, params })
 
   const updateParams = (opts: any) => {
     setParams({ ...params, ...opts });
@@ -46,6 +50,7 @@ export const ListClasse = () => {
         </div>
       </div>
 
+      {staff ? <ClassStaffGadgets staff={staff[0]} /> : null}
       <hr className="mg-y-30" />
 
       <div className="table-responsive">

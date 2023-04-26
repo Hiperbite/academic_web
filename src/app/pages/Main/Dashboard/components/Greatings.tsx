@@ -1,9 +1,7 @@
 import React from 'react'
-import storage from '../../../../app/storage';
 import { useDate } from './useDate'
 
-export const Greatings = () => {
-    const user = storage.get('user');
+export const Greatings = ({user}:any) => {
     const { date, time, wish } = useDate()
     return (
         <div>

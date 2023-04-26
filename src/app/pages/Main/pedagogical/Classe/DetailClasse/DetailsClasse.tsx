@@ -1,21 +1,25 @@
 import Moment from 'react-moment';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import useAxiosFetch, { services } from '../../../../../app/api/Api';
 import { ProgressBar } from 'react-bootstrap';
 import { TabStudentClasseList } from './tabs/TabStudentClasseList';
 import { TabScheduleClass } from './tabs/TabScheduleClass';
 import { TabAssessmentClasse } from './tabs/TabAssessmentClasse';
 import { Disabled } from './tabs/Disabled';
 import { TabHistory } from '../../Period/DetailPeriod/tabs/TabHistory';
+import { useApi } from '../../../../../app/api/apiSlice';
+import { services } from '../../../../../app/api/services';
+import { AuthContext } from '../../../../../../App';
 
 export const DetailsClasse = () => {
   const { id } = useParams()
 
+  const { user }: any = useContext(AuthContext);
   const [tab, setTab] = useState(0);
 
-  const { data: classe, loading } = useAxiosFetch(services.academic.class + "/" + id)
+  const { data: classe, loading } = useApi({ service: services.academic.class.getAll, id, params: { id } })
 
+  const { data: { data: staff } = {} } = useApi({ service: services.staff.staff.get, params: { 'where[personId]': user?.personId, pageSize: 1 } })
   const tabsTitles = ['Estudantes', 'Horario', 'Pautas', 'Histórico']
   const Tabs = [TabStudentClasseList, TabScheduleClass, TabAssessmentClasse, History][tab]
 
@@ -77,7 +81,7 @@ export const DetailsClasse = () => {
               </span>
             </div>
           </div>
-          
+
           <div className="media">
             <div className="media-body text-right">
               <label>Estado</label><br />
@@ -104,7 +108,7 @@ export const DetailsClasse = () => {
       </div>
 
       <div className="row row-sm mg-b-20">
-        {loading ? null : classe?.isActive ? <Tabs classe={classe} /> : <Disabled text={"Turma desactivada"} />}
+        {loading ? null : classe?.isActive ? staff ? <Tabs classe={classe} staff={staff[0]} /> : null: <Disabled text={"Turma desactivada"} />}
       </div>
     </div>
   )
