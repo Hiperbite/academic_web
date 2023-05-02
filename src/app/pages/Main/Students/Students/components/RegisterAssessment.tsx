@@ -15,7 +15,7 @@ export const RegisterAssessment = ({ show, handleClose, refresh, staff, assessme
         <>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading
+                    <Modal.Title>Registar Nota de estudante
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -86,7 +86,6 @@ const FormEditAssessment = ({ handleClose, assessment, refresh, staff, disciplin
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
-            <>{JSON.stringify(assessment)}</>
             <Row>
                 <Col md={8}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">

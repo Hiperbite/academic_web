@@ -19,7 +19,7 @@ export const Classification = () => {
     <Row>
       <Col><h3>Notas</h3></Col>
       <Col className='text-right'>
-        Semestre{' '}
+        Semestre {' '}
         <ButtonGroup className="me-2" aria-label="First group">
           <select className='form-control' onChange={(e) => setSemester(Number(e?.target?.value))}>
             <option>*</option>
@@ -31,7 +31,6 @@ export const Classification = () => {
     {student ?
       <AssessmentStudents student={student} years={isNaN(semester) ? [1, 2, 3, 4, 5] : [1]} semesters={isNaN(semester) ? [0, 1] : [semester]} /> : null
     }
-  </>
-
+  </> 
   )
 }

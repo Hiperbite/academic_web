@@ -110,14 +110,8 @@ export const DetailsStudents = () => {
           <Link className="nav-link" to={''} onClick={() => setTab(5)}><i className="fa fa-history"></i></Link>
           <a className="nav-link" href="#"><i className="fa fa-print"></i></a>
           <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
-          <div className="dropdown">
-            <a className="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown" aria-expanded="false"></a>
-            <ul className="dropdown-menu">
-              <li><Link className="dropdown-item" to={' '} onClick={()=>setTab(6)}>Documetos</Link></li>
-              <li><Link className="dropdown-item" to="#">Another action</Link></li>
-              <li><a className="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </div>
+          <a className="nav-link" href="#"  onClick={()=>setTab(6)}><i className="fa fa-file"></i></a>
+          <a className="nav-link" href="#" ></a>
         </nav>
       </div>
 

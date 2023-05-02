@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, ButtonGroup, Card, Col, Row } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
+import { Loading } from '../../../Components/Snipper/Spinner';
 import { ScheduleClass, ScheduleType } from '../../../pedagogical/Classe/components/ScheduleClass/ScheduleClass'
 
 export const StudentClasseSchedule = () => {
@@ -22,7 +23,7 @@ export const StudentClasseSchedule = () => {
     </Row>
     <Card>
       <Card.Body>
-        {classe ? <ScheduleClass type={type} classe={classe} /> : null}
+        {(classe ? <ScheduleClass type={type} classe={classe} /> : null) ?? <Loading loading={true} />}
       </Card.Body>
     </Card>
 

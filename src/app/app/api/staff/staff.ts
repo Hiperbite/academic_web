@@ -61,7 +61,7 @@ const useRegisterStaffData = (): any => {
 
   const post = async (params: any) => {
     console.log(params);
-    debugger
+    
     try {
       const { response: { data: response } } = await Api.post({ service: "staffs", data: params });
       setData(response);

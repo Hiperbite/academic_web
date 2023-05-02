@@ -18,7 +18,7 @@ export const getHeaders = () => {
     return headers;
 };
 (() => {
-    axios.defaults.baseURL ="http://localhost:7100/api/v1/";   /**  /* /'https://api.academic.nova.app.hiperbite.com/api/v1/'/**///process.env.REACT_APP_BASE_URL_API;
+    axios.defaults.baseURL = process.env.REACT_APP_BASE_URL_API+'/api/v1/'
 
     axios.defaults.headers.common["apikey"] = process.env.REACT_APP_BASE_API_KEY ?? '3265';
 
@@ -86,7 +86,7 @@ const post = async ({ service, data }: any) => {
 }
 
 const get = async ({ service, id, params }: any) => {
-    debugger
+    
     let url = service
     if (id) {
         url = `${url}/${id}`
@@ -107,7 +107,7 @@ const get = async ({ service, id, params }: any) => {
         if (e?.response?.status === 403) {
             localStorage.removeItem('user')
             localStorage.removeItem('token')
-          //  window.location.href = '/auth'
+            //  window.location.href = '/auth'
         }
         console.log(`😱 Axios request failed: ${e}`);
         toast.error('😱 Erro: ' + JSON.stringify(e?.response?.data));

@@ -97,7 +97,13 @@ export const services = {
                 method: 'GET'
             }
         },
-        timeTables: "commons/time-tables",
+        timeTables:{
+            getAll:
+            {
+                endpoint:  "commons/time-tables",
+                method: 'GET'
+            }
+        },
         course: {
             getAll:
             {
@@ -122,6 +128,21 @@ export const services = {
             {
                 endpoint: "commons/plan-items",
                 method: 'GET'
+            },
+            update:
+            {
+                endpoint: "commons/plan-items",
+                method: 'PUT'
+            },
+            create:
+            {
+                endpoint: "commons/plan-items",
+                method: 'POST'
+            },
+            delete:
+            {
+                endpoint: "commons/plan-items",
+                method: 'DELETE'
             },
         }
 

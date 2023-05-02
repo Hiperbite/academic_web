@@ -56,7 +56,7 @@ export const ClassRoomForm = () => {
     })
 
   const onSubmit = (form: any) => {
-    debugger
+    
     post(form)
   }
 

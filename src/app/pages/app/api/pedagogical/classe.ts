@@ -66,7 +66,7 @@ const useRegisterClasseData = (): any => {
   const post = async (params: any) => {
     console.log(params);
 
-    debugger
+    
     try {
       const { response: { data: response } } = await Api.post({ service: services.academic.class, data: params });
       setData(response);
@@ -96,7 +96,7 @@ const useRegisterClassRoomData = (): any => {
   const post = async (params: any) => {
     console.log(params);
 
-    debugger
+    
     try {
       const { response: { data: response } } = await Api.post({ service: services.academic.classRoom, data: params });
       setData(response);
@@ -125,7 +125,7 @@ const useUpdateClasseData = (): any => {
   const [loading, setLoading] = useState(true);
 
   const put = async (params: any) => {
-    debugger
+    
     try {
       const { data: response } = await Api.put({ service: "academics/class", data: params });
       setData(response);

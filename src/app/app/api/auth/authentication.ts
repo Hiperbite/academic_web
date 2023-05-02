@@ -110,7 +110,7 @@ const useAuthenticationHandlerData = (): any => {
       setData({ response, status });
       setError('')
     } catch (error: any) {
-      debugger
+      
       console.error(error)
       setData({});
       setError(error.message)
@@ -135,7 +135,7 @@ const useForgotPasswordHandlerData = (): any => {
   const post = async (params: any, opts?: any) => {
 
     try {
-      debugger
+      
       const data = await Api.post({
         service: services.common.auth.forgotPassword
         , data: params
@@ -147,7 +147,7 @@ const useForgotPasswordHandlerData = (): any => {
       setData({ response, status });
       setError('')
     } catch (error: any) {
-      debugger
+      
       console.error(error)
       setData({});
       setError(error.message)
@@ -172,7 +172,7 @@ const useCheckResetPasswordHandlerData = (): any => {
   const get = async (params: any, opts?: any) => {
     const { id, passwordResetCode } = params;
     try {
-      debugger
+      
       const data = await Api.get({
         service: `${services.common.auth.resetPassword}/${id}/${passwordResetCode}`
       })
@@ -180,7 +180,7 @@ const useCheckResetPasswordHandlerData = (): any => {
       setData({ response, status });
       setError('')
     } catch (error: any) {
-      debugger
+      
       console.error(error)
       setData({});
       setError(error.message)
@@ -206,7 +206,7 @@ const useResetPasswordHandlerData = (): any => {
     const { id, passwordResetCode } = opts;
     try {
       
-      debugger
+      
       const data = await Api.post({
         service: `${services.common.auth.resetPassword}/${id}/${passwordResetCode}`,
         data:params
@@ -218,7 +218,7 @@ const useResetPasswordHandlerData = (): any => {
       setData({ response, status });
       setError('')
     } catch (error: any) {
-      debugger
+      
       console.error(error)
       setData({});
       setError(error.message)

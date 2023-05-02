@@ -67,7 +67,7 @@ export const Filter = ({ updateParams, loading }: any) => {
   useEffect(() => {
     let newFilter: any = {}
     Object.keys(filter).forEach(key => newFilter[`where[${key}]`] = filter[key])
-    debugger
+    
     if (!loading) {
       setstate(Math.random())
       updateParams(newFilter)

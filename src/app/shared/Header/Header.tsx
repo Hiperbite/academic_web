@@ -28,7 +28,7 @@ export const Header = () => {
 
     const { pathname } = window.location;
     if (pathname.indexOf('/auth')!== 0) {
-        debugger
+        
         if (storage.get('user') === null)
             return <Navigate to="/auth" replace />;
 

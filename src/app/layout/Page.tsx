@@ -1,7 +1,6 @@
-import { useEffect, useState, useMemo } from "react";
-import { Col, Image, Row } from "react-bootstrap";
-import { Link, Outlet } from "react-router-dom"
-import storage from "../app/storage";
+import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import { Link, Outlet, useNavigate } from "react-router-dom"
 import { AllowedFor } from "../pages/app/api/auth/RequireAuth";
 import { UserProfile } from "../pages/Main/User/UserProfile";
 import "./Page.scss"
@@ -26,6 +25,7 @@ const menuItems: any = {
     students: [
         {
             text: "Estudantes", to: "/students", childs: [
+                { to: 'register', text: 'Matricular', icon: 'fa-plus' },
                 { to: '', text: 'Inicio' },
                 { to: 'list', text: 'Lista' },
             ]
@@ -81,7 +81,7 @@ const menuItems: any = {
 export const Menu = ({ menu, data }: any) => {
 
     const [activeMenu, setActiveMenu] = useState<any>()
-
+    const navigate = useNavigate();
     const currentMenuItem = menuItems[`${menu}`] ?? []
     useEffect(() => {
         setActiveMenu(
@@ -96,11 +96,18 @@ export const Menu = ({ menu, data }: any) => {
                 <label>{text}</label>
                 <nav className="nav flex-column">
                     {childs === undefined ? null : childs.map((menuItem: any) =>
-                        <AllowedFor role={menuItem.allowedFor} level={menuItem.level}><Link key={`${key}`} state={data}
-                            to={`${to}/${menuItem?.to}`}
-                            className={classNames[activeMenu?.to === menuItem?.to ? 0 : 1]}
-                            onClick={() => setActiveMenu(menuItem)}
-                        >{menuItem?.text}</Link>
+                        <AllowedFor role={menuItem.allowedFor} level={menuItem.level}>
+                            {menuItem?.icon ?
+                                <Button variant="outline-primary"
+                                    onClick={() => navigate(menuItem?.to)}>
+                                    <i className={'fa ' + menuItem?.icon}></i>{' '}
+                                    {menuItem?.text}</Button> :
+                                <Link key={`${key}`} state={data}
+                                    to={`${to}/${menuItem?.to}`}
+                                    className={classNames[activeMenu?.to === menuItem?.to ? 0 : 1]}
+                                    onClick={() => setActiveMenu(menuItem)}
+                                >{menuItem?.text}</Link>
+                            }
                         </AllowedFor>
                     )}
                 </nav>

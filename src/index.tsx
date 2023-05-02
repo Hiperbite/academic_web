@@ -11,7 +11,6 @@ import { Provider } from 'react-redux';
 import { store } from './app/app/store';
 
 //axios.defaults.baseURL = 'https://api.academic.nova.app.hiperbite.com/api/v1/'
-axios.defaults.baseURL = "http://localhost:7100/api/v1/"
 
 //let locale = navigator.language;
 

@@ -96,7 +96,7 @@ const useUpdateperiodData = (): any => {
   const [loading, setLoading] = useState(true);
     
   const put = async (params: any) => {
-    debugger
+    
     try {
       const { data: response } = await Api.put({service:services.academic.period, data: params});
       setData(response);

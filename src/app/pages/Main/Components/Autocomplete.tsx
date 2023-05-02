@@ -1,16 +1,20 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { Api, services } from '../../app/api/Api';
 
-export const Autocomplete = ({ onChange, options: opts }: any) => {
+export const Autocomplete = ({ onChange, options: opts, clear }: any) => {
 
+    const ref = useRef<any>(null);
     const [isLoading, setIsLoading] = useState(false)
     const [options, setOptions] = useState<any[]>([])
-
+    useEffect(()=>{
+        ref.current?.clear()
+    },[clear])
+    ref.current?.clear()
     return <>
         <AsyncTypeahead
-
+            ref={ref}
             placeholder='Pesquisar por Estudante...'
             onChange={onChange}
             isLoading={isLoading}
@@ -18,7 +22,7 @@ export const Autocomplete = ({ onChange, options: opts }: any) => {
             onSearch={async (query) => {
                 if (query.length < 3)
                     return;
-                debugger
+                
                 setIsLoading(true);
 
                 try {

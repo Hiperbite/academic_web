@@ -2978,7 +2978,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-primary {
     color: #3366ff;
-    border-color: #3366ff;
+    border: 1px solid #3366ff !important;
 }
 
 .btn-outline-primary:hover {
@@ -3014,7 +3014,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-secondary {
     color: #7987a1;
-    border-color: #7987a1;
+    border: 1px solid #7987a1 !important;
 }
 
 .btn-outline-secondary:hover {

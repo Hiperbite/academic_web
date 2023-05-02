@@ -12,7 +12,7 @@ export const UpdateExistedStudent = () => {
   const [student, setStudent] = useState<any>({})
 
   useMemo(async () => {
-    debugger
+    
     const { response: { data } } = await Api.get({ service: `/students/${id}?` });
     setStudent(data||{})
   }, [])

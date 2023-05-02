@@ -12,7 +12,7 @@ export const UpdateExistedStaff = () => {
   const [staff, setStaff] = useState<any>({})
 
   useMemo(async () => {
-    debugger
+    
     const { response: { data } } = await Api.get({ service: `/staffs/${id}?` });
     setStaff(data||{})
   }, [])

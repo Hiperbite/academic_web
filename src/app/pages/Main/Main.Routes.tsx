@@ -41,6 +41,7 @@ import { UserStudentHistory } from "./User/components/UserStudentHistory/UserStu
 import { HomeUserProfile } from "./User/components/HomeUserProfile/HomeUserProfile";
 import { Settings } from "./User/components/Settings/Settings";
 import { UserDashboard } from "./User/components/UserDashboard/UserDashboard";
+import { RegisterStudentToClass } from "./Students/Students/RegisteStudent/RegisterStudentToClass";
 
 export const mainRoutes = [
   { path: "", component: Dashboard },
@@ -63,9 +64,11 @@ export const mainRoutes = [
       { path: "", component: Students },
       { path: "list", component: ListStudents },
       { path: "new/*", component: RegisterNewStudent },
+      { path: "register", component: RegisterStudentToClass },
       { path: "show/:id", component: DetailsStudents },
       { path: "update/:id/*", component: UpdateExistedStudent },
       { path: "candidates", component: ListCandidates },
+      
       { path: "all", component: AllStudents },
     ]
   },

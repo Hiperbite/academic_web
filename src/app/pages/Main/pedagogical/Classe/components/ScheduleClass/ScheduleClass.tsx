@@ -1,13 +1,17 @@
 
-import moment from "moment";
+
 import React from "react";
-import { useCallback, useMemo, useState } from "react";
-import { Button, ButtonGroup, Card, Col, Row } from "react-bootstrap";
+
+
+import { useMemo, useState } from "react";
+import { Col, Row } from "react-bootstrap";
 import Moment from "react-moment";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { Api, services } from "../../../../../../app/api/Api";
-import { ScheduleClassRegister } from "../../components/ScheduleClassRegister";
+import moment from "moment";
+
+import { useApi } from "../../../../../../app/api/apiSlice";
+import { services } from "../../../../../../app/api/services";
+import { Loading } from "../../../../Components/Snipper/Spinner";
+
 
 export const weekDays = [
     'Segunda-feira',
@@ -16,7 +20,7 @@ export const weekDays = [
     'Quinta-feira',
     'Sexta-feira',
     'Sábado',
-    //  'Domingo'
+    //'Domingo'
 ];
 export type ScheduleType =
     "COMPACT" |
@@ -27,41 +31,28 @@ export type ScheduleType =
 export const ScheduleClass = ({ classe, type }: { classe: any, type: ScheduleType }) => {
 
     const [show, setShow] = useState(false);
-    const [timeTables, setTimeTables] = useState<any>();
+
     const [item, setItem] = useState<any>();
-    const [loading, setLoading] = useState<any>();
-    const [curricularPlans, setCurricularPlan] = useState<any>();
+
+    const [loading, setLoading] = useState(false)
 
     const handleShow = () => setShow(true);
 
     const [params, setParams] = useState({ pageSize: 100, page: 1, 'where[classeId]': classe?.id });
 
+    const { data: { data: timeTables } = {}, loading: loadingTimeTables } = useApi({ service: services.academic.timeTables.getAll, params })
+
+    const { data: { data: curricularPlans } = {}, loading: loadingCurricularPlans } = useApi({ service: services.academic.curricularPlan.getOne, id: classe?.course?.id, params: {} })
 
     useMemo(async () => {
         setParams({ pageSize: 100, page: 1, 'where[classeId]': classe?.id })
     }, [classe])
-
-
     useMemo(async () => {
-        const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: classe?.course?.id, params: {} })
-        setCurricularPlan(response)
-    }, [params])
+        setLoading(loadingTimeTables || loadingCurricularPlans)
+    }, [loadingTimeTables, loadingCurricularPlans])
 
-    useMemo(async () => {
 
-        setLoading(true)
-        debugger
-        const { response: { data: response, status } } = await Api.get({ service: services.academic.timeTables, params })
 
-        if (status === 200) {
-            setTimeTables(response?.data)
-        } else {
-            toast.error("Erro ao carregar horarios, por favor tente mais tarde")
-        }
-
-        setLoading(false)
-
-    }, [params, classe])
 
     const getProfessor = (disciplineId: string) =>
         curricularPlans?.items?.filter((plan: any) =>
@@ -84,7 +75,9 @@ export const ScheduleClass = ({ classe, type }: { classe: any, type: ScheduleTyp
         "BOXED": TableSchedule,
         "TABLE": TableSchedule
     }[type]
-    return <><Comp groups={groups} getProfessor={getProfessor} setItem={setItem} handleShow={handleShow} /></>
+    return <>
+        {loading ? <Loading loading={true} /> :
+            <Comp groups={groups} getProfessor={getProfessor} setItem={setItem} handleShow={handleShow} />}</>
 
 }
 

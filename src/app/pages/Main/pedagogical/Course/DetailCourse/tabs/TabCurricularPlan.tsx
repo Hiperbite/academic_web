@@ -2,21 +2,19 @@
 import { useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
 import Moment from "react-moment";
-import { Api, services } from "../../../../../app/api/Api";
+import { useApi } from "../../../../../../app/api/apiSlice";
+import { services } from "../../../../../../app/api/services";
 import { RegisterCurricularItem } from "../components/RegisterCurricularItem";
 
 export const TabCurricularPlan = ({ course }: any) => {
 
     const [registerCurricularItem, showRegisterCurricularItem] = useState(false)
     const [params, setParams] = useState({ pageSize: 6, page: 1, 'where[id]': course?.id });
-    const [data, setData] = useState<any>()
+    
     const [item, setItem] = useState<any>()
+    const { data } = useApi({ service: services.academic.curricularPlan.getOne, id: course?.id, params })
+    
     useMemo(async () => {
-        const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: course?.id, params })
-        setData(response)
-    }, [course?.curricularPlanId, params])
-    useMemo(async () => {
-
         setItem(item)
         if (item?.id) {
             showRegisterCurricularItem(true)

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 import { useApi } from '../../../../../app/api/apiSlice'
 import { services } from '../../../../../app/api/services'
+import { Loading } from '../../../Components/Snipper/Spinner'
 import { Avatar } from '../Avatar/Avatar'
 
 export const ClassColleges = ({ classe }: any) => {
@@ -13,7 +14,8 @@ export const ClassColleges = ({ classe }: any) => {
             <h4 className="card-title">Colegas da mesma turma {classe?.code}</h4>
         </div>{/* card-header */}
         <div className="card-body">
-            {(data.length > 0 ? data : [])?.map((enrollment: any) => <Row className="az-list-item">
+            {loading ? <Loading loading={true}/> : 
+            (data.length > 0 ? data : [])?.map((enrollment: any) => <Row className="az-list-item">
                 <Col md={2}>
                     
                     {enrollment?.student?.person?.user?.id ?
@@ -27,8 +29,7 @@ export const ClassColleges = ({ classe }: any) => {
                 </Col>
             </Row>
             )}
-
-        </div>{/* card-body */}
+        </div>
     </Card>
 
 }

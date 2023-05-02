@@ -11,7 +11,7 @@ const useGetStudentsData = (params = {}): any => {
 
 //  const query = new URLSearchParams(params).toString();
   useEffect(() => {
-    debugger
+    
     const fetchData = async () => {
       setLoading(true)
       try {
@@ -65,7 +65,7 @@ const useRegisterStudentData = (): any => {
 
   const post = async (params: any) => {
     console.log(params);
-    debugger
+    
     try {
       const { response: { data: response, status } } = await Api.post({ service: "students", data: params });
       if (status !== 200)

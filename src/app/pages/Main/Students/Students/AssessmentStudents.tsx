@@ -97,7 +97,6 @@ export const AssessmentStudents = ({ student, years = [1, 2, 3, 4, 5], semesters
                 <div className="card-header">
                     <h6 className="card-title">Exames, Provas e avaliações</h6>
                 </div>
-                <Loading loading={loading} />
                 <div className="card-body">
                     <div className="table-responsive">
                         <table className="table table-bordered mg-b-0">
@@ -113,7 +112,8 @@ export const AssessmentStudents = ({ student, years = [1, 2, 3, 4, 5], semesters
                                     <th>Resultado</th>
                                 </tr>
                             </thead>
-                            {years.map((year: number) => <Year setItem={setItem} semesters={semesters} handlerShowAssessmentForm={handlerShowAssessmentForm} assessments={assessments} results={assessmentResults} assessmentTypes={assessmentTypes} items={data?.items} year={year} />)}
+
+                            {loading ? <tr><td colSpan={8}><Loading loading={true} /></td></tr> : years.map((year: number) => <Year setItem={setItem} semesters={semesters} handlerShowAssessmentForm={handlerShowAssessmentForm} assessments={assessments} results={assessmentResults} assessmentTypes={assessmentTypes} items={data?.items} year={year} />)}
                         </table>
                     </div>
                 </div>
@@ -158,7 +158,7 @@ const AssessmentLine = ({ results, item, setItem, assessmentTypes, assessments, 
     return (
         <tr onClick={() => setItem(item)}>
             <td >{item?.discipline?.code} - {item?.discipline?.name}
-            
+
             </td>
 
             {assessmentTypes?.filter((x: any) => ['PR1', 'PR2'].includes(x.code)).map((type: any) =>
@@ -166,7 +166,7 @@ const AssessmentLine = ({ results, item, setItem, assessmentTypes, assessments, 
             <th>{result['PRM']?.toFixed(2)}</th>
             {assessmentTypes?.filter((x: any) => ['EX'].includes(x.code)).map((type: any) =>
                 <Box result={result} value={result[type.code]} hasRecourse={hasRecourse} type={type} assessments={assessments} semester={semester} assessmentTypes={assessmentTypes} handlerShowAssessmentForm={handlerShowAssessmentForm} item={item} setItem={setItem} />)}
-            <td className={result['EXM'] >= 10 ? "text-success" : "text-danger"}><b>{result['EXM']?.toFixed(2)??'-'}</b></td>
+            <td className={result['EXM'] >= 10 ? "text-success" : "text-danger"}><b>{result['EXM']?.toFixed(2) ?? '-'}</b></td>
             {assessmentTypes?.filter((x: any) => ['RC'].includes(x.code)).map((type: any) =>
                 <Box result={result} value={result[type.code]} hasRecourse={hasRecourse} type={type} assessments={assessments} semester={semester} assessmentTypes={assessmentTypes} handlerShowAssessmentForm={handlerShowAssessmentForm} item={item} setItem={setItem} />)}
             <td><Badge bg={captions[result['FINAL']]} className="text-white">{result['RESULT']}</Badge></td>

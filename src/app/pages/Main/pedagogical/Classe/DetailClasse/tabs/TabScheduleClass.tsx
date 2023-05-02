@@ -33,7 +33,7 @@ export const TabScheduleClass = ({ classe }: any) => {
 
 
     useMemo(async () => {
-        debugger
+        
         const { response: { data: response } } = await Api.get({ service: services.academic.curricularPlan, id: classe?.course?.id, params: {} })
         setCurricularPlan(response)
     }, [params])

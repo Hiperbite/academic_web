@@ -17,7 +17,7 @@ export const Step5 = ({ staff }: any) => {
   const { livingAddress, birthPlaceAddress }:any = staff?.person 
 
   const onSubmit = async (form: any) => {
-    debugger
+    
     const { livingAddress: updatedlivingAddress, birthPlaceAddress: updatedbirthPlaceAddress }: any = form
 
     const { response: { data: response, status } } =

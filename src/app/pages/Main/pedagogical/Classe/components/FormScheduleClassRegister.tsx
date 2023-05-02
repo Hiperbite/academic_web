@@ -75,7 +75,7 @@ export const FormScheduleClassRegister = ({ updateParams, show, item, handleClos
         setLoading(true)
         form.classeId = classe?.id
         form.id = item?.id
-debugger
+
         let response: any = {}, status: number = 200;
 
         if (item?.id) {

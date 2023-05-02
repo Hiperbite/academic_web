@@ -147,7 +147,7 @@ const FormEditDiscipline = ({ handleClose, discipline, refresh, staff }: any) =>
     }
     const { data, resolve } = useApi({ service: services.staff.staff.update, id: staff?.id })
     const onSubmit = async (form: any) => {
-        debugger
+        
         setLoading(true)
         const disciplines: any = { add: [form.discipline] }
         alert(JSON.stringify(disciplines))

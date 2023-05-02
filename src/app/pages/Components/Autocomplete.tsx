@@ -18,7 +18,7 @@ export const Autocomplete = ({ onChange, options: opts }: any) => {
             onSearch={async (query) => {
                 if (query.length < 3)
                     return;
-                debugger
+                
                 setIsLoading(true);
 
                 try {

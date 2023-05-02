@@ -16,7 +16,7 @@ const axios =
 
         const axios = _axios.create()
 
-        axios.defaults.baseURL = 'http://localhost:7100/api/v1/'/**///process.env.REACT_APP_BASE_URL_API;
+        axios.defaults.baseURL = process.env.REACT_APP_BASE_URL_API+'/api/v1/'
 
         axios.defaults.headers.common["apikey"] = "process.env.REACT_APP_BASE_API_KEY ?? '3265'";
 
@@ -35,7 +35,7 @@ const axios =
          */
         axios.interceptors.response.use((response) => response, async (error) => {
             const { status } = error.response;
-            debugger
+            
             // whatever you want to do with the error
             if (status === 403) {
                 const { href } = window.location
@@ -45,7 +45,7 @@ const axios =
                 try {
                     const r = await axios.post(services.common.auth.refresh.endpoint, {}, { headers: { 'x-refresh': refreshToken } })
                 } catch (err: any) {
-                    debugger
+                    
                     /* storage.remove('refreshToken')
                      storage.remove('token')
                      storage.remove('user')
@@ -64,7 +64,7 @@ const axios =
     })()
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:7100/',
+    baseUrl: process.env.REACT_APP_BASE_URL_API+'/api/v1/',
     credentials: "same-origin",
     prepareHeaders: (headers: any, { getState }: any) => {
         const token = getState().auth.token
@@ -124,6 +124,7 @@ export const useApi = ({ service, id, obj, params }: ApiParamsType) => {
     useEffect(() => {
         setLoadingFromProvider(loading)
     }, [loading])
+    
     const resolver: any = {
         post: async ({ form }: any) => {
             setLoading(true)
@@ -146,16 +147,16 @@ export const useApi = ({ service, id, obj, params }: ApiParamsType) => {
                 const query = new URLSearchParams(params).toString();
                 url = `${url}?${query}`;
             }
-            debugger
+            
             try {
                 const { data } = await axios.get(url, { headers });
                 setData(data)
                 setError(null)
-            } catch ({ response: { data } }: any) {
+            } catch ({ response: { data }={} }: any) {
                 setError(data)
             }
             setLoading(false)
-        }, drop: async ({ id }: any) => {
+        }, delete: async ({ id }: any) => {
             setLoading(true)
             let url = endpoint
             if (id) {
@@ -170,8 +171,8 @@ export const useApi = ({ service, id, obj, params }: ApiParamsType) => {
                 setError(data)
             }
             setLoading(false)
-        }, put: async (form : any) => {
-            debugger
+        }, put: async ({ form }: any) => {
+            
             setLoading(true)
             let url = `${endpoint}/${obj?.id ?? form?.id ?? id}`
 
@@ -189,7 +190,7 @@ export const useApi = ({ service, id, obj, params }: ApiParamsType) => {
     const resolve = resolver[method.toLowerCase()]
 
     useEffect(() => {
-        debugger
+        
         if (method === "GET") {
             resolve({ id, params })
         }
