@@ -18,39 +18,44 @@ export const ListTableStudentCandidates = ({ data, loading, setParams, params, c
     setParams({ ...params, ...opts });
   }
   return (<div>
-    <hr className="mg-y-30" />
     <Filter updateParams={updateParams} loading={loading} />
-    <div className="table-responsive">
-      <Table striped hover>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Sexo</th>
-            {!candidates ? <>
-              <th>Turma</th>
-              <th>Ano</th></> : <th>Curso desejado</th>}
-            <th>Data</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.data?.map((student: any) => <tr onClick={() => navigate("/students/show/" + student?.id)}>
-            <th scope="row">{student?.code ?? student?.entryCode}</th>
-            <td>{student?.person?.fullName}</td>
-            <td>{student?.person?.gender}</td>
-            {!candidates ? <>
-              <td>{student?.enrollment?.classe?.code}</td>
-              <td>{student?.enrollment?.classe?.grade} º</td>
-            </> : <td>{student?.desiredCourse?.name ?? '-'}</td>}
-            <td>
-              <Moment format="DD/MM/YYYY">
-                {student.createdAt}
-              </Moment></td>
-          </tr>)}
-        </tbody>
-      </Table>
-      <Loading loading={loading} />
-    </div>
+
+    <Table striped hover>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th>Sexo</th>
+          {!candidates ? <>
+            <th>Turma</th>
+            <th>Ano</th></> : <th>Curso desejado</th>}
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data?.data?.map((student: any) => <tr onClick={() => navigate("/students/show/" + student?.id)}>
+          <th scope="row">{student?.code ?? student?.entryCode}</th>
+          <td>{student?.person?.fullName}</td>
+          <td>{student?.person?.gender}</td>
+          {!candidates ? <>
+            <td>{student?.enrollment?.classe?.code}</td>
+            <td>{student?.enrollment?.classe?.grade} º</td>
+          </> : <td>{student?.desiredCourse?.name ?? '-'}</td>}
+          <td>
+            <Moment format="DD/MM/YYYY">
+              {student.createdAt}
+            </Moment></td>
+        </tr>)}
+
+        {data?.data?.length === 0 ? <tr>
+          <td colSpan={6} className='text-center'>
+            <i className='fa fa-exclamation'></i> {' '}sem registos
+          </td>
+        </tr> : null}
+      </tbody>
+    </Table>
+    <Loading loading={loading} />
+
     <Paginate pages={data?.pages} total={data?.total} updateParams={updateParams} params={params} />
   </div>
   )
@@ -62,8 +67,8 @@ const Filter = ({ updateParams, params: pp, loading }: any) => {
 
   const [params, setParams] = useState({ pageSize: 100, page: 1 });
 
-  const { data: courses, loading:l}:any = useAxiosFetch(services.academic.course, params)
-  
+  const { data: courses, loading: l }: any = useAxiosFetch(services.academic.course, params)
+
   const { register, control, watch, handleSubmit,
     formState: { errors }, } = useForm({})
   let filter: any = _.pick(watch(), 'entryCode', 'createdAt', 'desiredCourseId', 'name', 'gender')
@@ -117,7 +122,7 @@ const Filter = ({ updateParams, params: pp, loading }: any) => {
         <Col md={2}>
           <Form.Select size="sm" aria-label="Default select example" {...register("gender")} >
             <option value={"*"} >[ Sexo ]</option>
-            {[['Masculino','M'],['Feminino','F']].map(([gen, code]: any) => <option value={`${code}`}>{gen}</option>)}
+            {[['Masculino', 'M'], ['Feminino', 'F']].map(([gen, code]: any) => <option value={`${code}`}>{gen}</option>)}
           </Form.Select>
         </Col>
         <Col md={2}>

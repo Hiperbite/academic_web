@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-export const BasicControls = ({ Addon = () => <></> }: any) => {
+export const BasicControls = ({ Addon = () => <></>, onSubmit = null }: any) => {
     const navigate = useNavigate()
     return (
         <>
@@ -21,9 +21,13 @@ export const BasicControls = ({ Addon = () => <></> }: any) => {
 
                 </div>
                 <div className='col-md-4 text-right'>
-                    <Button variant="primary" type="submit">
-                        Registar
-                    </Button>
+                    {onSubmit ?
+                        <Button variant="primary" onClick={onSubmit}>
+                            Registar
+                        </Button> :
+                        <Button variant="primary" type="submit">
+                            Registar
+                        </Button>}
                 </div>
             </div>
         </>
@@ -66,7 +70,7 @@ export const Controls = ({ current, total, onSubmit = null }: any) => {
             <Col></Col>
             <Col className='text-right'>
 
-                {current===1 ? null :
+                {current === 1 ? null :
                     <Button variant="primary" type="button" disabled={current === 1} onClick={() => prevStep()}>
                         <i className="fa fa-chevron-left"></i> Voltar
                     </Button>}

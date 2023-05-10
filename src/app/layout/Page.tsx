@@ -25,7 +25,6 @@ const menuItems: any = {
     students: [
         {
             text: "Estudantes", to: "/students", childs: [
-                { to: 'register', text: 'Matricular', icon: 'fa-plus' },
                 { to: '', text: 'Inicio' },
                 { to: 'list', text: 'Lista' },
             ]
@@ -97,17 +96,13 @@ export const Menu = ({ menu, data }: any) => {
                 <nav className="nav flex-column">
                     {childs === undefined ? null : childs.map((menuItem: any) =>
                         <AllowedFor role={menuItem.allowedFor} level={menuItem.level}>
-                            {menuItem?.icon ?
-                                <Button variant="outline-primary"
-                                    onClick={() => navigate(menuItem?.to)}>
-                                    <i className={'fa ' + menuItem?.icon}></i>{' '}
-                                    {menuItem?.text}</Button> :
+                            
                                 <Link key={`${key}`} state={data}
                                     to={`${to}/${menuItem?.to}`}
                                     className={classNames[activeMenu?.to === menuItem?.to ? 0 : 1]}
                                     onClick={() => setActiveMenu(menuItem)}
                                 >{menuItem?.text}</Link>
-                            }
+                           
                         </AllowedFor>
                     )}
                 </nav>

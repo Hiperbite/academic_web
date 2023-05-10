@@ -2589,7 +2589,17 @@ input.form-control-sm {
     display: none !important;
 }
 
+.card .card {
+    border: solid 1px #eee;
+    box-shadow: 0 0 1px #ccc !important;
+}
+
 .btn.btn-primary {
+    background: linear-gradient(to bottom left, #5b47fb, #9086dc);
+    color: #FFF;
+}
+
+.gradiant-primary {
     background: linear-gradient(to bottom left, #5b47fb, #9086dc);
     color: #FFF;
 }

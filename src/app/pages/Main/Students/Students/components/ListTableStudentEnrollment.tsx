@@ -23,19 +23,26 @@ export const ListTableStudentEnrollment = ({ enrollments }: any) => {
                 </tr>
             </thead>
             <tbody>
-                {enrollments?.map((enrollment: any) => <tr onClick={() => handleStudentClick(enrollment)}>
-                    <th scope="row">{enrollment?.student?.code ?? enrollment?.student?.entryCode}</th>
-                    <td>{enrollment?.student?.person?.fullName}</td>
-                    <td>{enrollment?.student?.person?.gender}</td>
+                {enrollments?.map((enrollment: any) =>
+                    <tr onClick={() => handleStudentClick(enrollment)}>
+                        <th scope="row">{enrollment?.student?.code ?? enrollment?.student?.entryCode}</th>
+                        <td>{enrollment?.student?.person?.fullName}</td>
+                        <td>{enrollment?.student?.person?.gender}</td>
 
-                    <td>{enrollment?.classe?.code}</td>
-                    <td>{enrollment?.classe?.grade} º</td>
+                        <td>{enrollment?.classe?.code}</td>
+                        <td>{enrollment?.classe?.grade} º</td>
 
-                    <td>
-                        <Moment format="DD/MM/YYYY">
-                            {enrollment?.student?.createdAt}
-                        </Moment></td>
-                </tr>)}
+                        <td>
+                            <Moment format="DD/MM/YYYY">
+                                {enrollment?.student?.createdAt}
+                            </Moment></td>
+                    </tr>
+                )}
+                {enrollments.length === 0 ? <tr>
+                    <td colSpan={6} className='text-center'>
+                        <i className='fa fa-exclamation'></i> {' '}sem registos
+                    </td>
+                </tr> : null}
             </tbody>
         </Table>
     )

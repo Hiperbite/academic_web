@@ -16,6 +16,7 @@ export const services = {
         },
         dashboards: {
             common: { endpoint: '/commons/dashboards/common' },
+            getStudentCount: { endpoint: '/commons/dashboards/get-student-count' },
             registered: { endpoint: '/commons/dashboards/registered' },
             getStudentHonorRoll: { endpoint: '/commons/dashboards/get-student-honor-roll' }
         },
@@ -154,6 +155,11 @@ export const services = {
             {
                 endpoint: 'students/enrollments',
                 method: 'GET'
+            },
+            create:
+            {
+                endpoint: 'students/enrollments',
+                method: 'POST'
             }
         },
         students: {

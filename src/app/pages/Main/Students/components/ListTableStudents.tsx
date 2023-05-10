@@ -8,7 +8,6 @@ import { Loading, Spinner } from '../../../Components/Snipper/Spinner'
 
 import { DebounceInput } from 'react-debounce-input'
 
-
 import _ from 'lodash'
 export const ListTableStudents = ({ data, loading, setParams, params, candidates = false }: any) => {
 
@@ -17,39 +16,36 @@ export const ListTableStudents = ({ data, loading, setParams, params, candidates
     setParams({ ...params, ...opts });
   }
   return (<div>
-    <hr className="mg-y-30" />
     <Filter updateParams={updateParams} loading={loading} />
-    <div className="table-responsive">
-      <Table striped hover>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Sexo</th>
-            {!candidates ? <>
-              <th>Turma</th>
-              <th>Ano</th></> : <th>Curso desejado</th>}
-            <th>Data</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.data?.map((student: any) => <tr onClick={() => navigate("/students/show/" + student?.id)}>
-            <th scope="row">{student?.code ?? student?.entryCode}</th>
-            <td>{student?.person?.fullName}</td>
-            <td>{student?.person?.gender}</td>
-            {!candidates ? <>
-              <td>{student?.enrollment?.classe?.code}</td>
-              <td>{student?.enrollment?.classe?.grade} º</td>
-            </> : <td>{student?.desiredCourse?.name ?? '-'}</td>}
-            <td>
-              <Moment format="DD/MM/YYYY">
-                {student.createdAt}
-              </Moment></td>
-          </tr>)}
-        </tbody>
-      </Table>
-      <Loading loading={loading} />
-    </div>
+    <Table striped hover responsive>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th>Sexo</th>
+          {!candidates ? <>
+            <th>Turma</th>
+            <th>Ano</th></> : <th>Curso desejado</th>}
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data?.data?.map((student: any) => <tr onClick={() => navigate("/students/show/" + student?.id)}>
+          <th scope="row">{student?.code ?? student?.entryCode}</th>
+          <td>{student?.person?.fullName}</td>
+          <td>{student?.person?.gender}</td>
+          {!candidates ? <>
+            <td>{student?.enrollment?.classe?.code}</td>
+            <td>{student?.enrollment?.classe?.grade} º</td>
+          </> : <td>{student?.desiredCourse?.name ?? '-'}</td>}
+          <td>
+            <Moment format="DD/MM/YYYY">
+              {student.createdAt}
+            </Moment></td>
+        </tr>)}
+      </tbody>
+    </Table>
+    <Loading loading={loading} />
     <Paginate pages={data?.pages} total={data?.total} updateParams={updateParams} params={params} />
   </div>
   )
@@ -67,7 +63,7 @@ export const Filter = ({ updateParams, loading }: any) => {
   useEffect(() => {
     let newFilter: any = {}
     Object.keys(filter).forEach(key => newFilter[`where[${key}]`] = filter[key])
-    
+
     if (!loading) {
       setstate(Math.random())
       updateParams(newFilter)
@@ -77,9 +73,6 @@ export const Filter = ({ updateParams, loading }: any) => {
   return (
 
     <form onSubmit={handleSubmit(onSubmit)} >
-      <>{JSON.stringify(filter)}</>
-      <>{JSON.stringify(state)}</>
-      <>{JSON.stringify(loading)}</>
       <Row style={{ padding: "5px 0", boxShadow: "0 0 5px #ddd" }}>
         <Col md={3}>
           <Controller control={control}  {...register("code")}

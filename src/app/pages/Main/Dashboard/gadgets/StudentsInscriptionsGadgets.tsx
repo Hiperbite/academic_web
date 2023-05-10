@@ -1,7 +1,8 @@
 
 import moment from 'moment';
 import React, { useMemo } from 'react'
-import { Card, ProgressBar } from 'react-bootstrap'
+import { Button, Card, ProgressBar } from 'react-bootstrap'
+import { Link, useNavigate } from 'react-router-dom';
 import { useApi } from '../../../../app/api/apiSlice';
 import { services } from "../../../../app/api/services";
 
@@ -10,17 +11,16 @@ import { services } from "../../../../app/api/services";
 export const StudentsInscriptionsGadgets = ({ data }: any) => {
 
     const { data: { data: students } = {} } = useApi({ service: services.student.students.getAll, params: { pageSize: 5, 'order_by[createdAt]': 'ASC', code: null } })
-    useMemo(() => {
-
-    }, [data])
+    const navigate=useNavigate()
     return (
         <Card className="card-dashboard-four">
             <Card.Header>
-                <h6 className="card-title">Últimos Inscritos</h6>
+                <h6 className="pull-left">Últimos Inscritos</h6>
+                <Link to={'/students/list'}><Button className='pull-right btn-sm' variant='secondary' >Ver mais</Button></Link>
             </Card.Header>{/* card-header */}
             <Card.Body style={{padding:0}}>
                 {students?.map((student: any) =>
-                    <div className="az-list-item">
+                    <div className="az-list-item" onClick={()=>navigate('/students/show/'+student?.id)}>
                         <div>
                             <small>{student?.person?.fullName}</small><br/>
                             <small><b className="tx-primary">{student?.entryCode}</b></small><br />
@@ -33,7 +33,8 @@ export const StudentsInscriptionsGadgets = ({ data }: any) => {
                                 <ProgressBar now={moment().diff(moment(student?.createdAt), 'days')} visuallyHidden />
                             </div>
                         </div>
-                    </div>)}
+                    </div>
+                    )}
             </Card.Body>
         </Card>
     )

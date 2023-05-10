@@ -29,13 +29,6 @@ export const AllStudents = () => {
           <h2 className="az-content-title">Lista de todos registos</h2>
         </Col>
         <Col className='text-right'>
-          <Button
-            variant="primary"
-            disabled={loading}
-            onClick={() => !loading ? navigate("/students/new/step1") : null}
-          >
-            {loading ? 'Loading…' : 'Registar'}
-          </Button>
         </Col>
       </Row>
       <ListTableStudents loading={loading} setParams={setParams} params={params} data={data} />
