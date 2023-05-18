@@ -1,12 +1,10 @@
 
 import moment from 'moment';
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Button, Card, ProgressBar } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import { useApi } from '../../../../app/api/apiSlice';
 import { services } from "../../../../app/api/services";
-
-
 
 export const StudentsInscriptionsGadgets = ({ data }: any) => {
 
@@ -20,7 +18,7 @@ export const StudentsInscriptionsGadgets = ({ data }: any) => {
             </Card.Header>{/* card-header */}
             <Card.Body style={{padding:0}}>
                 {students?.map((student: any) =>
-                    <div className="az-list-item" onClick={()=>navigate('/students/show/'+student?.id)}>
+                    <div className="az-list-item hover" onClick={()=>navigate('/students/show/'+student?.id)}>
                         <div>
                             <small>{student?.person?.fullName}</small><br/>
                             <small><b className="tx-primary">{student?.entryCode}</b></small><br />

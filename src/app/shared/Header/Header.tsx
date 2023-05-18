@@ -1,25 +1,22 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { selectCurrentUser } from "../../app/api/auth/authSlice";
+import { Link, Navigate } from "react-router-dom";
 import storage from "../../app/storage";
 import { AllowedFor } from "../../pages/app/api/auth/RequireAuth";
 import { NotificationMenu } from "./NotificationMenu";
 import { ProfileMenu } from "./ProfileMenu";
 
 const menuItems = [
-    { to: '/home', text: 'Dashboard' },
-    { to: '/students', text: 'Estudantes', allowedFor: 'STUDENTS', level: 1 },
-    { to: '/staffs', text: 'Pessoal', allowedFor: 'STAFF', level: 1 },
-    { to: '/pedagogical', text: 'Pedagógico', allowedFor: 'ACADEMIC', level: 1 },
+    { to: '/home', text: 'Dashboard' , icon:'typcn-home'},
+    { to: '/students', text: 'Estudantes', allowedFor: 'STUDENTS', level: 1 , icon:'typcn-group'},
+    { to: '/staffs', text: 'Pessoal', allowedFor: 'STAFF', level: 1 , icon:'typcn-briefcase'},
+    { to: '/pedagogical', text: 'Pedagógico', allowedFor: 'ACADEMIC', level: 1 , icon:'typcn-document'},
+    { to: '/help-desk', text: 'Help Desk', active: true, allowedFor: 'ADMIN', level: 1 , icon:'typcn-compass'},
     { to: '#', text: 'Biblioteca', active: false, allowedFor: 'ADMIN', level: 4 },
     { to: '#', text: 'Acervo Digital', active: false, allowedFor: 'ADMIN', level: 4 },
     { to: '#', text: 'Definições', active: false, allowedFor: 'ADMIN', level: 4 },
 
 ];
 export const Header = () => {
-
-    const navigate = useNavigate();
 
     const [activeMenu, setActiveMenu] = useState(
         menuItems.filter((x: any) => window.location.href.indexOf(x.to) > -1)[0] ??
@@ -59,11 +56,13 @@ export const Header = () => {
                     {menuItems.map((menuItem: any) =>
 
                         <li className={classNames[activeMenu.to === menuItem.to ? 0 : 1]} >
-                            <AllowedFor role={menuItem.allowedFor} level={menuItem.level}><Link
+                            <AllowedFor role={menuItem.allowedFor} level={menuItem.level}>
+                                <Link
                                 onClick={() => setActiveMenu(menuItem)}
                                 to={menuItem.to}
                                 className="nav-link"
                             >
+                                <i className={"typcn "+menuItem?.icon}></i>
                                 {menuItem.active === false ? <i className="fa fa-exclamation"></i> : null} {menuItem.text}
                             </Link>
                             </AllowedFor>
@@ -74,9 +73,7 @@ export const Header = () => {
             <div className="az-header-right">
                 <Link to="" target="_blank" className="az-header-search-link"><i className="fa fa-file-alt"></i></Link>
                 <Link to="" className="az-header-search-link"><i className="fa fa-search"></i></Link>
-                <div className="az-header-message">
-                    <Link to="#"><i className="typcn typcn-messages"></i></Link>
-                </div>{/* az-header-message */}
+                
                 <NotificationMenu />
                 <ProfileMenu />
             </div>{/* az-header-right */}

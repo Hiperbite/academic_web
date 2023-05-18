@@ -21,7 +21,7 @@ export const StudentsHonorRoll = () => {
                                     Turma: {classe}, Periodo:{period} Curso: {course} Semestre: {semester} º
                                 </div>
                             </Card.Text>
-                            <Button variant="primary">Ver perfil</Button>
+                            <Button variant="secondary" className={'btn-sm'}>Ver perfil</Button>
                         </Card.Body>
                     </Card>
                 </Col>

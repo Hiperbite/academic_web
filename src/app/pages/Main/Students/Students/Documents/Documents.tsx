@@ -5,20 +5,32 @@ import { HtmlDocument } from '../../../../Components/PDF/HtmlToPdf';
 import { renderToString } from 'react-dom/server'
 import { DeclarationWithoutNotes } from './Template/DeclarationWithoutNotes';
 import { DeclarationWithNotes } from './Template/DeclarationWithNotes';
-
+import ReactDOMServer from 'react-dom/server';
 const docTypes = [
     'Declaração sem Notas',
     'Declaração com Notas',
     'Histórico com Notas ',
     'Cartão de Estudante '
 ]
-
+const style=`<style>
+*{
+  background: darkgreen;
+  color: white;
+  font-size: 8px;
+  font-family: arial,sans;
+}
+pre {
+  background-color: #eee;
+  padding: 8px;
+}
+</style>`
 
 export const Documents = ({ student }: any) => {
 
 
     const Template=[DeclarationWithoutNotes,DeclarationWithNotes][0]
     const template=renderToString(<Template student={student} />)
+    const html = ReactDOMServer.renderToStaticMarkup(<Template student={student} />);
     return (<>
         <Row>
             <Col>
@@ -48,7 +60,7 @@ export const Documents = ({ student }: any) => {
         </Row>
 
         <HtmlDocument>
-            {template}
+            {'<html>'+style+'<body>'+html+'</body></html>'}
         </HtmlDocument>
 
     </>)

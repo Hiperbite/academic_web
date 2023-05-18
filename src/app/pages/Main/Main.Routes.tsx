@@ -42,6 +42,7 @@ import { HomeUserProfile } from "./User/components/HomeUserProfile/HomeUserProfi
 import { Settings } from "./User/components/Settings/Settings";
 import { UserDashboard } from "./User/components/UserDashboard/UserDashboard";
 import { RegisterStudentToClass } from "./Students/Students/RegisteStudent/RegisterStudentToClass";
+import { Chat } from "./HelpDesk/Chat/Chat";
 
 export const mainRoutes = [
   { path: "", component: Dashboard },
@@ -138,6 +139,29 @@ export const mainRoutes = [
 
     ]
   },
+  { path: "help-desk/*", component: <Page type={"helpDesk"} />, childs: [
+
+      {
+        path: "tickets/*", childs: [
+
+          { path: "", component: ListClasse },
+          { path: "list", component: ListClasse },
+          { path: "new", component: NewClasse },
+          { path: ":id/update", component: UpdateClasse },
+          { path: ":id", component: DetailsClasse },
+        ]
+      },
+      {
+        path: "chat/*", childs: [
+
+          { path: "", component: Chat },
+          { path: "list", component: Chat },
+          { path: "new/*", component: NewClassRoom },
+          { path: "update/:id/*", component: UpdateClassRoom },
+          { path: ":id", component: DetailsClassRoom },
+        ]
+      }]
+    },
   { path: "*", component: NotFound },
 
 ];

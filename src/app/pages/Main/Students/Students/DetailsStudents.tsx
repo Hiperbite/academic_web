@@ -7,13 +7,14 @@ import { DataStudents } from "./DataStudents";
 import { DocumentStudents } from "./DocumentStudents";
 import { AssessmentStudents } from "./AssessmentStudents";
 import { HistoryStudents } from "./HystoryStudents";
-import { Badge, Button, Dropdown } from "react-bootstrap";
+import { Badge, Button, Dropdown, Table } from "react-bootstrap";
 import { DetailsOptionsShow } from "./components/DetailsOptionsShow";
 import { StudentEnrollment } from "./components/StudentEnrollment";
 import { EventsStudents } from "./EventsStudents";
 import { TabHistory } from "../../pedagogical/Period/DetailPeriod/tabs/TabHistory";
 import { UserAccess } from "../../Staff/Staff/UserAccess/UserAccess";
 import { Documents } from "./Documents/Documents";
+import { Record } from "./Documents/Record";
 
 export const DetailsStudents = () => {
   const { id } = useParams()
@@ -28,7 +29,7 @@ export const DetailsStudents = () => {
   const tabsTitles = student?.code
     ? ['Detalhes', 'Documentos', 'Classificação', 'Histrico', 'Conclusão do curso', 'Acessos']
     : ['Detalhes', 'Documentos',]
-  const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, HistoryStudents, AssessmentStudents, UserAccess,Documents][tab]
+  const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, HistoryStudents, AssessmentStudents, UserAccess,Documents, Record][tab]
   return (
     <div className="az-content-body">
       <div className="az-dashboard-one-title">
@@ -108,7 +109,7 @@ export const DetailsStudents = () => {
 
         <nav className="nav">
           <Link className="nav-link" to={''} onClick={() => setTab(5)}><i className="fa fa-history"></i></Link>
-          <a className="nav-link" href="#"><i className="fa fa-print"></i></a>
+          <a className="nav-link" href="#"onClick={()=>setTab(7)}><i className="fa fa-print"></i></a>
           <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
           <a className="nav-link" href="#"  onClick={()=>setTab(6)}><i className="fa fa-file"></i></a>
           <a className="nav-link" href="#" ></a>
@@ -116,6 +117,7 @@ export const DetailsStudents = () => {
       </div>
 
       <div className="row row-sm mg-b-20">
+        
         <Tabs student={student} />
       </div>
     </div>

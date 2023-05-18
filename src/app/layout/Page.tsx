@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import { Link, Outlet, useNavigate } from "react-router-dom"
 import { AllowedFor } from "../pages/app/api/auth/RequireAuth";
 import { UserProfile } from "../pages/Main/User/UserProfile";
@@ -37,6 +36,18 @@ const menuItems: any = {
         {
             text: "..", to: "/students", childs: [
                 { to: 'all', text: 'Todos registos' },
+            ],
+        }
+    ],
+    helpDesk: [
+        {
+            text: "Tickets", to: "/help-desk/tickets", childs: [
+                { to: '', text: 'Inicio' },
+                { to: 'list', text: 'Lista' },
+            ]
+        }, {
+            text: "..", to: "/help-desk/chat", childs: [
+                { to: 'list', text: 'Live Chat' },
             ],
         }
     ],

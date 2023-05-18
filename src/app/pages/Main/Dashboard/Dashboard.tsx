@@ -45,7 +45,7 @@ export const Dashboard = () => {
                     </div>
                 </div>{/* az-dashboard-one-title */}
 
-                <div className="az-dashboard-nav">
+                <div className="az-dashboard-nav visually-hidden">
                     <nav className="nav">
                         <a className="nav-link active" data-toggle="tab" href="#">Geral</a>
                         <a className="nav-link" data-toggle="tab" href="#">Professores</a>
@@ -85,7 +85,6 @@ export const Dashboard = () => {
                             <StudentCountGenderGadgets data={studentsCount?.gender} />
                             <StudentCountMaritalStatusGadgets data={studentsCount?.maritalStatus} />
                             <StudentCountNationalityGadgets data={studentsCount?.nationality} />
-
                         </Row>
                     </Col>
                 </Row>

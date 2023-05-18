@@ -19,7 +19,7 @@ const styles = {
     page: {
     },
     section: {
-        margin: 50,
+        margin: 25,
         padding: 10,
         fontSize:12
     },

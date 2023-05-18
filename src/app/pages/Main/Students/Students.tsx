@@ -1,6 +1,7 @@
 
 import {  Card, Col, Row } from "react-bootstrap"
 import { StudentCount } from "../Dashboard/gadgets/StudentCount"
+import { StudentsHonorRoll } from "../Dashboard/gadgets/StudentsHonorRoll"
 import { StudentsInscriptionsGadgets } from "../Dashboard/gadgets/StudentsInscriptionsGadgets"
 
 export const Students = () => {
@@ -12,7 +13,12 @@ export const Students = () => {
             <div className="az-content-body">
                 <Row>
                     <Col md={6}>
-                        <StudentCount /><Card><Card.Body>....</Card.Body></Card>
+                        <StudentCount />
+                    </Col>
+                    <Col md={6}>
+                        <h3><i className="fa fa-favorite"></i>Quadro de honra</h3>
+                        <StudentsHonorRoll/>
+                        
                     </Col>
                     <Col md={6}>
                         <StudentsInscriptionsGadgets />

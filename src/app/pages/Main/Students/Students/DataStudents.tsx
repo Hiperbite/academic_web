@@ -1,10 +1,12 @@
-import { Card, Col, Image, Row } from "react-bootstrap"
+import { Card, Col, Image, Row, Table } from "react-bootstrap"
 import Moment from "react-moment"
 import { Link } from "react-router-dom"
 import { Avatar } from "../../User/components/Avatar/Avatar"
+import { StudentData } from "./Documents/Template/StudentData"
 
 export const DataStudents = ({ student }: any) => {
     return (<Row>
+        <StudentData student={student}/>
         <Col md={8} >
             <Card>
                 <Card.Header>
@@ -29,7 +31,7 @@ export const DataStudents = ({ student }: any) => {
                                 </div>
                                 <div className="col-md-4">
                                     <span>Último Nome</span>
-                                    <h5>{student?.person?.lastName}</h5>
+                                    <h5>{student?.person?.lastName} {student?.person?.otherNames ?? '-'}</h5>
                                 </div>
                                 <div className="col-md-4">
                                     <span>Outros Nomes</span>
