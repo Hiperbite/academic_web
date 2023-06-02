@@ -41,9 +41,9 @@ const menuItems: any = {
     ],
     helpDesk: [
         {
-            text: "Tickets", to: "/help-desk/tickets", childs: [
-                { to: '', text: 'Inicio' },
-                { to: 'list', text: 'Lista' },
+            text: "Help desk", to: "/help-desk", childs: [
+                { to: 'events/list', text: 'Eventos' },
+                { to: 'tickets/list', text: 'Requisições' },
             ]
         }, {
             text: "..", to: "/help-desk/chat", childs: [

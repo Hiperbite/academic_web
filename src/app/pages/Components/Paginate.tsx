@@ -15,12 +15,12 @@ const Paginate = ({ pages, updateParams, params, total=0 }: any) => {
           <div className="col-md-6">
   
             <ul className="pagination justify-content-end">
-              <li className="page-item disabled">
-                <button className="page-link" >Previous</button>
+              <li className={"page-item "+ (Number(params?.page)===1 ? 'disabled': '')}>
+                <button onClick={() => updateParams({ page: params?.page - 1 })} className="page-link" ><i className="fa fa-chevron-left"></i></button>
               </li>
               {rows}
-              <li className="page-item">
-                <a className="page-link" href="#">Next</a>
+              <li className={"page-item "+ (Number(params?.page)===pages ? 'disabled': '')}>
+                <button onClick={() => updateParams({ page: params?.page + 1 })} className="page-link"><i className="fa fa-chevron-right"></i></button>
               </li>
             </ul>
   

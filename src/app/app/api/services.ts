@@ -20,7 +20,13 @@ export const services = {
             registered: { endpoint: '/commons/dashboards/registered' },
             getStudentHonorRoll: { endpoint: '/commons/dashboards/get-student-honor-roll' }
         },
-        track: "tracks",
+        track: {
+            get:
+            {
+                endpoint: "/tracks",
+                method: 'GET'
+            }
+        },
         contacts: "/commons/contacts",
         documents: "/commons/documents",
         persons: "/commons/persons",
@@ -177,5 +183,83 @@ export const services = {
             update: { endpoint: 'staffs', method: 'PUT' },
             get: { endpoint: 'staffs', method: 'GET' }
         }
+    },
+    helpDesk:{
+        
+        events: {
+            get:
+            {
+                endpoint: "/commons/events",
+                method: 'GET'
+            },
+            create:
+            {
+                endpoint: "/commons/events",
+                method: 'POST'
+            },
+            update:
+            {
+                endpoint: "/commons/events",
+                method: 'PUT'
+            }
+        },
+        
+        eventSchedules: {
+            get:
+            {
+                endpoint: "/commons/event-schedules",
+                method: 'GET'
+            },
+            create:
+            {
+                endpoint: "/commons/event-schedules",
+                method: 'POST'
+            },
+            update:
+            {
+                endpoint: "/commons/event-schedules",
+                method: 'PUT'
+            }
+        },
+        
+        eventTypes: {
+            getAll:
+            {
+                endpoint: "/commons/event-types",
+                method: 'GET'
+            }
+        },
+        tickets: {
+            getAll:
+            {
+                endpoint: "/commons/tickets",
+                method: 'GET'
+            },
+            create:
+            {
+                endpoint: "/commons/tickets",
+                method: 'POST'
+            },
+            update:
+            {
+                endpoint: "/commons/tickets",
+                method: 'PUT'
+            }
+        },
+        ticketStates: {
+            get:
+            {
+                endpoint: "/commons/ticket-states",
+                method: 'GET'
+            }
+        },
+        ticketTypes: {
+            getAll:
+            {
+                endpoint: "/commons/ticket-types",
+                method: 'GET'
+            }
+        }
     }
+
 }

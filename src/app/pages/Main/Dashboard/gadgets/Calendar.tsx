@@ -18,7 +18,7 @@ export const Calendar = () => {
     const header = {
         start: 'title', // will normally be on the left. if RTL, will be on the right
         center: '',
-        end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
+        end: 'today prev,next, week' // will normally be on the right. if RTL, will be on the left
     }
     const events=[
         {
@@ -50,8 +50,6 @@ export const Calendar = () => {
     }
     return (
         <Row id={'Calendar'}>
-            <Col md={2}>
-            </Col>
             <Col>
                 <FullCalendar
                     events={events}

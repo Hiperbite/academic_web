@@ -43,6 +43,15 @@ import { Settings } from "./User/components/Settings/Settings";
 import { UserDashboard } from "./User/components/UserDashboard/UserDashboard";
 import { RegisterStudentToClass } from "./Students/Students/RegisteStudent/RegisterStudentToClass";
 import { Chat } from "./HelpDesk/Chat/Chat";
+import { Event } from "./HelpDesk/Event/Event";
+import { NewTicket } from "./HelpDesk/Ticket/NewTicket";
+import { DetailTicket } from "./HelpDesk/Ticket/DetailTicket/DetailTicket";
+import { UpdateTicket } from "./HelpDesk/Ticket/UpdateTicket";
+import { Ticket } from "./HelpDesk/Ticket/Ticket";
+import { NewEvent } from "./HelpDesk/Event/NewEvent";
+import { DetailEvent } from "./HelpDesk/Event/DetailEvent/DetailEvent";
+import { UpdateEvent } from "./HelpDesk/Event/UpdateEvent";
+import { Pedagogical } from "./pedagogical/Pedagogical";
 
 export const mainRoutes = [
   { path: "", component: Dashboard },
@@ -69,7 +78,7 @@ export const mainRoutes = [
       { path: "show/:id", component: DetailsStudents },
       { path: "update/:id/*", component: UpdateExistedStudent },
       { path: "candidates", component: ListCandidates },
-      
+
       { path: "all", component: AllStudents },
     ]
   },
@@ -86,6 +95,7 @@ export const mainRoutes = [
   {
     path: "pedagogical/*", component: <Page type={"pedagogical"} />, childs: [
 
+      { path: "", component: Pedagogical },
       {
         path: "classe/*", childs: [
 
@@ -139,16 +149,27 @@ export const mainRoutes = [
 
     ]
   },
-  { path: "help-desk/*", component: <Page type={"helpDesk"} />, childs: [
+  {
+    path: "help-desk/*", component: <Page type={"helpDesk"} />, childs: [
 
       {
         path: "tickets/*", childs: [
 
-          { path: "", component: ListClasse },
-          { path: "list", component: ListClasse },
-          { path: "new", component: NewClasse },
-          { path: ":id/update", component: UpdateClasse },
-          { path: ":id", component: DetailsClasse },
+          { path: "", component: Ticket },
+          { path: "list", component: Ticket },
+          { path: "new", component: NewTicket },
+          { path: ":id/update", component: UpdateTicket },
+          { path: ":id", component: DetailTicket },
+        ]
+      },
+      {
+        path: "events/*", childs: [
+
+          { path: "", component: Event },
+          { path: "list", component: Event },
+          { path: "new", component: NewEvent},
+          { path: ":id/update", component: UpdateEvent},
+          { path: ":id", component: DetailEvent},
         ]
       },
       {
@@ -161,7 +182,7 @@ export const mainRoutes = [
           { path: ":id", component: DetailsClassRoom },
         ]
       }]
-    },
+  },
   { path: "*", component: NotFound },
 
 ];
