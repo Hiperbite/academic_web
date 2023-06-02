@@ -2594,6 +2594,10 @@ input.form-control-sm {
     box-shadow: 0 0 1px #ccc !important;
 }
 
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred {
+    min-height: 260px;
+}
+
 .btn.btn-primary {
     background: linear-gradient(to bottom left, #5b47fb, #9086dc);
     color: #FFF;
@@ -2615,7 +2619,6 @@ input.form-control-sm {
 
 .btn {
     cursor: "pointer";
-    border: none !important;
     font-weight: 400;
     text-align: center;
     vertical-align: middle;
@@ -2702,13 +2705,13 @@ fieldset:disabled a.btn {
 .btn-secondary {
     color: #fff;
     background-color: #7987a1;
-    border-color: #7987a1;
+    border-color: transparent !important;
 }
 
 .btn-secondary:hover {
     color: #fff;
     background-color: #64738f;
-    border-color: #5f6d88;
+    border-color: #7987a1;
 }
 
 .btn-secondary:focus,
