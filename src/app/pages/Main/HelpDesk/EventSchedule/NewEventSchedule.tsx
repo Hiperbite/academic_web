@@ -3,10 +3,8 @@ import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Col, FloatingLabel, Row } from "react-bootstrap";
 
-
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
 
 import { toast } from 'react-toastify';
 
@@ -28,24 +26,20 @@ export const NewEventSchedule = () => {
   return (
     <div className="az-content-body pd-lg-l-40 d-flex flex-column">
       <div className="az-content-breadcrumb">
-        <span>EventScheduleo</span>
+        <span>Event Schedule</span>
         <span>Registar novo</span>
       </div>
-      <h2 className="az-content-title">Registar EventScheduleo</h2>
-
+      <h2 className="az-content-title">Registar EventSchedule</h2>
       <hr className="mg-y-30" />
       <div className="col-md-8 card-body">
         <EventScheduleForm />
       </div>
-      <hr />
-      <hr />
-      <hr />
-
     </div>
   )
 }
 
 const FormSchema = z.object({
+  id: z.string().optional(),
   privacy: z.string().min(0).max(5),
   end: z.date(),
   start: z.date().min(new Date()),
@@ -53,11 +47,13 @@ const FormSchema = z.object({
   descriptions: z.string().optional()
 });
 
-export const EventScheduleForm = ({ event , setRefresh, handleClose}: any) => {
+export const EventScheduleForm = ({schedule: initSchedule,  setRefresh, handleClose}: any) => {
   const navigate = useNavigate();
-  const { data: schedule, loading, resolve, error } = useApi({ service: services.helpDesk.eventSchedules.create });
+  
+  const { data: schedule, loading, resolve, error } 
+    = useApi({ service: services.helpDesk.eventSchedules[initSchedule?.id ? 'update':'create'] });
 
-  const defaultValues: any = { eventId: event?.id }
+  const defaultValues: any = { ...initSchedule, eventId:initSchedule?.event?.id }
   const { register, handleSubmit, control, reset,
     formState: { errors }, } = useForm({
       defaultValues,
@@ -77,8 +73,8 @@ export const EventScheduleForm = ({ event , setRefresh, handleClose}: any) => {
 
   return (<>
     <form onSubmit={handleSubmit(onSubmit)} >
-      {JSON.stringify(error)} - 
-      {JSON.stringify(errors.eventId)}
+      -{JSON.stringify(error)} - 
+      *{JSON.stringify(errors.eventId)}*
       
       <Row>
         <Col md={6}>

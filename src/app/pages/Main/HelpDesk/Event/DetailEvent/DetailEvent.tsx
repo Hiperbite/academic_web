@@ -8,7 +8,6 @@ import { TabClassList } from './tabs/TabClassList';
 import { Badge, Button, Card, Col, ListGroup, Modal, ProgressBar, Row } from 'react-bootstrap';
 import { useApi } from '../../../../../app/api/apiSlice';
 import { services } from '../../../../../app/api/services';
-import Select from 'react-select'
 import moment from 'moment';
 import { EventScheduleForm } from '../../EventSchedule/NewEventSchedule';
 
@@ -19,6 +18,7 @@ export const DetailEvent = () => {
   const { id } = useParams()
   const [tab, setTab] = useState(0);
   const [isShowScheduleModal, setShowScheduleModal] = useState(false);
+  const [schedule, setSchedule] = useState<any>();
   const [refresh, setRefresh] = useState();
   const [attendedById, setAttendedById] = useState();
   const [trackPageSize, setTrackPageSize] = useState(3);
@@ -104,7 +104,7 @@ export const DetailEvent = () => {
           <ListGroup>
             <ListGroup.Item>
               <label>Acções</label>
-              <Button onClick={() => setShowScheduleModal(true)} style={{ width: '100%' }} variant={"outline-primary"} className='text-left'>
+              <Button onClick={() => {setShowScheduleModal(true);setSchedule({event})}} style={{ width: '100%' }} variant={"outline-primary"} className='text-left'>
                 Agendar
               </Button>
               {' '}
@@ -112,13 +112,14 @@ export const DetailEvent = () => {
           </ListGroup>
           <hr />
           <ListGroup>
-            {event?.schedules?.map((schedule: any) => <>
+            {event?.activeSchedules?.map((schedule: any) => <>
               <ListGroup.Item>
-              
                 <small><i className="fa fa-calendar"></i> <b>{moment(schedule?.start).format('DD[/]MM[/]YYYY')}</b> á <b>{moment(schedule?.end).format('DD[/]MM[/]YYYY')}</b></small>
-                <Badge bg="secondary">{moment(schedule?.end).diff(moment(schedule?.start), 'days')} dias</Badge> {' '}
+                <i className="fa fa-edit pull-right" onClick={() => {setShowScheduleModal(true);setSchedule({...schedule,event})}}></i>
+                <Badge bg="secondary">{moment(schedule?.end).diff(moment(schedule?.start), 'days')+1} dias</Badge> {' '}
                 <Badge bg="warning" text="dark">{schedule?.privacy}</Badge>
-                <small className='pull-right text-right' style={{ fontSize: '10px' }}>{moment(schedule?.createdAt).fromNow()}
+                <small className='pull-right text-right' style={{ fontSize: '10px' }}>
+                  {moment(schedule?.createdAt).fromNow()}
                 </small>
               </ListGroup.Item>
             </>)}
@@ -155,9 +156,8 @@ export const DetailEvent = () => {
 
         </Col>
       </div>
-      <EventScheduleModal setRefresh={setRefresh} show={isShowScheduleModal} event={event} handleClose={() => setShowScheduleModal(false)} />    </div>
-
-
+      <EventScheduleModal schedule={schedule} setRefresh={setRefresh} show={isShowScheduleModal} handleClose={() => setShowScheduleModal(false)} />    
+    </div>
   )
 }
 
@@ -190,7 +190,7 @@ const ScheduleCard = ({ schedule }: any) => {
   </Card>)
 }
 
-const EventScheduleModal = ({ show, event, handleClose, setRefresh }: any) => {
+const EventScheduleModal = ({schedule, show, handleClose, setRefresh }: any) => {
 
   return (
     <>
@@ -204,7 +204,7 @@ const EventScheduleModal = ({ show, event, handleClose, setRefresh }: any) => {
           <Modal.Title>Modal title</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <EventScheduleForm event={event} handleClose={handleClose} setRefresh={setRefresh} />
+          <EventScheduleForm schedule={schedule} handleClose={handleClose} setRefresh={setRefresh} />
         </Modal.Body>
       </Modal>
     </>

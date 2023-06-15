@@ -7,7 +7,9 @@ import locale from '@fullcalendar/core/locales/pt-br';
 import { Col, Row } from 'react-bootstrap';
 
 import './Calendar.scss'
-export const Calendar = () => {
+export const Calendar = ({events}:any) => {
+
+    
     const icons = {
         close: 'fa-times',
         prev: 'fa-chevron-left',
@@ -20,26 +22,7 @@ export const Calendar = () => {
         center: '',
         end: 'today prev,next, week' // will normally be on the right. if RTL, will be on the left
     }
-    const events=[
-        {
-            start: '2023-04-13T10:00:00',
-            end: '2023-04-15T16:00:00',
-            title: 'The Title', // a property!
-        }, 
-        {
-            start: '2023-04-18T10:00:00',
-            end: '2023-04-18T16:00:00',
-            title: 'The Title', // a property!
-        }, {
-            start: '2023-04-18T12:30:00',
-            end: '2023-04-18T16:00:00',
-            title: 'The Title', // a property!
-        }, {
-            start: '2023-04-19T12:30:00',
-            allDay: true,
-            title: 'The Title', // a property!
-        },
-    ]
+    
     const customButtons={
         myCustomButton: {
             text: 'custom!',

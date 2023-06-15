@@ -1,6 +1,6 @@
 import { ServiceType } from "./apiSlice"
 
-export const services = {
+const services = {
     common: {
         auth: {
             singIn: 'auth',
@@ -26,6 +26,9 @@ export const services = {
                 endpoint: "/tracks",
                 method: 'GET'
             }
+        },
+        helper: {
+            permissions: {endpoint:'/commons/helpers/permissions'}
         },
         contacts: "/commons/contacts",
         documents: "/commons/documents",
@@ -104,10 +107,10 @@ export const services = {
                 method: 'GET'
             }
         },
-        timeTables:{
+        timeTables: {
             getAll:
             {
-                endpoint:  "commons/time-tables",
+                endpoint: "commons/time-tables",
                 method: 'GET'
             }
         },
@@ -184,8 +187,8 @@ export const services = {
             get: { endpoint: 'staffs', method: 'GET' }
         }
     },
-    helpDesk:{
-        
+    helpDesk: {
+
         events: {
             get:
             {
@@ -201,9 +204,14 @@ export const services = {
             {
                 endpoint: "/commons/events",
                 method: 'PUT'
+            },
+            drop:
+            {
+                endpoint: "/commons/events",
+                method: 'PUT'
             }
         },
-        
+
         eventSchedules: {
             get:
             {
@@ -219,11 +227,16 @@ export const services = {
             {
                 endpoint: "/commons/event-schedules",
                 method: 'PUT'
+            },
+            drop:
+            {
+                endpoint: "/commons/event-schedules",
+                method: 'DELETE'
             }
         },
-        
+
         eventTypes: {
-            getAll:
+            get:
             {
                 endpoint: "/commons/event-types",
                 method: 'GET'
@@ -260,6 +273,7 @@ export const services = {
                 method: 'GET'
             }
         }
-    }
-
+    },
 }
+export default services;
+export { services };

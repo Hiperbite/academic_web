@@ -57,7 +57,7 @@ const FormSchema = z.object({
 export const EventForm = ({ event }: any) => {
   const navigate = useNavigate();
   const { data, loading, resolve } = useApi({ service: services.helpDesk.events.update });
-  const { data: types, loading: loadingType } = useApi({ service: services.helpDesk.eventTypes.getAll });
+  const { data: types, loading: loadingType } = useApi({ service: services.helpDesk.eventTypes.get });
 
   const { register, handleSubmit, control, reset,
     formState: { errors }, } = useForm({
