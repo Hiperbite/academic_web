@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
 import { useDate } from '../../Dashboard/components/useDate'
 import { Avatar } from './Avatar/Avatar'
+import { AutoEnroll } from './Components/AutoEnroll'
 import './UserProfileHeader.scss'
 export const UserProfileHeader = ({ me, setRefresh, classe }: any) => {
     const [isSticky, setSticky] = useState(false)
@@ -25,7 +26,7 @@ export const UserProfileHeader = ({ me, setRefresh, classe }: any) => {
             <Container className="az-content" id={'UserProfileHeader'}>
                 <Row>
                     <Col md={isSticky ? 1 : 2} >
-                        {me?.avatar ? <Avatar setRefresh={setRefresh} avatar={me?.avatar} /> : null}
+                        <Avatar setRefresh={setRefresh} avatar={me?.avatar} />
                     </Col>
                     <Col md={isSticky ? 3 : 5} className='align-middle use-data'>
                         <span>#{me?.person?.student?.code}</span>
@@ -54,19 +55,15 @@ export const UserProfileHeader = ({ me, setRefresh, classe }: any) => {
                                     <h4>{classe?.classeRoom?.code}</h4>
                                 </Col>
                                 <Col >
-                                    <span>Ano</span><br />
-                                    <h4>{classe?.grade}º</h4>
-                                </Col>
-                                <Col >
-                                    <span>Semestre</span><br />
-                                    <h4>{classe?.semester}º</h4>
+                                    <span>Ano</span>/<span>Semestre</span><br />
+                                    <h4>{classe?.grade}º / {classe?.semester}º</h4>
                                 </Col>
                                 <Col >
                                     <span>Curso</span><br />
                                     <h4>{classe?.course?.name}</h4>
                                 </Col>
-                                <Col md={1}>
-
+                                <Col md={3}>
+                                    <AutoEnroll student={me} />
                                 </Col>
 
                             </Row>

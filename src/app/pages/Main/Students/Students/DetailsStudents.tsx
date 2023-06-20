@@ -27,9 +27,9 @@ export const DetailsStudents = () => {
   } = useGetStudentData(params, { studentEnrollmentShow });
 
   const tabsTitles = student?.code
-    ? ['Detalhes', 'Documentos', 'Classificação', 'Histrico', 'Conclusão do curso', 'Acessos']
+    ? ['Detalhes', 'Documentos', 'Classificação', 'Histórico', /*'Conclusão do curso',*/ 'Acessos']
     : ['Detalhes', 'Documentos',]
-  const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, HistoryStudents, AssessmentStudents, UserAccess,Documents, Record][tab]
+  const Tabs = [DataStudents, DocumentStudents, AssessmentStudents, HistoryStudents,  UserAccess,Documents, Record][tab]
   return (
     <div className="az-content-body">
       <div className="az-dashboard-one-title">
@@ -109,9 +109,9 @@ export const DetailsStudents = () => {
 
         <nav className="nav">
           <Link className="nav-link" to={''} onClick={() => setTab(5)}><i className="fa fa-history"></i></Link>
-          <a className="nav-link" href="#"onClick={()=>setTab(7)}><i className="fa fa-print"></i></a>
+          <a className="nav-link" href="#"onClick={()=>setTab(6)}><i className="fa fa-print"></i></a>
           <a className="nav-link" href="#"><i className="fa fa-envelope"></i></a>
-          <a className="nav-link" href="#"  onClick={()=>setTab(6)}><i className="fa fa-file"></i></a>
+          <a className="nav-link" href="#"  onClick={()=>setTab(5)}><i className="fa fa-file"></i></a>
           <a className="nav-link" href="#" ></a>
         </nav>
       </div>
